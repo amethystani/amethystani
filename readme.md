@@ -3,13 +3,13 @@
 Welcome to my GitHub repository! I'm Animesh Mishra, a passionate Java developer with experience in building various applications and projects.
 
 <details>
-  <summary>About Me</summary>
+  <summary style="cursor: pointer; list-style: none; font-size: 24px;"> &#9654; About Me</summary>
 
   I have been working with Java for 1 year, and I'm enthusiastic about creating efficient and robust software solutions. My expertise includes:
 </details>
 
 <details>
-  <summary>Expertise</summary>
+  <summary style="cursor: pointer; list-style: none; font-size: 24px;"> &#9654; Expertise</summary>
 
   - ![Java](https://img.shields.io/badge/Java-Intermediate-yellow)
   - ![C](https://img.shields.io/badge/C-Intermediate-blue)
@@ -22,19 +22,19 @@ Welcome to my GitHub repository! I'm Animesh Mishra, a passionate Java developer
 </details>
 
 <details>
-  <summary>GitHub Stats</summary>
+  <summary style="cursor: pointer; list-style: none; font-size: 24px;"> &#9654; GitHub Stats</summary>
 
   ![Animesh's GitHub Stats](https://github-readme-stats.vercel.app/api?username=amethystani&show_icons=true&count_private=true&hide=prs&theme=radical)
 </details>
 
 <details>
-  <summary>Contact Me</summary>
+  <summary style="cursor: pointer; list-style: none; font-size: 24px;"> &#9654; Contact Me</summary>
 
   - Email: animeshmishra0567@gmail.com
 </details>
 
 <details>
-  <summary>Connect with Me</summary>
+  <summary style="cursor: pointer; list-style: none; font-size: 24px;"> &#9654; Connect with Me</summary>
 
   - [LinkedIn](www.linkedin.com/in/animeshmishra0)
   - [GitHub](https://github.com/amethystani)
@@ -43,3 +43,4 @@ Welcome to my GitHub repository! I'm Animesh Mishra, a passionate Java developer
 ---
 
 Happy coding! :computer:
+
