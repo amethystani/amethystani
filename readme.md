@@ -1,36 +1,45 @@
 # Animesh Mishra - Java Developer :rocket: :computer: :sparkles:
 
-
 Welcome to my GitHub repository! I'm Animesh Mishra, a passionate Java developer with experience in building various applications and projects.
 
-## About Me
+<details>
+  <summary>About Me</summary>
 
-I have been working with Java for 1 year, and I'm enthusiastic about creating efficient and robust software solutions. My expertise includes:
+  I have been working with Java for 1 year, and I'm enthusiastic about creating efficient and robust software solutions. My expertise includes:
+</details>
 
-## Expertise
+<details>
+  <summary>Expertise</summary>
 
-- ![Java](https://img.shields.io/badge/Java-Intermediate-yellow)
-- ![C](https://img.shields.io/badge/C-Intermediate-blue)
-- ![Flutter](https://img.shields.io/badge/Flutter-Intermediate-blue)
-- ![Linux](https://img.shields.io/badge/Linux-Intermediate-green)
-- ![Python](https://img.shields.io/badge/Python-Intermediate-yellowgreen)
-- ![AWS](https://img.shields.io/badge/AWS-Beginner-orange)
-- ![HTML](https://img.shields.io/badge/HTML-Intermediate-orange)
-- ![Adobe Photoshop](https://img.shields.io/badge/Adobe%20Photoshop-Intermediate-lightgrey)
-- ![Hacktoberfest2022](https://www.holopin.io/userbadge/cl9itgpjy073809mhjz2scolw)
+  - ![Java](https://img.shields.io/badge/Java-Intermediate-yellow)
+  - ![C](https://img.shields.io/badge/C-Intermediate-blue)
+  - ![Flutter](https://img.shields.io/badge/Flutter-Intermediate-blue)
+  - ![Linux](https://img.shields.io/badge/Linux-Intermediate-green)
+  - ![Python](https://img.shields.io/badge/Python-Intermediate-yellowgreen)
+  - ![AWS](https://img.shields.io/badge/AWS-Beginner-orange)
+  - ![HTML](https://img.shields.io/badge/HTML-Intermediate-orange)
+  - ![Adobe Photoshop](https://img.shields.io/badge/Adobe%20Photoshop-Intermediate-lightgrey)
+</details>
 
-## GitHub Stats
+<details>
+  <summary>GitHub Stats</summary>
 
-![Animesh's GitHub Stats](https://github-readme-stats.vercel.app/api?username=amethystani&show_icons=true&count_private=true&hide=prs&theme=radical)
+  ![Animesh's GitHub Stats](https://github-readme-stats.vercel.app/api?username=amethystani&show_icons=true&count_private=true&hide=prs&theme=radical)
+</details>
 
-## Contact Me
+<details>
+  <summary>Contact Me</summary>
 
-- Email: animeshmishra0567@gmail.com
+  - Email: animeshmishra0567@gmail.com
+</details>
 
-Feel free to reach out if you have any questions or want to collaborate on a project!
+<details>
+  <summary>Connect with Me</summary>
 
-Connect with me on [LinkedIn](www.linkedin.com/in/animeshmishra0) and check out my work on [GitHub](https://github.com/amethystani)!
+  - [LinkedIn](www.linkedin.com/in/animeshmishra0)
+  - [GitHub](https://github.com/amethystani)
+</details>
 
-
+---
 
 Happy coding! :computer:
