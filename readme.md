@@ -1,4 +1,4 @@
-# Animesh Mishra - Java Developer :rocket: :computer: :sparkles:
+# Animesh Mishra 
 
 Welcome to my GitHub repository! I'm Animesh Mishra, a passionate Java developer with experience in building various applications and projects.
 
