@@ -1,8 +1,7 @@
 <div align="center">
   <h1>Animesh Mishra</h1>
-  <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-    <pre style="text-align: left; margin-right: 20px;">
->i hate dejav⍰s.
+
+```
                  _           ___             _____________
           ,-----' |  ,    | <_'_`)         ,'             `.
           | //  : | /   (() :-)-||        /    Tsk, tsk!    \\
@@ -18,10 +17,9 @@
       ||| \\       __/_||  __||__
   -----||-/------`-._/||-o--o---o---
     ~~~~~'
+```
 
-~ Ool
-    </pre>
-    <pre style="text-align: left; margin-left: 20px;">
+```
      888          d8b                         
      888          Y8P                         
      888                                      
@@ -33,8 +31,8 @@ Y88b 888Y8b.      888888  888 Y8bd8P Y88b 888
                   888                         
                  d88P                         
                888P"                          
-    </pre>
-  </div>
+```
+
   <p><strong>Passionate Java Developer | Building Robust & Scalable Solutions 🚀</strong></p>
   <p>
     <a href="mailto:animeshmishra0567@gmail.com">
@@ -114,7 +112,24 @@ Y88b 888Y8b.      888888  888 Y8bd8P Y88b 888
 Thanks for visiting my profile! Hope you found it interesting.
 -->
 ```
+>i hate dejav⍰s.
+                 _           ___             _____________
+          ,-----' |  ,    | <_'_`)         ,'             `.
+          | //  : | /   (() :-)-||        /    Tsk, tsk!    \\
+          | //  : |  -  [:]  \\-_/`    ___/  The accents are  \\
+          | //  : | \\   \\ \\__/:_\\     `.    on the "e" and    |
+          `-----._|  `   \\__// ( \\|     |   the "a" and on    |
+           _/___\_         //  | ||]    |   the "a" they're   |
+     _____[_______]_[~~-_ (.L_/  ||      \\   the other way   /
+    [____________________]' `\\_,/'/       \\      around     /
+      ||| /          |||  ,___,'./         `._____________,'
+      ||| \\          |||,'______|
+      ||| /          /|| I==||
+      ||| \\       __/_||  __||__
+  -----||-/------`-._/||-o--o---o---
+    ~~~~~'
 
+~ Ool
 ```
 ```
      888          d8b                         
