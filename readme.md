@@ -21,79 +21,7 @@
   </p>
 </div>
 
----
 
-## 🛠️ Technical Skills
-
-<div align="center">
-
-<table>
-  <tr>
-    <td valign="top" width="50%">
-      <h3>Programming Languages</h3>
-      <ul>
-        <li>Java (Intermediate)</li>
-        <li>Python (Intermediate)</li>
-        <li>C (Intermediate)</li>
-        <li>JavaScript (Basic)</li>
-        <li>HTML5 (Intermediate)</li>
-        <li>CSS3 (Basic)</li>
-        <li>SQL (Intermediate)</li>
-      </ul>
-    </td>
-    <td valign="top" width="50%">
-      <h3>Frameworks & Libraries</h3>
-      <ul>
-        <li>Spring (Basic)</li>
-        <li>Flutter (Intermediate)</li>
-        <li>Bootstrap (Basic)</li>
-        <li>jQuery (Basic)</li>
-        <li>Hibernate (Basic)</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top" width="50%">
-      <h3>Tools & Technologies</h3>
-      <ul>
-        <li>Git (Intermediate)</li>
-        <li>Docker (Beginner)</li>
-        <li>AWS (Beginner)</li>
-        <li>Jenkins (Basic)</li>
-        <li>Linux (Intermediate)</li>
-        <li>Maven (Intermediate)</li>
-        <li>Gradle (Basic)</li>
-      </ul>
-    </td>
-    <td valign="top" width="50%">
-      <h3>Databases</h3>
-      <ul>
-        <li>MySQL (Intermediate)</li>
-        <li>PostgreSQL (Basic)</li>
-        <li>MongoDB (Basic)</li>
-        <li>SQLite (Basic)</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2" valign="top">
-      <h3>Development & Design Tools</h3>
-      <ul>
-        <li>IntelliJ IDEA (Intermediate)</li>
-        <li>VS Code (Intermediate)</li>
-        <li>Eclipse (Intermediate)</li>
-        <li>Adobe Photoshop (Intermediate)</li>
-        <li>Figma (Basic)</li>
-        <li>Jira (Basic)</li>
-        <li>Postman (Basic)</li>
-      </ul>
-    </td>
-  </tr>
-</table>
-
-</div>
-
----
 
 ## 📊 GitHub Statistics
 
