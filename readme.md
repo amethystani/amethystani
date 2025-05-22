@@ -175,6 +175,26 @@
             margin-top: 10px;
         }
 
+        .ascii-art-container {
+            background-color: #010101; /* Near black for terminal feel */
+            border: 1px solid var(--accent-color-secondary);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 30px;
+            overflow-x: auto; /* For responsiveness if art is too wide */
+            text-align: center; /* Center the pre block */
+        }
+
+        .ascii-art {
+            font-family: 'Courier New', Courier, monospace; /* Classic terminal font */
+            color: #39FF14; /* Neon green text */
+            font-size: 0.9em; /* Adjust as needed */
+            line-height: 1.2;
+            white-space: pre;
+            display: inline-block; /* Allow centering */
+            text-align: left; /* Align text within pre block to left */
+        }
+
     </style>
 </head>
 <body>
@@ -201,6 +221,29 @@
       <img src="https://img.shields.io/badge/Status-Open%20to%20Work-brightgreen?style=flat-square&colorA=30363D&colorB=3FB950" alt="Open to Work"/>
       <img src="https://img.shields.io/badge/Seeking-Collaboration-blue?style=flat-square&colorA=30363D&colorB=58A6FF" alt="Seeking Collaboration"/>
     </p>
+  </div>
+
+  <div class="ascii-art-container">
+    <pre class="ascii-art">
+&gt; i hate dejavs.
+                 _           ___             _____________
+          ,-----' |  ,    | &lt;_'_`)         ,'             `.
+          | //  : | /   (() :-)-||        /    Tsk, tsk!    \\
+          | //  : |  -  [:]  \\-_/`    ___/  The accents are  \\
+          | //  : | \\   \\ \\__/:_\\     `.    on the "e" and    |
+          `-----._|  `   \\__// ( \\|     |   the "a" and on    |
+           _/___\_         //  | ||]    |   the "a" they're   |
+     _____[_______]_[~~-_ (.L_/  ||      \\   the other way   /
+    [____________________]' `\\_,/'/       \\      around     /
+      ||| /          |||  ,___,'./         `._____________,'
+      ||| \\          |||,'______|
+      ||| /          /|| I==||
+      ||| \\       __/_||  __||__
+  -----||-/------`-._/||-o--o---o---
+    ~~~~~'
+
+Ool
+    </pre>
   </div>
 
   <hr>
