@@ -293,63 +293,6 @@
   <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 </div>
 
-<!-- Education Section -->
-<h2 id="education" align="center">
-  <img src="https://media.giphy.com/media/lP8xu5t2DLGG045H8F/giphy.gif" width="40px"> 
-  Education & Certifications
-  <img src="https://media.giphy.com/media/lP8xu5t2DLGG045H8F/giphy.gif" width="40px">
-</h2>
-
-<div align="center">
-  <table>
-    <tr>
-      <th>Degree/Certification</th>
-      <th>Institution</th>
-      <th>Year</th>
-      <th>Details</th>
-    </tr>
-    <tr>
-      <td><strong>B.Tech in Computer Science</strong></td>
-      <td>University of Technology</td>
-      <td>2019-2023</td>
-      <td>
-        <ul>
-          <li>CGPA: 8.5/10.0</li>
-          <li>Major coursework: Data Structures, Algorithms, Database Systems, Software Engineering</li>
-          <li>Final Year Project: Distributed File System with Enhanced Security</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><strong>Oracle Certified Java Programmer</strong></td>
-      <td>Oracle</td>
-      <td>2022</td>
-      <td>
-        <ul>
-          <li>Comprehensive understanding of Java language fundamentals</li>
-          <li>Object-oriented programming concepts and application</li>
-          <li>Exception handling and multithreading</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><strong>AWS Certified Cloud Practitioner</strong></td>
-      <td>Amazon Web Services</td>
-      <td>2023</td>
-      <td>
-        <ul>
-          <li>Understanding of AWS Cloud concepts, services, and terminology</li>
-          <li>Knowledge of security and compliance aspects of the AWS platform</li>
-          <li>Basic implementation of cloud solutions</li>
-        </ul>
-      </td>
-    </tr>
-  </table>
-</div>
-
-<div align="center">
-  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
-</div>
 
 <!-- GitHub Statistics -->
 <h2 id="stats" align="center">
