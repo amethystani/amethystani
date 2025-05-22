@@ -14,16 +14,6 @@
     <strong>Passionate Java Developer | Building Robust & Scalable Solutions 🚀</strong>
   </p>
   
-  <!-- Quick Links -->
-  <div>
-    <a href="#about">About Me</a> •
-    <a href="#skills">Skills</a> •
-    <a href="#experience">Experience</a> •
-    <a href="#projects">Projects</a> •
-    <a href="#education">Education</a> •
-    <a href="#stats">GitHub Stats</a> •
-    <a href="#connect">Connect</a>
-  </div>
   
   <!-- Social Media Badges -->
   <div style="margin-top: 20px;">
@@ -53,41 +43,6 @@
   <img src="https://github.com/Anmol-Baranwal/Cool-GIFs-For-GitHub/blob/master/assets/Bar.gif" width="100%">
 </div>
 
-<!-- About Me Section -->
-<h2 id="about" align="center">
-  <img src="https://media.giphy.com/media/WiIuC6fAOoXD2/giphy.gif" width="40px"> 
-  About Me
-  <img src="https://media.giphy.com/media/WiIuC6fAOoXD2/giphy.gif" width="40px">
-</h2>
-
-<div align="center">
-  <table>
-    <tr>
-      <td width="50%" valign="top">
-        <ul style="list-style-type: none; padding-left: 0;">
-          <li>🚀 Java developer with <strong>1 year of hands-on experience</strong></li>
-          <li>💻 Passionate about building scalable & efficient applications</li>
-          <li>🔍 Strong debugging & problem-solving abilities</li>
-          <li>🌱 Currently expanding my skills in cloud technologies</li>
-          <li>🔄 Advocate for continuous learning & improvement</li>
-          <li>🤝 Team player with excellent communication skills</li>
-        </ul>
-      </td>
-      <td width="50%" valign="top">
-        <p align="justify">
-          I'm a dedicated Java developer with a passion for transforming complex problems into clean, functional code. My journey in software development has equipped me with strong fundamentals and an eye for detail. I thrive in dynamic environments where I can leverage my technical skills to create impactful solutions.
-        </p>
-        <p align="justify">
-          Beyond coding, I love exploring the vast world of technology, from system architecture to creative design, always seeking to expand my horizons. I believe in writing code that not only works efficiently but is also maintainable and scalable.
-        </p>
-      </td>
-    </tr>
-  </table>
-</div>
-
-<div align="center">
-  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
-</div>
 
 <!-- Technical Skills Section -->
 <h2 id="skills" align="center">
