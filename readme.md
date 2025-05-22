@@ -1,33 +1,22 @@
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/74038190/229272480-c5aa8389-1e93-4150-9998-3a289050e925.png" alt="Dynamic Gradient Banner" width="100%"/>
-</div>
-
-<div align="center">
-  <a href="https://github.com/amethystani">
-    <img src="https://user-images.githubusercontent.com/74038190/225813337-97598144-8226-41ed-8f3a-32d8478413aa.gif" height="150" width="150" style="border-radius: 50%; margin-top: -75px; border: 5px solid #fff;"/>
-  </a>
-  <h1>
-    <img src="https://media.giphy.com/media/hvRJCLFzizHTytMOW7/giphy.gif" width="40px" style="display: inline-block; vertical-align: middle;">
-    Hello there! I'm <span style="color: #6C63FF; font-weight: bold; text-shadow: 0 0 5px rgba(108,99,255,0.5);">Animesh Mishra</span>!
-  </h1>
+  <h1>Animesh Mishra</h1>
   <p>
     <strong>Passionate Java Developer | Building Robust & Scalable Solutions 🚀</strong>
   </p>
   
-  
   <!-- Social Media Badges -->
-  <div style="margin-top: 20px;">
+  <div>
     <a href="mailto:animeshmishra0567@gmail.com">
-      <img src="https://img.shields.io/badge/Gmail-D14836?style=flat-square&logo=gmail&logoColor=white" alt="Gmail"/>
+      <img src="https://img.shields.io/badge/Gmail-animeshmishra0567@gmail.com-D14836?style=flat-square&logo=gmail&logoColor=white" alt="Gmail"/>
     </a>
     <a href="https://www.linkedin.com/in/animeshmishra0" target="_blank">
-      <img src="https://img.shields.io/badge/LinkedIn-%230077B5.svg?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn"/>
+      <img src="https://img.shields.io/badge/LinkedIn-animeshmishra0-0077B5?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn"/>
     </a>
     <a href="https://github.com/amethystani" target="_blank">
-      <img src="https://img.shields.io/badge/GitHub-%23181717.svg?style=flat-square&logo=github&logoColor=white" alt="GitHub"/>
+      <img src="https://img.shields.io/badge/GitHub-amethystani-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub"/>
     </a>
     <a href="https://twitter.com/yourusername" target="_blank">
-      <img src="https://img.shields.io/badge/Twitter-%231DA1F2.svg?style=flat-square&logo=Twitter&logoColor=white" alt="Twitter"/>
+      <img src="https://img.shields.io/badge/Twitter-yourusername-1DA1F2?style=flat-square&logo=Twitter&logoColor=white" alt="Twitter"/>
     </a>
   </div>
   
@@ -39,22 +28,15 @@
   </div>
 </div>
 
-<div align="center">
-  <img src="https://github.com/Anmol-Baranwal/Cool-GIFs-For-GitHub/blob/master/assets/Bar.gif" width="100%">
-</div>
-
+<hr style="height: 2px; background-color: #6C63FF; border: none; margin: 25px 0;">
 
 <!-- Technical Skills Section -->
-<h2 id="skills" align="center">
-  <img src="https://media.giphy.com/media/QssGEmpkyEOhBCb7e1/giphy.gif" width="40px"> 
-  Technical Skills
-  <img src="https://media.giphy.com/media/QssGEmpkyEOhBCb7e1/giphy.gif" width="40px">
-</h2>
+<h2 id="skills" align="center">Technical Skills</h2>
 
 <div align="center">
   <!-- Languages Section -->
   <h3>Programming Languages</h3>
-  <div style="margin: 20px 0;">
+  <div>
     <img src="https://img.shields.io/badge/Java-Intermediate-007396?style=for-the-badge&logo=java&logoColor=white" alt="Java"/>
     <img src="https://img.shields.io/badge/Python-Intermediate-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
     <img src="https://img.shields.io/badge/C-Intermediate-00599C?style=for-the-badge&logo=c&logoColor=white" alt="C"/>
@@ -66,7 +48,7 @@
   
   <!-- Frameworks & Libraries Section -->
   <h3>Frameworks & Libraries</h3>
-  <div style="margin: 20px 0;">
+  <div>
     <img src="https://img.shields.io/badge/Spring-Basic-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring"/>
     <img src="https://img.shields.io/badge/Flutter-Intermediate-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter"/>
     <img src="https://img.shields.io/badge/Bootstrap-Basic-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap"/>
@@ -76,7 +58,7 @@
   
   <!-- Tools & Technologies Section -->
   <h3>Tools & Technologies</h3>
-  <div style="margin: 20px 0;">
+  <div>
     <img src="https://img.shields.io/badge/Git-Intermediate-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git"/>
     <img src="https://img.shields.io/badge/Docker-Beginner-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
     <img src="https://img.shields.io/badge/AWS-Beginner-FF9900?style=for-the-badge&logo=amazon-aws&logoColor=white" alt="AWS"/>
@@ -88,7 +70,7 @@
   
   <!-- Databases Section -->
   <h3>Databases</h3>
-  <div style="margin: 20px 0;">
+  <div>
     <img src="https://img.shields.io/badge/MySQL-Intermediate-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"/>
     <img src="https://img.shields.io/badge/PostgreSQL-Basic-336791?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL"/>
     <img src="https://img.shields.io/badge/MongoDB-Basic-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB"/>
@@ -97,7 +79,7 @@
   
   <!-- Development & Design Tools Section -->
   <h3>Development & Design Tools</h3>
-  <div style="margin: 20px 0;">
+  <div>
     <img src="https://img.shields.io/badge/IntelliJ_IDEA-Intermediate-000000?style=for-the-badge&logo=intellij-idea&logoColor=white" alt="IntelliJ IDEA"/>
     <img src="https://img.shields.io/badge/VS_Code-Intermediate-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white" alt="VS Code"/>
     <img src="https://img.shields.io/badge/Eclipse-Intermediate-2C2255?style=for-the-badge&logo=eclipse-ide&logoColor=white" alt="Eclipse"/>
@@ -108,16 +90,10 @@
   </div>
 </div>
 
-<div align="center">
-  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
-</div>
+<hr style="height: 2px; background-color: #6C63FF; border: none; margin: 25px 0;">
 
 <!-- GitHub Statistics -->
-<h2 id="stats" align="center">
-  <img src="https://media.giphy.com/media/W5eoZHPpUx9sapR0eu/giphy.gif" width="40px"> 
-  GitHub Statistics
-  <img src="https://media.giphy.com/media/W5eoZHPpUx9sapR0eu/giphy.gif" width="40px">
-</h2>
+<h2 id="stats" align="center">GitHub Statistics</h2>
 
 <div align="center">
   <img src="https://github-readme-stats.vercel.app/api?username=amethystani&show_icons=true&count_private=true&hide=prs&theme=radical&line_height=25&bg_color=0d1117&title_color=6C63FF&icon_color=6C63FF&text_color=c9d1d9&border_radius=10" width="48%" alt="Animesh's GitHub Stats"/>
@@ -136,35 +112,28 @@
   </div>
 </div>
 
-<div align="center">
-  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
-</div>
-
+<hr style="height: 2px; background-color: #6C63FF; border: none; margin: 25px 0;">
 
 <!-- Connect Section -->
-<h2 id="connect" align="center">
-  <img src="https://media.giphy.com/media/LnQjpWaON8nhr21vNW/giphy.gif" width="40px"> 
-  Let's Connect!
-  <img src="https://media.giphy.com/media/LnQjpWaON8nhr21vNW/giphy.gif" width="40px">
-</h2>
+<h2 id="connect" align="center">Let's Connect!</h2>
 
 <div align="center">
   <p>I'm always open to interesting conversations, collaboration opportunities, and new connections. Feel free to reach out!</p>
   
-  <div style="margin: 20px 0;">
-    <a href="mailto:animeshmishra0567@gmail.com" style="text-decoration: none; margin: 0 10px;">
+  <div>
+    <a href="mailto:animeshmishra0567@gmail.com">
       <img src="https://img.shields.io/badge/Email-animeshmishra0567@gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/>
     </a>
-    <a href="https://www.linkedin.com/in/animeshmishra0" target="_blank" style="text-decoration: none; margin: 0 10px;">
-      <img src="https://img.shields.io/badge/LinkedIn-Animesh--Mishra-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
+    <a href="https://www.linkedin.com/in/animeshmishra0" target="_blank">
+      <img src="https://img.shields.io/badge/LinkedIn-animeshmishra0-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
     </a>
-    <a href="https://github.com/amethystani" target="_blank" style="text-decoration: none; margin: 0 10px;">
+    <a href="https://github.com/amethystani" target="_blank">
       <img src="https://img.shields.io/badge/GitHub-amethystani-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
     </a>
   </div>
   
-  <div style="margin: 20px 0;">
-    <a href="https://animeshmishra.me" target="_blank" style="text-decoration: none; margin: 0 10px;">
+  <div style="margin-top: 20px;">
+    <a href="https://animeshmishra.me" target="_blank">
       <img src="https://img.shields.io/badge/Portfolio-animeshmishra.me-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Portfolio"/>
     </a>
   </div>
@@ -172,23 +141,8 @@
 
 <!-- Footer -->
 <div align="center" style="margin-top: 40px;">
-  <img src="https://github.com/Anmol-Baranwal/Cool-GIFs-For-GitHub/blob/master/assets/Bar.gif" width="100%">
-  
-  <div style="margin-top: 20px;">
-    <p>
-      <img src="https://github.com/SP-XD/SP-XD/blob/main/images/letterbox.gif?raw=true" width="25" />
-      Interested in working together? Feel free to drop an email!
-    </p>
-    <p>
-      Made with ❤️ and a passion for code! Happy coding! 💻
-    </p>
-    <img src="https://visitor-badge.laobi.icu/badge?page_id=amethystani.amethystani&left_text=Visitors&right_color=6C63FF&style=flat-square" alt="Visitors"/>
-  </div>
-  
-  <div style="margin-top: 20px;">
-    <img src="https://forthebadge.com/images/badges/built-with-love.svg" alt="Built with Love"/>
-    <img src="https://forthebadge.com/images/badges/powered-by-coffee.svg" alt="Powered by Coffee"/>
-  </div>
+  <p>Made with ❤️ and a passion for code</p>
+  <img src="https://visitor-badge.laobi.icu/badge?page_id=amethystani.amethystani&left_text=Visitors&right_color=6C63FF&style=flat-square" alt="Visitors"/>
 </div>
 
 <!-- Hidden Message -->
