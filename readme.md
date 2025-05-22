@@ -1,6 +1,8 @@
 <div align="center">
   <h1>Animesh Mishra</h1>
-  <pre>>i hate dejav⍰s.
+  <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+    <pre style="text-align: left; margin-right: 20px;">
+>i hate dejav⍰s.
                  _           ___             _____________
           ,-----' |  ,    | <_'_`)         ,'             `.
           | //  : | /   (() :-)-||        /    Tsk, tsk!    \\
@@ -17,8 +19,9 @@
   -----||-/------`-._/||-o--o---o---
     ~~~~~'
 
-~ Ool <pre>
-  <pre>
+~ Ool
+    </pre>
+    <pre style="text-align: left; margin-left: 20px;">
      888          d8b                         
      888          Y8P                         
      888                                      
@@ -30,7 +33,8 @@ Y88b 888Y8b.      888888  888 Y8bd8P Y88b 888
                   888                         
                  d88P                         
                888P"                          
-  </pre>
+    </pre>
+  </div>
   <p><strong>Passionate Java Developer | Building Robust & Scalable Solutions 🚀</strong></p>
   <p>
     <a href="mailto:animeshmishra0567@gmail.com">
