@@ -4,12 +4,12 @@
                  _           ___             _____________
           ,-----' |  ,    | <_'_`)         ,'             `.
           | //  : | /   (() :-)-||        /    Tsk, tsk!    \\
-          | //  : |  -  [:]  \\-_/`    ___/  The accents are  \\
-          | //  : | \\   \\ \\__/:_\\     `.    on the "e" and    |
-          `-----._|  `   \\__// ( \\|     |   the "a" and on    |
+          | //  : |  -  [:]  \\-_/`    __/  The accents are  \\
+          | //  : | \\   \\ \\__/:_\\   `.   on the "e" and   |
+          `-----._|  `   \\__// ( \\|   |   the "a" and on    |
            _/___\_         //  | ||]    |   the "a" they're   |
      _____[_______]_[~~-_ (.L_/  ||      \\   the other way   /
-    [____________________]' `\\_,/'/       \\      around     /
+    [____________________]' `\\_,/'/      \\      around     /
       ||| /          |||  ,___,'./         `._____________,'
       ||| \\          |||,'______|
       ||| /          /|| I==||
@@ -19,19 +19,7 @@
 
 ~ Ool
 ```
-```
-     888          d8b                         
-     888          Y8P                         
-     888                                      
- .d88888 .d88b.  8888 8888b. 888  888888  888 
-d88" 888d8P  Y8b "888    "88b888  888888  888 
-888  88888888888  888.d888888Y88  88P888  888 
-Y88b 888Y8b.      888888  888 Y8bd8P Y88b 888 
- "Y88888 "Y8888   888"Y888888  Y88P   "Y88888 
-                  888                         
-                 d88P                         
-               888P"                          
-```
+
 <div align="center">
   <h1>Animesh Mishra</h1>
   <p><strong>Passionate Java Developer | Building Robust & Scalable Solutions 🚀</strong></p>
@@ -112,3 +100,16 @@ Y88b 888Y8b.      888888  888 Y8bd8P Y88b 888
 ⭐️ From Animesh Mishra (https://github.com/amethystani)
 Thanks for visiting my profile! Hope you found it interesting.
 -->
+```
+     888          d8b                         
+     888          Y8P                         
+     888                                      
+ .d88888 .d88b.  8888 8888b. 888  888888  888 
+d88" 888d8P  Y8b "888    "88b888  888888  888 
+888  88888888888  888.d888888Y88  88P888  888 
+Y88b 888Y8b.      888888  888 Y8bd8P Y88b 888 
+ "Y88888 "Y8888   888"Y888888  Y88P   "Y88888 
+                  888                         
+                 d88P                         
+               888P"                          
+```
