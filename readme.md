@@ -207,92 +207,6 @@
   <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 </div>
 
-<!-- Projects Section -->
-<h2 id="projects" align="center">
-  <img src="https://media.giphy.com/media/du3J3cXyzhj75IOgvA/giphy.gif" width="40px"> 
-  Featured Projects
-  <img src="https://media.giphy.com/media/du3J3cXyzhj75IOgvA/giphy.gif" width="40px">
-</h2>
-
-<div align="center">
-  <div style="display: inline-block; width: 48%; vertical-align: top; margin: 10px; padding: 15px; border-radius: 10px; background-color: #1a1b27; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-    <h3>🛒 E-Commerce Platform</h3>
-    <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=java&logoColor=white" alt="Java"/>
-    <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=spring&logoColor=white" alt="Spring"/>
-    <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white" alt="MySQL"/>
-    <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=flat-square&logo=bootstrap&logoColor=white" alt="Bootstrap"/>
-    <p align="left">
-      A full-stack e-commerce application with user authentication, product catalog, shopping cart, and order management features. Implemented RESTful APIs, database integration, and responsive UI.
-    </p>
-    <div>
-      <a href="https://github.com/amethystani/ecommerce-platform" target="_blank">
-        <img src="https://img.shields.io/badge/Code-181717?style=flat-square&logo=github&logoColor=white" alt="Code"/>
-      </a>
-      <a href="#" target="_blank">
-        <img src="https://img.shields.io/badge/Live%20Demo-00B0FF?style=flat-square&logo=netlify&logoColor=white" alt="Live Demo"/>
-      </a>
-    </div>
-  </div>
-  
-  <div style="display: inline-block; width: 48%; vertical-align: top; margin: 10px; padding: 15px; border-radius: 10px; background-color: #1a1b27; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-    <h3>📱 Task Management App</h3>
-    <img src="https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white" alt="Flutter"/>
-    <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black" alt="Firebase"/>
-    <img src="https://img.shields.io/badge/Dart-0175C2?style=flat-square&logo=dart&logoColor=white" alt="Dart"/>
-    <p align="left">
-      A cross-platform mobile application for task management with features like task creation, reminders, categorization, and progress tracking. Implemented real-time synchronization and offline functionality.
-    </p>
-    <div>
-      <a href="https://github.com/amethystani/task-manager-app" target="_blank">
-        <img src="https://img.shields.io/badge/Code-181717?style=flat-square&logo=github&logoColor=white" alt="Code"/>
-      </a>
-      <a href="#" target="_blank">
-        <img src="https://img.shields.io/badge/Demo%20Video-FF0000?style=flat-square&logo=youtube&logoColor=white" alt="Demo Video"/>
-      </a>
-    </div>
-  </div>
-  
-  <div style="display: inline-block; width: 48%; vertical-align: top; margin: 10px; padding: 15px; border-radius: 10px; background-color: #1a1b27; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-    <h3>🔒 Secure File Storage System</h3>
-    <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=java&logoColor=white" alt="Java"/>
-    <img src="https://img.shields.io/badge/AWS_S3-569A31?style=flat-square&logo=amazon-s3&logoColor=white" alt="AWS S3"/>
-    <img src="https://img.shields.io/badge/Spring_Security-6DB33F?style=flat-square&logo=spring-security&logoColor=white" alt="Spring Security"/>
-    <p align="left">
-      A secure file storage and sharing system with end-to-end encryption, access control, and version history. Implemented cloud storage integration, secure authentication, and file integrity verification.
-    </p>
-    <div>
-      <a href="https://github.com/amethystani/secure-storage" target="_blank">
-        <img src="https://img.shields.io/badge/Code-181717?style=flat-square&logo=github&logoColor=white" alt="Code"/>
-      </a>
-    </div>
-  </div>
-  
-  <div style="display: inline-block; width: 48%; vertical-align: top; margin: 10px; padding: 15px; border-radius: 10px; background-color: #1a1b27; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-    <h3>📊 Data Visualization Dashboard</h3>
-    <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python"/>
-    <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React"/>
-    <img src="https://img.shields.io/badge/D3.js-F9A03C?style=flat-square&logo=d3.js&logoColor=white" alt="D3.js"/>
-    <p align="left">
-      An interactive data visualization dashboard for analyzing and presenting complex datasets. Features include customizable charts, real-time data updates, and export capabilities.
-    </p>
-    <div>
-      <a href="https://github.com/amethystani/data-viz-dashboard" target="_blank">
-        <img src="https://img.shields.io/badge/Code-181717?style=flat-square&logo=github&logoColor=white" alt="Code"/>
-      </a>
-    </div>
-  </div>
-</div>
-
-<p align="center">
-  <a href="https://github.com/amethystani?tab=repositories" target="_blank">
-    <img src="https://img.shields.io/badge/View%20All%20Projects-6C63FF?style=for-the-badge" alt="View All Projects"/>
-  </a>
-</p>
-
-<div align="center">
-  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
-</div>
-
 
 <!-- GitHub Statistics -->
 <h2 id="stats" align="center">
@@ -320,38 +234,6 @@
 
 <div align="center">
   <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
-</div>
-
-<!-- Achievements and Interests -->
-<h2 align="center">
-  <img src="https://media.giphy.com/media/jSKBmKkvo2dPQQtsR1/giphy.gif" width="40px"> 
-  Achievements & Interests
-  <img src="https://media.giphy.com/media/jSKBmKkvo2dPQQtsR1/giphy.gif" width="40px">
-</h2>
-
-<div align="center" style="display: flex; justify-content: center; gap: 20px;">
-  <div style="width: 48%; text-align: left; padding: 15px; background-color: #1a1b27; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-    <h3 align="center">🏆 Achievements</h3>
-    <ul>
-      <li>Finalist in National Coding Championship 2022</li>
-      <li>Open-source contributor with 50+ accepted PRs</li>
-      <li>Hackathon winner: Best Innovative Solution 2023</li>
-      <li>Technical blog writer with 10K+ monthly readers</li>
-      <li>Led student development team for university portal</li>
-    </ul>
-  </div>
-  
-  <div style="width: 48%; text-align: left; padding: 15px; background-color: #1a1b27; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-    <h3 align="center">🌟 Interests</h3>
-    <ul>
-      <li>Cloud-native application development</li>
-      <li>Open-source contribution and community building</li>
-      <li>System design and architecture</li>
-      <li>Data visualization and storytelling</li>
-      <li>Tech blogging and knowledge sharing</li>
-      <li>AI/ML integration in applications</li>
-    </ul>
-  </div>
 </div>
 
 <!-- Current Learning & Future Goals -->
