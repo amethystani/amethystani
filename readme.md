@@ -140,34 +140,6 @@
   <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 </div>
 
-<!-- Current Learning & Future Goals -->
-<div align="center" style="margin-top: 20px; display: flex; justify-content: center; gap: 20px;">
-  <div style="width: 48%; text-align: left; padding: 15px; background-color: #1a1b27; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-    <h3 align="center">📚 Currently Learning</h3>
-    <ul>
-      <li>Microservices Architecture</li>
-      <li>Kubernetes for container orchestration</li>
-      <li>Advanced Spring Framework concepts</li>
-      <li>ReactJS for frontend development</li>
-      <li>CI/CD pipelines with GitHub Actions</li>
-    </ul>
-  </div>
-  
-  <div style="width: 48%; text-align: left; padding: 15px; background-color: #1a1b27; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-    <h3 align="center">🔮 Future Goals</h3>
-    <ul>
-      <li>Become a full-stack Java architect</li>
-      <li>Contribute to major open-source projects</li>
-      <li>Publish technical articles and tutorials</li>
-      <li>Mentor upcoming developers</li>
-      <li>Speak at tech conferences</li>
-    </ul>
-  </div>
-</div>
-
-<div align="center">
-  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
-</div>
 
 <!-- Connect Section -->
 <h2 id="connect" align="center">
