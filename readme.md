@@ -288,14 +288,8 @@
   </div>
   
   <div style="margin: 20px 0;">
-    <a href="#" target="_blank" style="text-decoration: none; margin: 0 10px;">
-      <img src="https://img.shields.io/badge/Twitter-@animeshmishra-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter"/>
-    </a>
-    <a href="#" target="_blank" style="text-decoration: none; margin: 0 10px;">
-      <img src="https://img.shields.io/badge/Portfolio-animeshmishra.dev-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Portfolio"/>
-    </a>
-    <a href="#" target="_blank" style="text-decoration: none; margin: 0 10px;">
-      <img src="https://img.shields.io/badge/Blog-Medium-12100E?style=for-the-badge&logo=medium&logoColor=white" alt="Blog"/>
+    <a href="https://animeshmishra.me" target="_blank" style="text-decoration: none; margin: 0 10px;">
+      <img src="https://img.shields.io/badge/Portfolio-animeshmishra.me-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Portfolio"/>
     </a>
   </div>
 </div>
