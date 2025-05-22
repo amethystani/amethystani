@@ -1,6 +1,6 @@
 <div align="center">
   <h1>Animesh Mishra</h1>
-  <p><strong>Passionate Java Developer | Building Robust & Scalable Solutions 🚀</strong></p>
+  <p><strong> Building Robust & Scalable Solutions 🚀</strong></p>
   <p>
     <a href="mailto:animeshmishra0567@gmail.com">
       <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Gmail"/>
@@ -10,9 +10,6 @@
     </a>
     <a href="https://github.com/amethystani" target="_blank">
       <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
-    </a>
-    <a href="https://twitter.com/yourusername" target="_blank"> <!-- Consider updating or removing if not active -->
-      <img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=Twitter&logoColor=white" alt="Twitter"/>
     </a>
   </p>
   <p>
