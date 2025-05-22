@@ -23,7 +23,7 @@
 
 
 
-## 📊 GitHub Statistics
+
 
 <div align="center">
   <p>
