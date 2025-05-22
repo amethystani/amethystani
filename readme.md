@@ -146,7 +146,7 @@
 ⭐️ From Animesh Mishra (https://github.com/amethystani)
 Thanks for visiting my profile! Hope you found it interesting.
 -->
-
+```
 i hate dejavs.
                  _           ___             _____________
           ,-----' |  ,    | <_'_`)         ,'             `.
@@ -165,7 +165,7 @@ i hate dejavs.
     ~~~~~'
 
 Ool
-
+```
 ```
      888          d8b                         
      888          Y8P                         
