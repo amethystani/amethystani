@@ -1,3 +1,5 @@
+dont add new text content just make the current ui a little better more robotoic design with modern design lingo  use the image for reference for adding this too write whole code again
+
 <div align="center">
   <h1>Animesh Mishra</h1>
   <p><strong>Passionate Java Developer | Building Robust & Scalable Solutions 🚀</strong></p>
@@ -21,10 +23,7 @@
   </p>
 </div>
 
----
-
-## 🛠️ Technical Skills
-
+🛠️ Technical Skills
 <div align="center">
 
 <table>
@@ -93,10 +92,7 @@
 
 </div>
 
----
-
-## 📊 GitHub Statistics
-
+📊 GitHub Statistics
 <div align="center">
   <p>
     <img src="https://github-readme-stats.vercel.app/api?username=amethystani&show_icons=true&count_private=true&theme=radical&line_height=25&bg_color=0d1117&title_color=6C63FF&icon_color=6C63FF&text_color=c9d1d9&border_radius=10" width="49%" alt="Animesh's GitHub Stats"/>
@@ -113,10 +109,7 @@
   </p>
 </div>
 
----
-
-## 💬 Let's Connect!
-
+💬 Let's Connect!
 <div align="center">
   <p>I'm always open to interesting conversations, collaboration opportunities, and new connections. Feel free to reach out!</p>
   <p>
@@ -134,8 +127,6 @@
     </a>
   </p>
 </div>
-
----
 
 <div align="center" style="margin-top: 20px;">
   <p>Made with ❤️ and a passion for code</p>
