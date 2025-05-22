@@ -112,57 +112,6 @@
   <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 </div>
 
-<!-- Professional Experience Section -->
-<h2 id="experience" align="center">
-  <img src="https://media.giphy.com/media/UVG0BLm6jMOtqAIcGz/giphy.gif" width="40px"> 
-  Professional Experience
-  <img src="https://media.giphy.com/media/UVG0BLm6jMOtqAIcGz/giphy.gif" width="40px">
-</h2>
-
-<div align="center">
-  <table>
-    <tr>
-      <th>Company</th>
-      <th>Position</th>
-      <th>Duration</th>
-      <th>Responsibilities & Achievements</th>
-    </tr>
-    <tr>
-      <td><strong>Tech Solutions Inc.</strong></td>
-      <td>Junior Java Developer</td>
-      <td>Jun 2023 - Present</td>
-      <td>
-        <ul>
-          <li>Developed and maintained Java-based applications, ensuring code quality and performance</li>
-          <li>Collaborated with cross-functional teams to design and implement new features</li>
-          <li>Fixed bugs and optimized existing code, reducing system response time by 15%</li>
-          <li>Participated in code reviews to maintain high code quality standards</li>
-          <li>Created comprehensive documentation for application components</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><strong>CodeCrafters Ltd.</strong></td>
-      <td>Software Development Intern</td>
-      <td>Jan 2023 - May 2023</td>
-      <td>
-        <ul>
-          <li>Assisted in developing web applications using Java and Spring framework</li>
-          <li>Implemented UI components using HTML, CSS, and JavaScript</li>
-          <li>Contributed to database design and implementation using MySQL</li>
-          <li>Participated in daily stand-up meetings and sprint planning</li>
-          <li>Successfully delivered a module for customer data management that improved data retrieval speed by 20%</li>
-        </ul>
-      </td>
-    </tr>
-  </table>
-</div>
-
-<div align="center">
-  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
-</div>
-
-
 <!-- GitHub Statistics -->
 <h2 id="stats" align="center">
   <img src="https://media.giphy.com/media/W5eoZHPpUx9sapR0eu/giphy.gif" width="40px"> 
