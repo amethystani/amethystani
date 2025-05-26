@@ -1,25 +1,4 @@
 
-```
->i hate dejav⍰s.
-                 _           ___             _____________
-          ,-----' |  ,    | <_'_`)         ,'             `.
-          | //  : | /   (() :-)-||        /    Tsk, tsk!    \\
-          | //  : |  -  [:]  \\-_/`    __/  The accents are  \\
-          | //  : | \\   \\ \\__/:_\\   `.   on the "e" and   |
-          `-----._|  `   \\__// ( \\|   |   the "a" and on    |
-           _/___\_         //  | ||]    |   the "a" they're   |
-     _____[_______]_[~~-_ (.L_/  ||      \\   the other way   /
-    [____________________]' `\\_,/'/      \\      around     /
-      ||| /          |||  ,___,'./         `._____________,'
-      ||| \\          |||,'______|
-      ||| /          /|| I==||
-      ||| \\       __/_||  __||__
-  -----||-/------`-._/||-o--o---o---
-    ~~~~~'
-
-~ Ool
-```
-
 <div align="center">
   <h1>Animesh Mishra</h1>
   <p><strong>Passionate Java Developer | Building Robust & Scalable Solutions 🚀</strong></p>
