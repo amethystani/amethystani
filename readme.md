@@ -1,7 +1,7 @@
 <div align="center">
   <h1>Animesh Mishra</h1>
   <p><strong>Passionate Java Developer | Building Robust & Scalable Solutions 🚀</strong></p>
-  ---
+  
   <p>
     <a href="mailto:animeshmishra0567@gmail.com">
       <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Gmail"/>
