@@ -1,4 +1,3 @@
-
 <div align="center">
   <h1>Animesh Mishra</h1>
   <p><strong>Passionate Java Developer | Building Robust & Scalable Solutions 🚀</strong></p>
@@ -71,7 +70,6 @@
 ---
 
 <div align="center" style="margin-top: 20px;">
-  <p>Made with ❤️ and a passion for code</p>
   <img src="https://visitor-badge.laobi.icu/badge?page_id=amethystani.amethystani&left_text=Visitors&right_color=6C63FF&style=flat-square" alt="Visitors"/>
 </div>
 
