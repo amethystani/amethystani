@@ -12,11 +12,11 @@ size-adjust: 109%;
 .value {fill: #0a3069;}
 .addColor {fill: #1a7f37;}
 .delColor {fill: #cf222e;}
-.cc {fill: #c2cfde;}
+.cc {fill: #656d76;}
 text, tspan {white-space: pre;}
 </style>
-<rect width="985px" height="520px" fill="#161b22" rx="15"/>
-<text x="5" y="30" fill="#c9d1d9" class="ascii">
+<rect width="985px" height="520px" fill="#ffffff" rx="15" stroke="#d0d7de" stroke-width="1"/>
+<text x="5" y="30" fill="#1f2328" class="ascii">
 <tspan x="5" y="30">            *   '''`````'''</tspan>
 <tspan x="5" y="50">        *</tspan>
 <tspan x="5" y="70">      *</tspan>
@@ -32,7 +32,7 @@ text, tspan {white-space: pre;}
 <tspan x="5" y="270">   `THHHHHHi\WHHHHHkoo....ooooojHHHHHHF</tspan>
 <tspan x="5" y="290">    `*THHHH`THHHHHHHHHHHHHHHHHHHHHHHHl</tspan>
 <tspan x="5" y="310">     `*THHHYHHHHHHHHHHHHHHHHHHHHHHHI</tspan>
-<tspan x="5" y="330">       `*THHYHHHHHHHHHHHHHHHHHHHHHH}</tspan
+<tspan x="5" y="330">       `*THHYHHHHHHHHHHHHHHHHHHHHHH}</tspan>
 <tspan x="5" y="350">         `*THHHHHHHHHHHHHHHHHHHHHH}</tspan>
 <tspan x="5" y="370">           `THHHHHHHHHHHHHHHHHHHP</tspan>
 <tspan x="5" y="390">            `THHHHHHHHHHHHHHHHHH|</tspan>
@@ -40,7 +40,7 @@ text, tspan {white-space: pre;}
 <tspan x="5" y="430">              `THHHHHHHHHHHHHH|</tspan>
 <tspan x="5" y="450">               `THHHHHHHHHHHH|</tspan>
 </text>
-<text x="390" y="30" fill="#24292f">
+<text x="390" y="30" fill="#1f2328">
 <tspan x="390" y="30">amethystani</tspan> -———————————————————————————————————————————-—-
 <tspan x="390" y="50" class="cc">. </tspan><tspan class="key">OS</tspan>:<tspan class="cc"> ........................ </tspan><tspan class="value">Windows 10, Android 14, Linux</tspan>
 <tspan x="390" y="70" class="cc">. </tspan><tspan class="key">Uptime</tspan>:<tspan class="cc" id="age_data_dots"> ...................... </tspan><tspan class="value" id="age_data">2 years, 5 months, 29 days</tspan>

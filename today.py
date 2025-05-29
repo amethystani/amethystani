@@ -220,6 +220,7 @@ def cache_builder(edges, comment_size, force_cache, loc_add=0, loc_del=0):
     Checks each repository in edges to see if it has been updated since the last time it was cached
     If it has, run recursive_loc on that repository to update the LOC count
     """
+    print(f"\n📊 Processing {len(edges)} repositories...")
     cached = True # Assume all repositories are cached
     filename = 'cache/'+hashlib.sha256(USER_NAME.encode('utf-8')).hexdigest()+'.txt' # Create a unique filename for each user
     try:
@@ -234,30 +235,59 @@ def cache_builder(edges, comment_size, force_cache, loc_add=0, loc_del=0):
 
     if len(data)-comment_size != len(edges) or force_cache: # If the number of repos has changed, or force_cache is True
         cached = False
+        print("🔄 Cache needs updating - rebuilding...")
         flush_cache(edges, filename, comment_size)
         with open(filename, 'r') as f:
             data = f.readlines()
 
     cache_comment = data[:comment_size] # save the comment block
     data = data[comment_size:] # remove those lines
+    
+    repos_processed = 0
+    repos_updated = 0
+    start_time = time.perf_counter()
+    
     for index in range(len(edges)):
+        repo_name = edges[index]['node']['nameWithOwner']
+        repos_processed += 1
+        
+        # Show progress every 5 repos or for the last one
+        if repos_processed % 5 == 0 or repos_processed == len(edges):
+            elapsed = time.perf_counter() - start_time
+            avg_time = elapsed / repos_processed if repos_processed > 0 else 0
+            remaining = (len(edges) - repos_processed) * avg_time
+            print(f"⏳ Progress: {repos_processed}/{len(edges)} repos | Updated: {repos_updated} | ETA: {remaining:.1f}s")
+        
         repo_hash, commit_count, *__ = data[index].split()
         if repo_hash == hashlib.sha256(edges[index]['node']['nameWithOwner'].encode('utf-8')).hexdigest():
             try:
                 if int(commit_count) != edges[index]['node']['defaultBranchRef']['target']['history']['totalCount']:
                     # if commit count has changed, update loc for that repo
-                    owner, repo_name = edges[index]['node']['nameWithOwner'].split('/')
-                    loc = recursive_loc(owner, repo_name, data, cache_comment)
+                    print(f"🔍 Analyzing commits in: {repo_name}")
+                    owner, repo_name_only = edges[index]['node']['nameWithOwner'].split('/')
+                    repo_start = time.perf_counter()
+                    loc = recursive_loc(owner, repo_name_only, data, cache_comment)
+                    repo_time = time.perf_counter() - repo_start
+                    print(f"✅ {repo_name}: {loc[2]} commits, {loc[0]} additions, {loc[1]} deletions ({repo_time:.2f}s)")
                     data[index] = repo_hash + ' ' + str(edges[index]['node']['defaultBranchRef']['target']['history']['totalCount']) + ' ' + str(loc[2]) + ' ' + str(loc[0]) + ' ' + str(loc[1]) + '\n'
+                    repos_updated += 1
             except TypeError: # If the repo is empty
                 data[index] = repo_hash + ' 0 0 0 0\n'
+    
+    print(f"💾 Saving cache file...")
     with open(filename, 'w') as f:
         f.writelines(cache_comment)
         f.writelines(data)
+    
     for line in data:
         loc = line.split()
         loc_add += int(loc[3])
         loc_del += int(loc[4])
+    
+    total_time = time.perf_counter() - start_time
+    print(f"✨ Repository processing complete! ({total_time:.2f}s)")
+    print(f"📈 Total: {loc_add:,} additions, {loc_del:,} deletions, {loc_add - loc_del:,} net LOC")
+    
     return [loc_add, loc_del, loc_add - loc_del, cached]
 
 
@@ -438,20 +468,36 @@ def formatter(query_type, difference, funct_return=False, whitespace=0):
 
 
 if __name__ == '__main__':
+    print('🚀 Starting GitHub Stats Update...')
     print('Calculation times:')
     # define global variable for owner ID and calculate user's creation date
-    # e.g {'id': 'MDQ6VXNlcjU3MzMxMTM0'} and 2019-11-03T21:15:07Z for username 'amethystani'
+    # e.g {'id': 'MDQ6VXNlcjU4MzMxMTM0'} and 2019-11-03T21:15:07Z for username 'amethystani'
+    print('👤 Fetching account data...')
     user_data, user_time = perf_counter(user_getter, USER_NAME)
     OWNER_ID, acc_date = user_data
     formatter('account data', user_time)
+    
+    print('🎂 Calculating age...')
     age_data, age_time = perf_counter(daily_readme, datetime.datetime(2002, 7, 5))
     formatter('age calculation', age_time)
+    
+    print('📝 Analyzing lines of code (this may take a while)...')
     total_loc, loc_time = perf_counter(loc_query, ['OWNER', 'COLLABORATOR', 'ORGANIZATION_MEMBER'], 7)
     formatter('LOC (cached)', loc_time) if total_loc[-1] else formatter('LOC (no cache)', loc_time)
+    
+    print('📊 Counting commits...')
     commit_data, commit_time = perf_counter(commit_counter, 7)
+    
+    print('⭐ Fetching star data...')
     star_data, star_time = perf_counter(graph_repos_stars, 'stars', ['OWNER'])
+    
+    print('📁 Fetching repository data...')
     repo_data, repo_time = perf_counter(graph_repos_stars, 'repos', ['OWNER'])
+    
+    print('🤝 Fetching contribution data...')
     contrib_data, contrib_time = perf_counter(graph_repos_stars, 'repos', ['OWNER', 'COLLABORATOR', 'ORGANIZATION_MEMBER'])
+    
+    print('👥 Fetching follower data...')
     follower_data, follower_time = perf_counter(follower_getter, USER_NAME)
 
     # several repositories that I've contributed to have since been deleted.
@@ -465,13 +511,21 @@ if __name__ == '__main__':
 
     for index in range(len(total_loc)-1): total_loc[index] = '{:,}'.format(total_loc[index]) # format added, deleted, and total LOC
 
+    print('🎨 Updating SVG files...')
     svg_overwrite('dark_mode.svg', age_data, commit_data, star_data, repo_data, contrib_data, follower_data, total_loc[:-1])
     svg_overwrite('light_mode.svg', age_data, commit_data, star_data, repo_data, contrib_data, follower_data, total_loc[:-1])
 
     # move cursor to override 'Calculation times:' with 'Total function time:' and the total function time, then move cursor back
-    print('\033[F\033[F\033[F\033[F\033[F\033[F\033[F\033[F',
+    print('\033[F\033[F\033[F\033[F\033[F\033[F\033[F\033[F\033[F\033[F',
         '{:<21}'.format('Total function time:'), '{:>11}'.format('%.4f' % (user_time + age_time + loc_time + commit_time + star_time + repo_time + contrib_time)),
-        ' s \033[E\033[E\033[E\033[E\033[E\033[E\033[E\033[E', sep='')
+        ' s \033[E\033[E\033[E\033[E\033[E\033[E\033[E\033[E\033[E\033[E', sep='')
 
+    print('\n✅ GitHub Stats Update Complete!')
+    print(f'📋 Summary:')
+    print(f'   • Repositories: {repo_data}')
+    print(f'   • Stars: {star_data}')
+    print(f'   • Commits: {commit_data}')
+    print(f'   • Followers: {follower_data}')
+    print(f'   • Lines of Code: {total_loc[2]}')
     print('Total GitHub GraphQL API calls:', '{:>3}'.format(sum(QUERY_COUNT.values())))
     for funct_name, count in QUERY_COUNT.items(): print('{:<28}'.format('   ' + funct_name + ':'), '{:>6}'.format(count))
