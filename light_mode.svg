@@ -31,7 +31,8 @@ text, tspan {white-space: pre;}
 <tspan x="5" y="250">   THHHi:,  `GHHHHH,.            .'HHHHH</tspan>
 <tspan x="5" y="270">   `THHHHHHi\WHHHHHkoo....ooooojHHHHHHF</tspan>
 <tspan x="5" y="290">    `*THHHH`THHHHHHHHHHHHHHHHHHHHHHHHl</tspan>
-<tspan x="5" y="330">       `*THHYHHHHHHHHHHHHHHHHHHHHHH}</tspan>
+<tspan x="5" y="310">     `*THHHYHHHHHHHHHHHHHHHHHHHHHHHI</tspan>
+<tspan x="5" y="330">       `*THHYHHHHHHHHHHHHHHHHHHHHHH}</tspan
 <tspan x="5" y="350">         `*THHHHHHHHHHHHHHHHHHHHHH}</tspan>
 <tspan x="5" y="370">           `THHHHHHHHHHHHHHHHHHHP</tspan>
 <tspan x="5" y="390">            `THHHHHHHHHHHHHHHHHH|</tspan>
@@ -54,9 +55,8 @@ text, tspan {white-space: pre;}
 <tspan x="390" y="250" class="cc">. </tspan><tspan class="key">Hobbies</tspan>.<tspan class="key">Software</tspan>:<tspan class="cc"> .... </tspan><tspan class="value">Minecraft Modding, iOS Jailbreaking</tspan>
 <tspan x="390" y="270" class="cc">. </tspan><tspan class="key">Hobbies</tspan>.<tspan class="key">Hardware</tspan>:<tspan class="cc"> ............. </tspan><tspan class="value">Overclocking, Undervolting</tspan>
 <tspan x="390" y="310">- Contact</tspan> -——————————————————————————————————————————————-—-
-<tspan x="390" y="330" class="cc">. </tspan><tspan class="key">Email</tspan>.<tspan class="key">Personal</tspan>:<tspan class="cc"> ..................... </tspan><tspan class="value">am847@snu.edu.in</tspan>
+<tspan x="390" y="330" class="cc">. </tspan><tspan class="key">Email</tspan>.<tspan class="key">Work</tspan>:<tspan class="cc"> ..................... </tspan><tspan class="value">am847@snu.edu.in</tspan>
 <tspan x="390" y="350" class="cc">. </tspan><tspan class="key">Email</tspan>.<tspan class="key">Personal</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">animeshmishra0567@gmail.com</tspan>
-<tspan x="390" y="370" class="cc">. </tspan><tspan class="key">Email</tspan>.<tspan class="key">Work</tspan>:<tspan class="cc"> ..................... </tspan><tspan class="value"></tspan>
 <tspan x="390" y="390" class="cc">. </tspan><tspan class="key">LinkedIn</tspan>:<tspan class="cc"> .................................... </tspan><tspan class="value">animeshmishra0</tspan>
 <tspan x="390" y="410" class="cc">. </tspan><tspan class="key">Discord</tspan>:<tspan class="cc"> ..................................... </tspan><tspan class="value">sch_rodinger</tspan>
 <tspan x="390" y="450">- GitHub Stats</tspan> -—————————————————————————————————————————-—-
