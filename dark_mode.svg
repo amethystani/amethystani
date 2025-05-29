@@ -38,10 +38,10 @@ text, tspan {white-space: pre;}
 <tspan x="5" y="390">            `THHHHHHHHHHHHHHHHHP</tspan>
 <tspan x="5" y="410">             `THHHHHHHHHHHHHHHP</tspan>
 <tspan x="5" y="430">              `THHHHHHHHHHHHHP</tspan>
-<tspan x="5" y="450">               `THHHHHHHHHHHP|</tspan>
-<tspan x="5" y="470">               `THHHHHHHHHHHP|</tspan>
-<tspan x="5" y="490">               `THHHHHHHHHHHP|</tspan>
-<tspan x="5" y="510">               `THHHHHHHHHHHP|</tspan>
+<tspan x="5" y="450">               `THHHHHHHHHHHP</tspan>
+<tspan x="5" y="470">               `THHHHHHHHHHHP</tspan>
+<tspan x="5" y="490">               `THHHHHHHHHHHP</tspan>
+<tspan x="5" y="510">               `THHHHHHHHHHHP</tspan>
 </text>
 <text x="390" y="30" fill="#c9d1d9">
 <tspan x="390" y="30">amethystani</tspan> -———————————————————————————————————————————-—-
