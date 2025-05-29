@@ -1,6 +1,6 @@
 <div align="center">
   <h1>Animesh Mishra</h1>
-  <p><strong>Passionate Java Developer | Building Robust & Scalable Solutions 🚀</strong></p>
+  <p><strong>Java Developer | Building Robust & Scalable Solutions 🚀</strong></p>
   
   <p>
     <a href="mailto:animeshmishra0567@gmail.com">
