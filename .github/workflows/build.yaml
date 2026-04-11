@@ -48,4 +48,5 @@ jobs:
           git config --global user.name "GitHub Actions"
           git add dark_mode.svg light_mode.svg cache/
           git diff --cached --quiet || git commit -m "🤖 auto-update: stats + featured rotation [skip ci]"
+          git pull --rebase origin main
           git push
