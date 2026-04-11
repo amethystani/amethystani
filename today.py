@@ -532,7 +532,8 @@ def generate_heatmap(weeks, mode):
     colors = CONTRIB_COLORS[mode]
     cell, gap = 10, 2
     step = cell + gap
-    x0, y0 = 110, 545   # top-left of first cell (Sun, oldest week)
+    x0, y0 = 110, 545   # top-left: Sun row of oldest week
+    # Mon label is at y=556 → Sun row y=545 (10px cell + 1px gap above Mon)
 
     cells = []
     for wi, week in enumerate(weeks[-26:]):   # last 26 weeks
@@ -622,14 +623,21 @@ def generate_svg(mode, data):
     # ── heatmap cells ───────────────────────────────────────────────────
     heatmap_cells = generate_heatmap(data['weeks'], mode)
 
+    # Fixed y layout for right panel — all positions hardcoded so nothing overflows 520px
+    # username=30, OS=52, Uptime=70, Site=88, IDE=106, Shell=124, blank=142,
+    # langs_header=159, lang1-5 at 179/203/227/251/275, blank=291,
+    # contact=307, email=325, linkedin=343, discord=361, work=379, blank=395,
+    # stats=411, repos=431, commits=449, loc=467, streak=485, prompt=503
+    LANG_Y_START = 179
+    LANG_ROW_H   = 24
+
     # ── language bars ───────────────────────────────────────────────────
     lang_bars = generate_lang_bars(
         data['top_langs'], mode,
-        x_name=390, x_bar=520, x_pct=660,
-        bar_max_w=130,
-        y_start=200, row_h=30,
+        x_name=390, x_bar=518, x_pct=668,
+        bar_max_w=140,
+        y_start=LANG_Y_START, row_h=LANG_ROW_H,
     )
-    lang_section_h = len(data['top_langs']) * 30  # dynamic height
 
     # ── ASCII art tspans ────────────────────────────────────────────────
     ascii_lines = '\n'.join(
@@ -637,10 +645,10 @@ def generate_svg(mode, data):
         for i, line in enumerate(ASCII_ART)
     )
 
-    # ── legend for heatmap ──────────────────────────────────────────────
+    # ── legend for heatmap (placed bottom-right, away from header text) ─
     cc = CONTRIB_COLORS[mode]
     legend_cells = ''.join(
-        f'<rect x="{870 + i * 13}" y="530" width="10" height="10" rx="2" fill="{cc[i]}"/>'
+        f'<rect x="{870 + i * 13}" y="608" width="10" height="10" rx="2" fill="{cc[i]}"/>'
         for i in range(5)
     )
 
@@ -747,9 +755,10 @@ text, tspan {{ white-space: pre; }}
             f'stroke="{t["border"]}" stroke-width="1" class="draw_underline"/>'
         )
 
-    # ── build right panel ────────────────────────────────────────────────
+    # ── build right panel (all y values fixed to stay within 520px) ──────
     right = []
-    # username header
+
+    # username header y=30
     right.append(
         f'<text x="390" y="30" class="r0" font-size="15">'
         f'<tspan fill="{t["text"]}">{USER_NAME}</tspan>'
@@ -759,46 +768,45 @@ text, tspan {{ white-space: pre; }}
         f'<line x1="390" y1="35" x2="980" y2="35" stroke="{t["border"]}" '
         f'stroke-width="1" class="draw_underline"/>'
     )
-    right.append(row('OS',     'Sequoia 15.5 / iOS 18.5 / Linux',  1, 55))
-    right.append(row('Uptime', age,                                  2, 75))
-    right.append(row('Site',   'animeshmishra.us',                   3, 95))
-    right.append(row('IDE',    'Cursor, VSCode, IDEA',               4, 115))
-    right.append(row('Shell',  'zsh  ·  iTerm2',                     5, 135))
+    right.append(row('OS',     'Sequoia 15.5 / iOS 18.5 / Linux',  1,  52))
+    right.append(row('Uptime', age,                                  2,  70))
+    right.append(row('Site',   'animeshmishra.us',                   3,  88))
+    right.append(row('IDE',    'Cursor, VSCode, IDEA',               4, 106))
+    right.append(row('Shell',  'zsh  ·  iTerm2',                     5, 124))
 
-    # ── Languages section ──────────────────────────────────────────────
-    right.append(f'<text x="390" y="165" class="r6" font-size="15" fill="{t["comment"]}">.</text>')
-    right.append(section_header('Top Languages (by bytes written)', 185, 7))
-    right.append(lang_bars)
+    # ── Languages y=142-275 ────────────────────────────────────────────
+    right.append(f'<text x="390" y="142" class="r6" font-size="15" fill="{t["comment"]}">.</text>')
+    right.append(section_header('Top Languages (by bytes written)', 159, 7))
+    right.append(lang_bars)   # bars at y=179,203,227,251,275 (5 × 24px)
 
-    # stats below languages (dynamic y based on lang_section_h)
-    y_after_langs = 200 + lang_section_h + 10
-    right.append(f'<text x="390" y="{y_after_langs}" class="r8" font-size="15" fill="{t["comment"]}">.</text>')
-    right.append(section_header('Contact', y_after_langs + 22, 9))
-    right.append(row('Email',    'animeshmishra0567@gmail.com', 10, y_after_langs + 44))
-    right.append(row('LinkedIn', 'animeshmishra0',              11, y_after_langs + 64))
-    right.append(row('Discord',  'sch_rodinger',                12, y_after_langs + 84))
-    right.append(row('Work',     'am847@snu.edu.in',            13, y_after_langs + 104))
+    # ── Contact y=291-379 ──────────────────────────────────────────────
+    right.append(f'<text x="390" y="291" class="r8" font-size="15" fill="{t["comment"]}">.</text>')
+    right.append(section_header('Contact', 307, 9))
+    right.append(row('Email',    'animeshmishra0567@gmail.com', 10, 325))
+    right.append(row('LinkedIn', 'animeshmishra0',              11, 343))
+    right.append(row('Discord',  'sch_rodinger',                12, 361))
+    right.append(row('Work',     'am847@snu.edu.in',            13, 379))
 
-    y_stats = y_after_langs + 126
-    right.append(f'<text x="390" y="{y_stats - 16}" class="r14" font-size="15" fill="{t["comment"]}">.</text>')
-    right.append(section_header('GitHub Stats', y_stats, 15))
+    # ── GitHub Stats y=395-503 ────────────────────────────────────────
+    right.append(f'<text x="390" y="395" class="r14" font-size="15" fill="{t["comment"]}">.</text>')
+    right.append(section_header('GitHub Stats', 411, 15))
 
     right.append(
-        f'<text x="390" y="{y_stats + 22}" class="r16" font-size="15">'
+        f'<text x="390" y="431" class="r16" font-size="15">'
         f'<tspan fill="{t["comment"]}">. </tspan>'
         f'<tspan fill="{t["key"]}">Repos</tspan>'
         f'<tspan fill="{t["comment"]}">: </tspan>'
         f'<tspan fill="{t["value"]}">{repos}</tspan>'
         f'<tspan fill="{t["comment"]}">  {{contributed: </tspan>'
         f'<tspan fill="{t["value"]}">{contrib}</tspan>'
-        f'<tspan fill="{t["comment"]}"  >}}  </tspan>'
+        f'<tspan fill="{t["comment"]}">}}  </tspan>'
         f'<tspan fill="{t["key"]}">Stars</tspan>'
         f'<tspan fill="{t["comment"]}">: </tspan>'
         f'<tspan fill="{t["value"]}">{stars}</tspan>'
         f'</text>'
     )
     right.append(
-        f'<text x="390" y="{y_stats + 44}" class="r17" font-size="15">'
+        f'<text x="390" y="449" class="r17" font-size="15">'
         f'<tspan fill="{t["comment"]}">. </tspan>'
         f'<tspan fill="{t["key"]}">Commits</tspan>'
         f'<tspan fill="{t["comment"]}">: </tspan>'
@@ -810,7 +818,7 @@ text, tspan {{ white-space: pre; }}
         f'</text>'
     )
     right.append(
-        f'<text x="390" y="{y_stats + 66}" class="r18" font-size="15">'
+        f'<text x="390" y="467" class="r18" font-size="15">'
         f'<tspan fill="{t["comment"]}">. </tspan>'
         f'<tspan fill="{t["key"]}">Lines of Code</tspan>'
         f'<tspan fill="{t["comment"]}">: </tspan>'
@@ -823,7 +831,7 @@ text, tspan {{ white-space: pre; }}
         f'</text>'
     )
     right.append(
-        f'<text x="390" y="{y_stats + 88}" class="r19" font-size="15">'
+        f'<text x="390" y="485" class="r19" font-size="15">'
         f'<tspan fill="{t["comment"]}">. </tspan>'
         f'<tspan fill="{t["key"]}">Streak</tspan>'
         f'<tspan fill="{t["comment"]}">: </tspan>'
@@ -835,10 +843,9 @@ text, tspan {{ white-space: pre; }}
         f'</text>'
     )
 
-    # ── prompt + blink cursor ────────────────────────────────────────────
-    prompt_y = y_stats + 110
+    # ── prompt + blink cursor y=503 (safe within 520) ────────────────
     right.append(
-        f'<text x="390" y="{prompt_y}" class="r20" font-size="15">'
+        f'<text x="390" y="503" class="r20" font-size="15">'
         f'<tspan fill="{t["purple"]}">❯</tspan>'
         f'<tspan fill="{t["comment"]}"> </tspan>'
         f'<tspan fill="{t["text"]}" class="cursor">▊</tspan>'
@@ -847,8 +854,8 @@ text, tspan {{ white-space: pre; }}
 
     right_panel = '\n'.join(right)
 
-    # ── vertical divider between ASCII and stats ─────────────────────────
-    divider_h = max(520, prompt_y + 20)
+    # ── vertical divider: fixed height 520px ─────────────────────────
+    divider_h = 520
 
     # ── assemble SVG ─────────────────────────────────────────────────────
     svg = f"""<?xml version='1.0' encoding='UTF-8'?>
@@ -857,6 +864,10 @@ text, tspan {{ white-space: pre; }}
      width="{W}px" height="{H}px" font-size="16px">
 
 <defs>
+  <!-- Clip ASCII art to left panel so it never bleeds into stats -->
+  <clipPath id="ascii_clip">
+    <rect x="0" y="0" width="383" height="520"/>
+  </clipPath>
   <!-- Marquee clip -->
   <clipPath id="marquee_clip">
     <rect x="0" y="632" width="{W}" height="28"/>
@@ -886,8 +897,8 @@ text, tspan {{ white-space: pre; }}
 <line x1="385" y1="0" x2="385" y2="{divider_h}"
       stroke="{t['border']}" stroke-width="1" class="draw_line"/>
 
-<!-- ASCII art with amethyst glow -->
-<g class="ascii_glow">
+<!-- ASCII art with amethyst glow, clipped to left panel -->
+<g class="ascii_glow" clip-path="url(#ascii_clip)">
   <text x="5" y="20" fill="{t['text']}" font-size="15.5">
 {ascii_lines}
   </text>
@@ -900,28 +911,25 @@ text, tspan {{ white-space: pre; }}
 <line x1="0" y1="522" x2="{W}" y2="522"
       stroke="{t['border']}" stroke-width="1" class="draw_line"/>
 
-<!-- Heatmap header -->
-<text x="110" y="540" fill="{t['comment']}" font-size="13">
-  contributions · last 26 weeks
-</text>
-<text x="750" y="540" fill="{t['comment']}" font-size="13">streak:</text>
-<text x="805" y="540" fill="{t['green']}"   font-size="13">{streak} days</text>
+<!-- Heatmap header: label left, streak right -->
+<text x="110" y="538" fill="{t['comment']}" font-size="13">contributions · last 26 weeks</text>
+<text x="820" y="538" fill="{t['comment']}" font-size="13">streak: <tspan fill="{t['green']}">{streak} days</tspan></text>
 
-<!-- Day labels -->
-<text x="98" y="558" fill="{t['comment']}" font-size="11" text-anchor="end">Mon</text>
-<text x="98" y="580" fill="{t['comment']}" font-size="11" text-anchor="end">Wed</text>
-<text x="98" y="602" fill="{t['comment']}" font-size="11" text-anchor="end">Fri</text>
+<!-- Day labels (Mon=row1, Wed=row3, Fri=row5 of 0-indexed weekday) -->
+<text x="104" y="556" fill="{t['comment']}" font-size="11" text-anchor="end">Mon</text>
+<text x="104" y="580" fill="{t['comment']}" font-size="11" text-anchor="end">Wed</text>
+<text x="104" y="604" fill="{t['comment']}" font-size="11" text-anchor="end">Fri</text>
 
-<!-- Contribution heatmap -->
+<!-- Contribution heatmap grid -->
 {heatmap_cells}
 
-<!-- Heatmap legend -->
-<text x="855" y="540" fill="{t['comment']}" font-size="11">less</text>
+<!-- Legend: less □□□□□ more — bottom-right, below grid -->
+<text x="855" y="622" fill="{t['comment']}" font-size="11">less</text>
 {legend_cells}
-<text x="935" y="540" fill="{t['comment']}" font-size="11">more</text>
+<text x="935" y="622" fill="{t['comment']}" font-size="11">more</text>
 
 <!-- Separator before marquee -->
-<line x1="0" y1="625" x2="{W}" y2="625"
+<line x1="0" y1="628" x2="{W}" y2="628"
       stroke="{t['border']}" stroke-width="1"/>
 
 <!-- Scrolling featured project marquee -->
