@@ -4,6 +4,10 @@
      width="985px" height="665px" font-size="16px">
 
 <defs>
+  <!-- Clip ASCII art to left panel so it never bleeds into stats -->
+  <clipPath id="ascii_clip">
+    <rect x="0" y="0" width="383" height="520"/>
+  </clipPath>
   <!-- Marquee clip -->
   <clipPath id="marquee_clip">
     <rect x="0" y="632" width="985" height="28"/>
@@ -107,11 +111,11 @@ text, tspan { white-space: pre; }
 <circle cx="48" cy="11" r="5" fill="#27c93f"/>
 
 <!-- Vertical divider -->
-<line x1="385" y1="0" x2="385" y2="616"
+<line x1="385" y1="0" x2="385" y2="520"
       stroke="#d0d7de" stroke-width="1" class="draw_line"/>
 
-<!-- ASCII art with amethyst glow -->
-<g class="ascii_glow">
+<!-- ASCII art with amethyst glow, clipped to left panel -->
+<g class="ascii_glow" clip-path="url(#ascii_clip)">
   <text x="5" y="20" fill="#1f2328" font-size="15.5">
 <tspan x="5" y="20">              *   '''`````'''</tspan>
 <tspan x="5" y="40">          *</tspan>
@@ -142,64 +146,61 @@ text, tspan { white-space: pre; }
 
 <!-- Right panel stats -->
 <text x="390" y="30" class="r0" font-size="15"><tspan fill="#1f2328">amethystani</tspan><tspan fill="#6e7781"> — </tspan><tspan fill="#8250df">building something new</tspan></text><line x1="390" y1="35" x2="980" y2="35" stroke="#d0d7de" stroke-width="1" class="draw_underline"/>
-<text x="390" y="55" class="r1" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">OS</tspan><tspan fill="#6e7781">: ·························· </tspan><tspan fill="#0550ae">Sequoia 15.5 / iOS 18.5 / Linux</tspan></text>
-<text x="390" y="75" class="r2" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Uptime</tspan><tspan fill="#6e7781">: ······················ </tspan><tspan fill="#0550ae">23 years, 9 months, 6 days</tspan></text>
-<text x="390" y="95" class="r3" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Site</tspan><tspan fill="#6e7781">: ························ </tspan><tspan fill="#0550ae">animeshmishra.us</tspan></text>
-<text x="390" y="115" class="r4" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">IDE</tspan><tspan fill="#6e7781">: ························· </tspan><tspan fill="#0550ae">Cursor, VSCode, IDEA</tspan></text>
-<text x="390" y="135" class="r5" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Shell</tspan><tspan fill="#6e7781">: ······················· </tspan><tspan fill="#0550ae">zsh  ·  iTerm2</tspan></text>
-<text x="390" y="165" class="r6" font-size="15" fill="#6e7781">.</text>
-<text x="390" y="185" class="r7" font-size="15"><tspan fill="#6e7781">- </tspan><tspan fill="#1f2328">Top Languages (by bytes written)</tspan><tspan fill="#6e7781"> -</tspan></text><line x1="740" y1="181" x2="980" y2="181" stroke="#d0d7de" stroke-width="1" class="draw_underline"/>
-<text x="390" y="200" fill="#6e7781" font-size="15">. </text><text x="408" y="200" fill="#953800" font-size="15">HTML</text>
-<rect x="520" y="188" width="130" height="9" rx="3" fill="#eaeef2"/>
-<rect x="520" y="188" width="88" height="9" rx="3" fill="#e34c26" class="bar_fill" style="animation-delay:1.20s"/>
-<text x="660" y="200" fill="#0550ae" font-size="14">68.0%</text>
-<text x="390" y="230" fill="#6e7781" font-size="15">. </text><text x="408" y="230" fill="#953800" font-size="15">Python</text>
-<rect x="520" y="218" width="130" height="9" rx="3" fill="#eaeef2"/>
-<rect x="520" y="218" width="15" height="9" rx="3" fill="#3572A5" class="bar_fill" style="animation-delay:1.35s"/>
-<text x="660" y="230" fill="#0550ae" font-size="14">12.0%</text>
-<text x="390" y="260" fill="#6e7781" font-size="15">. </text><text x="408" y="260" fill="#953800" font-size="15">TeX</text>
-<rect x="520" y="248" width="130" height="9" rx="3" fill="#eaeef2"/>
-<rect x="520" y="248" width="12" height="9" rx="3" fill="#3D6117" class="bar_fill" style="animation-delay:1.50s"/>
-<text x="660" y="260" fill="#0550ae" font-size="14">9.8%</text>
-<text x="390" y="290" fill="#6e7781" font-size="15">. </text><text x="408" y="290" fill="#953800" font-size="15">TypeScript</text>
-<rect x="520" y="278" width="130" height="9" rx="3" fill="#eaeef2"/>
-<rect x="520" y="278" width="4" height="9" rx="3" fill="#3178c6" class="bar_fill" style="animation-delay:1.65s"/>
-<text x="660" y="290" fill="#0550ae" font-size="14">3.8%</text>
-<text x="390" y="320" fill="#6e7781" font-size="15">. </text><text x="408" y="320" fill="#953800" font-size="15">JavaScript</text>
-<rect x="520" y="308" width="130" height="9" rx="3" fill="#eaeef2"/>
-<rect x="520" y="308" width="3" height="9" rx="3" fill="#f1e05a" class="bar_fill" style="animation-delay:1.80s"/>
-<text x="660" y="320" fill="#0550ae" font-size="14">2.5%</text>
-<text x="390" y="360" class="r8" font-size="15" fill="#6e7781">.</text>
-<text x="390" y="382" class="r9" font-size="15"><tspan fill="#6e7781">- </tspan><tspan fill="#1f2328">Contact</tspan><tspan fill="#6e7781"> -</tspan></text><line x1="500" y1="378" x2="980" y2="378" stroke="#d0d7de" stroke-width="1" class="draw_underline"/>
-<text x="390" y="404" class="r10" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Email</tspan><tspan fill="#6e7781">: ······················· </tspan><tspan fill="#0550ae">animeshmishra0567@gmail.com</tspan></text>
-<text x="390" y="424" class="r11" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">LinkedIn</tspan><tspan fill="#6e7781">: ···················· </tspan><tspan fill="#0550ae">animeshmishra0</tspan></text>
-<text x="390" y="444" class="r12" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Discord</tspan><tspan fill="#6e7781">: ····················· </tspan><tspan fill="#0550ae">sch_rodinger</tspan></text>
-<text x="390" y="464" class="r13" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Work</tspan><tspan fill="#6e7781">: ························ </tspan><tspan fill="#0550ae">am847@snu.edu.in</tspan></text>
-<text x="390" y="470" class="r14" font-size="15" fill="#6e7781">.</text>
-<text x="390" y="486" class="r15" font-size="15"><tspan fill="#6e7781">- </tspan><tspan fill="#1f2328">GitHub Stats</tspan><tspan fill="#6e7781"> -</tspan></text><line x1="548" y1="482" x2="980" y2="482" stroke="#d0d7de" stroke-width="1" class="draw_underline"/>
-<text x="390" y="508" class="r16" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Repos</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">57</tspan><tspan fill="#6e7781">  {contributed: </tspan><tspan fill="#0550ae">67</tspan><tspan fill="#6e7781"  >}  </tspan><tspan fill="#953800">Stars</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">4</tspan></text>
-<text x="390" y="530" class="r17" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Commits</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">2,809</tspan><tspan fill="#6e7781">    </tspan><tspan fill="#953800">Followers</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">92</tspan></text>
-<text x="390" y="552" class="r18" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Lines of Code</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">12,268,526</tspan><tspan fill="#6e7781">  (</tspan><tspan fill="#1a7f37">12,864,952++</tspan><tspan fill="#6e7781">  </tspan><tspan fill="#cf222e">596,426--</tspan><tspan fill="#6e7781">)</tspan></text>
-<text x="390" y="574" class="r19" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Streak</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#1a7f37">14 days</tspan><tspan fill="#6e7781">    </tspan><tspan fill="#953800">Week</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">#15</tspan></text>
-<text x="390" y="596" class="r20" font-size="15"><tspan fill="#8250df">❯</tspan><tspan fill="#6e7781"> </tspan><tspan fill="#1f2328" class="cursor">▊</tspan></text>
+<text x="390" y="52" class="r1" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">OS</tspan><tspan fill="#6e7781">: ·························· </tspan><tspan fill="#0550ae">Sequoia 15.5 / iOS 18.5 / Linux</tspan></text>
+<text x="390" y="70" class="r2" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Uptime</tspan><tspan fill="#6e7781">: ······················ </tspan><tspan fill="#0550ae">23 years, 9 months, 6 days</tspan></text>
+<text x="390" y="88" class="r3" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Site</tspan><tspan fill="#6e7781">: ························ </tspan><tspan fill="#0550ae">animeshmishra.us</tspan></text>
+<text x="390" y="106" class="r4" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">IDE</tspan><tspan fill="#6e7781">: ························· </tspan><tspan fill="#0550ae">Cursor, VSCode, IDEA</tspan></text>
+<text x="390" y="124" class="r5" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Shell</tspan><tspan fill="#6e7781">: ······················· </tspan><tspan fill="#0550ae">zsh  ·  iTerm2</tspan></text>
+<text x="390" y="142" class="r6" font-size="15" fill="#6e7781">.</text>
+<text x="390" y="159" class="r7" font-size="15"><tspan fill="#6e7781">- </tspan><tspan fill="#1f2328">Top Languages (by bytes written)</tspan><tspan fill="#6e7781"> -</tspan></text><line x1="740" y1="155" x2="980" y2="155" stroke="#d0d7de" stroke-width="1" class="draw_underline"/>
+<text x="390" y="179" fill="#6e7781" font-size="15">. </text><text x="408" y="179" fill="#953800" font-size="15">HTML</text>
+<rect x="518" y="167" width="140" height="9" rx="3" fill="#eaeef2"/>
+<rect x="518" y="167" width="95" height="9" rx="3" fill="#e34c26" class="bar_fill" style="animation-delay:1.20s"/>
+<text x="668" y="179" fill="#0550ae" font-size="14">68.0%</text>
+<text x="390" y="203" fill="#6e7781" font-size="15">. </text><text x="408" y="203" fill="#953800" font-size="15">Python</text>
+<rect x="518" y="191" width="140" height="9" rx="3" fill="#eaeef2"/>
+<rect x="518" y="191" width="16" height="9" rx="3" fill="#3572A5" class="bar_fill" style="animation-delay:1.35s"/>
+<text x="668" y="203" fill="#0550ae" font-size="14">12.0%</text>
+<text x="390" y="227" fill="#6e7781" font-size="15">. </text><text x="408" y="227" fill="#953800" font-size="15">TeX</text>
+<rect x="518" y="215" width="140" height="9" rx="3" fill="#eaeef2"/>
+<rect x="518" y="215" width="13" height="9" rx="3" fill="#3D6117" class="bar_fill" style="animation-delay:1.50s"/>
+<text x="668" y="227" fill="#0550ae" font-size="14">9.8%</text>
+<text x="390" y="251" fill="#6e7781" font-size="15">. </text><text x="408" y="251" fill="#953800" font-size="15">TypeScript</text>
+<rect x="518" y="239" width="140" height="9" rx="3" fill="#eaeef2"/>
+<rect x="518" y="239" width="5" height="9" rx="3" fill="#3178c6" class="bar_fill" style="animation-delay:1.65s"/>
+<text x="668" y="251" fill="#0550ae" font-size="14">3.8%</text>
+<text x="390" y="275" fill="#6e7781" font-size="15">. </text><text x="408" y="275" fill="#953800" font-size="15">JavaScript</text>
+<rect x="518" y="263" width="140" height="9" rx="3" fill="#eaeef2"/>
+<rect x="518" y="263" width="3" height="9" rx="3" fill="#f1e05a" class="bar_fill" style="animation-delay:1.80s"/>
+<text x="668" y="275" fill="#0550ae" font-size="14">2.5%</text>
+<text x="390" y="291" class="r8" font-size="15" fill="#6e7781">.</text>
+<text x="390" y="307" class="r9" font-size="15"><tspan fill="#6e7781">- </tspan><tspan fill="#1f2328">Contact</tspan><tspan fill="#6e7781"> -</tspan></text><line x1="500" y1="303" x2="980" y2="303" stroke="#d0d7de" stroke-width="1" class="draw_underline"/>
+<text x="390" y="325" class="r10" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Email</tspan><tspan fill="#6e7781">: ······················· </tspan><tspan fill="#0550ae">animeshmishra0567@gmail.com</tspan></text>
+<text x="390" y="343" class="r11" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">LinkedIn</tspan><tspan fill="#6e7781">: ···················· </tspan><tspan fill="#0550ae">animeshmishra0</tspan></text>
+<text x="390" y="361" class="r12" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Discord</tspan><tspan fill="#6e7781">: ····················· </tspan><tspan fill="#0550ae">sch_rodinger</tspan></text>
+<text x="390" y="379" class="r13" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Work</tspan><tspan fill="#6e7781">: ························ </tspan><tspan fill="#0550ae">am847@snu.edu.in</tspan></text>
+<text x="390" y="395" class="r14" font-size="15" fill="#6e7781">.</text>
+<text x="390" y="411" class="r15" font-size="15"><tspan fill="#6e7781">- </tspan><tspan fill="#1f2328">GitHub Stats</tspan><tspan fill="#6e7781"> -</tspan></text><line x1="548" y1="407" x2="980" y2="407" stroke="#d0d7de" stroke-width="1" class="draw_underline"/>
+<text x="390" y="431" class="r16" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Repos</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">57</tspan><tspan fill="#6e7781">  {contributed: </tspan><tspan fill="#0550ae">67</tspan><tspan fill="#6e7781">}  </tspan><tspan fill="#953800">Stars</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">4</tspan></text>
+<text x="390" y="449" class="r17" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Commits</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">2,810</tspan><tspan fill="#6e7781">    </tspan><tspan fill="#953800">Followers</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">92</tspan></text>
+<text x="390" y="467" class="r18" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Lines of Code</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">12,268,534</tspan><tspan fill="#6e7781">  (</tspan><tspan fill="#1a7f37">12,865,019++</tspan><tspan fill="#6e7781">  </tspan><tspan fill="#cf222e">596,485--</tspan><tspan fill="#6e7781">)</tspan></text>
+<text x="390" y="485" class="r19" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Streak</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#1a7f37">14 days</tspan><tspan fill="#6e7781">    </tspan><tspan fill="#953800">Week</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">#15</tspan></text>
+<text x="390" y="503" class="r20" font-size="15"><tspan fill="#8250df">❯</tspan><tspan fill="#6e7781"> </tspan><tspan fill="#1f2328" class="cursor">▊</tspan></text>
 
 <!-- Horizontal separator before heatmap -->
 <line x1="0" y1="522" x2="985" y2="522"
       stroke="#d0d7de" stroke-width="1" class="draw_line"/>
 
-<!-- Heatmap header -->
-<text x="110" y="540" fill="#6e7781" font-size="13">
-  contributions · last 26 weeks
-</text>
-<text x="750" y="540" fill="#6e7781" font-size="13">streak:</text>
-<text x="805" y="540" fill="#1a7f37"   font-size="13">14 days</text>
+<!-- Heatmap header: label left, streak right -->
+<text x="110" y="538" fill="#6e7781" font-size="13">contributions · last 26 weeks</text>
+<text x="820" y="538" fill="#6e7781" font-size="13">streak: <tspan fill="#1a7f37">14 days</tspan></text>
 
-<!-- Day labels -->
-<text x="98" y="558" fill="#6e7781" font-size="11" text-anchor="end">Mon</text>
-<text x="98" y="580" fill="#6e7781" font-size="11" text-anchor="end">Wed</text>
-<text x="98" y="602" fill="#6e7781" font-size="11" text-anchor="end">Fri</text>
+<!-- Day labels (Mon=row1, Wed=row3, Fri=row5 of 0-indexed weekday) -->
+<text x="104" y="556" fill="#6e7781" font-size="11" text-anchor="end">Mon</text>
+<text x="104" y="580" fill="#6e7781" font-size="11" text-anchor="end">Wed</text>
+<text x="104" y="604" fill="#6e7781" font-size="11" text-anchor="end">Fri</text>
 
-<!-- Contribution heatmap -->
+<!-- Contribution heatmap grid -->
 <rect x="110" y="545" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-12: 0 contributions</title></rect>
 <rect x="110" y="557" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-13: 0 contributions</title></rect>
 <rect x="110" y="569" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-14: 0 contributions</title></rect>
@@ -381,15 +382,15 @@ text, tspan { white-space: pre; }
 <rect x="410" y="581" width="10" height="10" rx="2" fill="#40c463"><title>2026-04-08: 4 contributions</title></rect>
 <rect x="410" y="593" width="10" height="10" rx="2" fill="#40c463"><title>2026-04-09: 5 contributions</title></rect>
 <rect x="410" y="605" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-04-10: 2 contributions</title></rect>
-<rect x="410" y="617" width="10" height="10" rx="2" fill="#216e39"><title>2026-04-11: 20 contributions</title></rect>
+<rect x="410" y="617" width="10" height="10" rx="2" fill="#216e39"><title>2026-04-11: 21 contributions</title></rect>
 
-<!-- Heatmap legend -->
-<text x="855" y="540" fill="#6e7781" font-size="11">less</text>
-<rect x="870" y="530" width="10" height="10" rx="2" fill="#ebedf0"/><rect x="883" y="530" width="10" height="10" rx="2" fill="#9be9a8"/><rect x="896" y="530" width="10" height="10" rx="2" fill="#40c463"/><rect x="909" y="530" width="10" height="10" rx="2" fill="#30a14e"/><rect x="922" y="530" width="10" height="10" rx="2" fill="#216e39"/>
-<text x="935" y="540" fill="#6e7781" font-size="11">more</text>
+<!-- Legend: less □□□□□ more — bottom-right, below grid -->
+<text x="855" y="622" fill="#6e7781" font-size="11">less</text>
+<rect x="870" y="608" width="10" height="10" rx="2" fill="#ebedf0"/><rect x="883" y="608" width="10" height="10" rx="2" fill="#9be9a8"/><rect x="896" y="608" width="10" height="10" rx="2" fill="#40c463"/><rect x="909" y="608" width="10" height="10" rx="2" fill="#30a14e"/><rect x="922" y="608" width="10" height="10" rx="2" fill="#216e39"/>
+<text x="935" y="622" fill="#6e7781" font-size="11">more</text>
 
 <!-- Separator before marquee -->
-<line x1="0" y1="625" x2="985" y2="625"
+<line x1="0" y1="628" x2="985" y2="628"
       stroke="#d0d7de" stroke-width="1"/>
 
 <!-- Scrolling featured project marquee -->
