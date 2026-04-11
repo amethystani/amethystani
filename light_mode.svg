@@ -1,68 +1,401 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<svg xmlns="http://www.w3.org/2000/svg" font-family="ConsolasFallback,Consolas,monospace" width="985px" height="530px" font-size="16px">
+<svg xmlns="http://www.w3.org/2000/svg"
+     font-family="ConsolasFallback,Consolas,monospace"
+     width="985px" height="665px" font-size="16px">
+
+<defs>
+  <!-- Marquee clip -->
+  <clipPath id="marquee_clip">
+    <rect x="0" y="632" width="985" height="28"/>
+  </clipPath>
+  <!-- Amethyst gradient for card border -->
+  <linearGradient id="border_grad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%"   stop-color="#8250df" stop-opacity="0.6"/>
+    <stop offset="50%"  stop-color="#d0d7de" stop-opacity="1"/>
+    <stop offset="100%" stop-color="#8250df" stop-opacity="0.6"/>
+  </linearGradient>
+</defs>
+
 <style>
 @font-face {
-src: local('Consolas'), local('Consolas Bold');
-font-family: 'ConsolasFallback';
-font-display: swap;
--webkit-size-adjust: 109%;
-size-adjust: 109%;
+  src: local('Consolas'), local('Consolas Bold');
+  font-family: 'ConsolasFallback';
+  font-display: swap;
+  -webkit-size-adjust: 109%;
+  size-adjust: 109%;
 }
-.key {fill: #953800;}
-.value {fill: #0a3069;}
-.addColor {fill: #1a7f37;}
-.delColor {fill: #cf222e;}
-.cc {fill: #656d76;}
-text, tspan {white-space: pre;}
+text, tspan { white-space: pre; }
+
+/* ── blink cursor ── */
+@keyframes blink {
+  0%,49% { opacity:1; } 50%,100% { opacity:0; }
+}
+.cursor { animation: blink 1.2s step-end infinite; }
+
+/* ── ASCII art amethyst glow ── */
+@keyframes glow {
+  0%,100% { filter: drop-shadow(0 0 2px #8250df88); }
+  50%     { filter: drop-shadow(0 0 9px #8250dfcc); }
+}
+.ascii_glow { animation: glow 4s ease-in-out infinite; }
+
+/* ── staggered fade-in for stat rows ── */
+@keyframes fadein {
+  from { opacity:0; transform:translateX(-6px); }
+  to   { opacity:1; transform:translateX(0);    }
+}
+.r0 { animation: fadein 0.45s ease-out 0.05s both; }.r1 { animation: fadein 0.45s ease-out 0.12s both; }.r2 { animation: fadein 0.45s ease-out 0.19s both; }.r3 { animation: fadein 0.45s ease-out 0.26s both; }.r4 { animation: fadein 0.45s ease-out 0.33s both; }.r5 { animation: fadein 0.45s ease-out 0.40s both; }.r6 { animation: fadein 0.45s ease-out 0.47s both; }.r7 { animation: fadein 0.45s ease-out 0.54s both; }.r8 { animation: fadein 0.45s ease-out 0.61s both; }.r9 { animation: fadein 0.45s ease-out 0.68s both; }.r10 { animation: fadein 0.45s ease-out 0.75s both; }.r11 { animation: fadein 0.45s ease-out 0.82s both; }.r12 { animation: fadein 0.45s ease-out 0.89s both; }.r13 { animation: fadein 0.45s ease-out 0.96s both; }.r14 { animation: fadein 0.45s ease-out 1.03s both; }.r15 { animation: fadein 0.45s ease-out 1.10s both; }.r16 { animation: fadein 0.45s ease-out 1.17s both; }.r17 { animation: fadein 0.45s ease-out 1.24s both; }.r18 { animation: fadein 0.45s ease-out 1.31s both; }.r19 { animation: fadein 0.45s ease-out 1.38s both; }.r20 { animation: fadein 0.45s ease-out 1.45s both; }.r21 { animation: fadein 0.45s ease-out 1.52s both; }.r22 { animation: fadein 0.45s ease-out 1.59s both; }.r23 { animation: fadein 0.45s ease-out 1.66s both; }.r24 { animation: fadein 0.45s ease-out 1.73s both; }.r25 { animation: fadein 0.45s ease-out 1.80s both; }.r26 { animation: fadein 0.45s ease-out 1.87s both; }.r27 { animation: fadein 0.45s ease-out 1.94s both; }
+
+/* ── animated language bar fill ── */
+@keyframes bar_fill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+.bar_fill {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: bar_fill 1.4s cubic-bezier(0.22,0.61,0.36,1) 1.2s both;
+}
+
+/* ── self-drawing separator lines ── */
+@keyframes draw_line {
+  from { stroke-dashoffset: 1000; }
+  to   { stroke-dashoffset: 0;    }
+}
+.draw_line {
+  stroke-dasharray: 1000;
+  animation: draw_line 1.2s ease-out 0.1s both;
+}
+
+/* ── scrolling marquee ── */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.33%); }
+}
+.marquee_inner {
+  animation: marquee 32s linear infinite;
+  white-space: nowrap;
+}
+
+/* ── contribution cell pulse on high-activity days ── */
+@keyframes cell_pulse {
+  0%,100% { opacity:1;   }
+  50%     { opacity:0.7; }
+}
+.hot_cell { animation: cell_pulse 2s ease-in-out infinite; }
+
+/* ── header underline draw ── */
+@keyframes draw_underline {
+  from { stroke-dashoffset: 600; }
+  to   { stroke-dashoffset: 0;   }
+}
+.draw_underline {
+  stroke-dasharray: 600;
+  animation: draw_underline 0.9s ease-out 0.3s both;
+}
 </style>
-<rect width="985px" height="520px" fill="#ffffff" rx="15" stroke="#d0d7de" stroke-width="1"/>
-<text x="5" y="30" fill="#1f2328" class="ascii">
-<tspan x="5" y="30">              *   '''`````'''</tspan>
-<tspan x="5" y="50">          *</tspan>
-<tspan x="5" y="70">       *</tspan>
-<tspan x="5" y="90">     *           ..i'            q.</tspan>
-<tspan x="5" y="110">   *         .poj;               \*.</tspan>
-<tspan x="5" y="130">  .         oKPO                  THk</tspan>
-<tspan x="5" y="150"> .k        {HHk`                   THH,</tspan>
-<tspan x="5" y="170"> dH,       ;YJH.                   YHHk</tspan>
-<tspan x="5" y="190">{HHk       :lHHk                   jHHH}</tspan>
-<tspan x="5" y="210"> THHk      `NJHH,                 .HHHl'</tspan>
-<tspan x="5" y="230">  THHk,     lHHHHk                jHHHHP</tspan>
-<tspan x="5" y="250">   THHHi:,  `GHHHHH,.           .'HHHHH</tspan>
-<tspan x="5" y="270">   `THHHHHHi\WHHHHHkoo....ooooojHHHHHHF</tspan>
-<tspan x="5" y="290">    `*THHHH`THHHHHHHHHHHHHHHHHHHHHHHHl</tspan>
-<tspan x="5" y="310">     `*THHHYHHHHHHHHHHHHHHHHHHHHHHHI</tspan>
-<tspan x="5" y="330">       `*THHYHHHHHHHHHHHHHHHHHHHHHH}</tspan>
-<tspan x="5" y="350">         `*THHHHHHHHHHHHHHHHHHHHHH}</tspan>
-<tspan x="5" y="370">           `THHHHHHHHHHHHHHHHHHHP</tspan>
-<tspan x="5" y="390">            `THHHHHHHHHHHHHHHHHP</tspan>
-<tspan x="5" y="410">             `THHHHHHHHHHHHHHHP</tspan>
-<tspan x="5" y="430">              `THHHHHHHHHHHHHP</tspan>
-<tspan x="5" y="450">               `THHHHHHHHHHHP</tspan>
-<tspan x="5" y="470">               `THHHHHHHHHHHP</tspan>
-<tspan x="5" y="490">               `THHHHHHHHHHHP</tspan>
-<tspan x="5" y="510">               `THHHHHHHHHHHP</tspan>
+
+<!-- Card background -->
+<rect width="985" height="655" fill="#f6f8fa" rx="15"
+      stroke="url(#border_grad)" stroke-width="1.5"/>
+
+<!-- Chrome bar top-left (ASCII panel) -->
+<rect x="0" y="0" width="385" height="20" fill="#eaeef2" rx="12"/>
+<rect x="0" y="10" width="385" height="10" fill="#eaeef2"/>
+<circle cx="16" cy="11" r="5" fill="#ff5f56"/>
+<circle cx="32" cy="11" r="5" fill="#ffbd2e"/>
+<circle cx="48" cy="11" r="5" fill="#27c93f"/>
+
+<!-- Vertical divider -->
+<line x1="385" y1="0" x2="385" y2="616"
+      stroke="#d0d7de" stroke-width="1" class="draw_line"/>
+
+<!-- ASCII art with amethyst glow -->
+<g class="ascii_glow">
+  <text x="5" y="20" fill="#1f2328" font-size="15.5">
+<tspan x="5" y="20">              *   '''`````'''</tspan>
+<tspan x="5" y="40">          *</tspan>
+<tspan x="5" y="60">       *</tspan>
+<tspan x="5" y="80">     *           ..i'            q.</tspan>
+<tspan x="5" y="100">   *         .poj;               \*.</tspan>
+<tspan x="5" y="120">  .         oKPO                  THk</tspan>
+<tspan x="5" y="140"> .k        {HHk`                   THH,</tspan>
+<tspan x="5" y="160"> dH,       ;YJH.                   YHHk</tspan>
+<tspan x="5" y="180">{HHk       :lHHk                   jHHH}</tspan>
+<tspan x="5" y="200"> THHk      `NJHH,                 .HHHl'</tspan>
+<tspan x="5" y="220">  THHk,     lHHHHk                jHHHHP</tspan>
+<tspan x="5" y="240">   THHHi:,  `GHHHHH,.           .'HHHHH</tspan>
+<tspan x="5" y="260">   `THHHHHHi\WHHHHHkoo....ooooojHHHHHHF</tspan>
+<tspan x="5" y="280">    `*THHHH`THHHHHHHHHHHHHHHHHHHHHHHHl</tspan>
+<tspan x="5" y="300">     `*THHHYHHHHHHHHHHHHHHHHHHHHHHHI</tspan>
+<tspan x="5" y="320">       `*THHYHHHHHHHHHHHHHHHHHHHHHH}</tspan>
+<tspan x="5" y="340">         `*THHHHHHHHHHHHHHHHHHHHHH}</tspan>
+<tspan x="5" y="360">           `THHHHHHHHHHHHHHHHHHHP</tspan>
+<tspan x="5" y="380">            `THHHHHHHHHHHHHHHHHP</tspan>
+<tspan x="5" y="400">             `THHHHHHHHHHHHHHHP</tspan>
+<tspan x="5" y="420">              `THHHHHHHHHHHHHP</tspan>
+<tspan x="5" y="440">               `THHHHHHHHHHHP</tspan>
+<tspan x="5" y="460">               `THHHHHHHHHHHP</tspan>
+<tspan x="5" y="480">               `THHHHHHHHHHHP</tspan>
+  </text>
+</g>
+
+<!-- Right panel stats -->
+<text x="390" y="30" class="r0" font-size="15"><tspan fill="#1f2328">amethystani</tspan><tspan fill="#6e7781"> — </tspan><tspan fill="#8250df">building something new</tspan></text><line x1="390" y1="35" x2="980" y2="35" stroke="#d0d7de" stroke-width="1" class="draw_underline"/>
+<text x="390" y="55" class="r1" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">OS</tspan><tspan fill="#6e7781">: ·························· </tspan><tspan fill="#0550ae">Sequoia 15.5 / iOS 18.5 / Linux</tspan></text>
+<text x="390" y="75" class="r2" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Uptime</tspan><tspan fill="#6e7781">: ······················ </tspan><tspan fill="#0550ae">23 years, 9 months, 6 days</tspan></text>
+<text x="390" y="95" class="r3" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Site</tspan><tspan fill="#6e7781">: ························ </tspan><tspan fill="#0550ae">animeshmishra.us</tspan></text>
+<text x="390" y="115" class="r4" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">IDE</tspan><tspan fill="#6e7781">: ························· </tspan><tspan fill="#0550ae">Cursor, VSCode, IDEA</tspan></text>
+<text x="390" y="135" class="r5" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Shell</tspan><tspan fill="#6e7781">: ······················· </tspan><tspan fill="#0550ae">zsh  ·  iTerm2</tspan></text>
+<text x="390" y="165" class="r6" font-size="15" fill="#6e7781">.</text>
+<text x="390" y="185" class="r7" font-size="15"><tspan fill="#6e7781">- </tspan><tspan fill="#1f2328">Top Languages (by bytes written)</tspan><tspan fill="#6e7781"> -</tspan></text><line x1="740" y1="181" x2="980" y2="181" stroke="#d0d7de" stroke-width="1" class="draw_underline"/>
+<text x="390" y="200" fill="#6e7781" font-size="15">. </text><text x="408" y="200" fill="#953800" font-size="15">HTML</text>
+<rect x="520" y="188" width="130" height="9" rx="3" fill="#eaeef2"/>
+<rect x="520" y="188" width="88" height="9" rx="3" fill="#e34c26" class="bar_fill" style="animation-delay:1.20s"/>
+<text x="660" y="200" fill="#0550ae" font-size="14">68.0%</text>
+<text x="390" y="230" fill="#6e7781" font-size="15">. </text><text x="408" y="230" fill="#953800" font-size="15">Python</text>
+<rect x="520" y="218" width="130" height="9" rx="3" fill="#eaeef2"/>
+<rect x="520" y="218" width="15" height="9" rx="3" fill="#3572A5" class="bar_fill" style="animation-delay:1.35s"/>
+<text x="660" y="230" fill="#0550ae" font-size="14">12.0%</text>
+<text x="390" y="260" fill="#6e7781" font-size="15">. </text><text x="408" y="260" fill="#953800" font-size="15">TeX</text>
+<rect x="520" y="248" width="130" height="9" rx="3" fill="#eaeef2"/>
+<rect x="520" y="248" width="12" height="9" rx="3" fill="#3D6117" class="bar_fill" style="animation-delay:1.50s"/>
+<text x="660" y="260" fill="#0550ae" font-size="14">9.8%</text>
+<text x="390" y="290" fill="#6e7781" font-size="15">. </text><text x="408" y="290" fill="#953800" font-size="15">TypeScript</text>
+<rect x="520" y="278" width="130" height="9" rx="3" fill="#eaeef2"/>
+<rect x="520" y="278" width="4" height="9" rx="3" fill="#3178c6" class="bar_fill" style="animation-delay:1.65s"/>
+<text x="660" y="290" fill="#0550ae" font-size="14">3.8%</text>
+<text x="390" y="320" fill="#6e7781" font-size="15">. </text><text x="408" y="320" fill="#953800" font-size="15">JavaScript</text>
+<rect x="520" y="308" width="130" height="9" rx="3" fill="#eaeef2"/>
+<rect x="520" y="308" width="3" height="9" rx="3" fill="#f1e05a" class="bar_fill" style="animation-delay:1.80s"/>
+<text x="660" y="320" fill="#0550ae" font-size="14">2.5%</text>
+<text x="390" y="360" class="r8" font-size="15" fill="#6e7781">.</text>
+<text x="390" y="382" class="r9" font-size="15"><tspan fill="#6e7781">- </tspan><tspan fill="#1f2328">Contact</tspan><tspan fill="#6e7781"> -</tspan></text><line x1="500" y1="378" x2="980" y2="378" stroke="#d0d7de" stroke-width="1" class="draw_underline"/>
+<text x="390" y="404" class="r10" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Email</tspan><tspan fill="#6e7781">: ······················· </tspan><tspan fill="#0550ae">animeshmishra0567@gmail.com</tspan></text>
+<text x="390" y="424" class="r11" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">LinkedIn</tspan><tspan fill="#6e7781">: ···················· </tspan><tspan fill="#0550ae">animeshmishra0</tspan></text>
+<text x="390" y="444" class="r12" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Discord</tspan><tspan fill="#6e7781">: ····················· </tspan><tspan fill="#0550ae">sch_rodinger</tspan></text>
+<text x="390" y="464" class="r13" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Work</tspan><tspan fill="#6e7781">: ························ </tspan><tspan fill="#0550ae">am847@snu.edu.in</tspan></text>
+<text x="390" y="470" class="r14" font-size="15" fill="#6e7781">.</text>
+<text x="390" y="486" class="r15" font-size="15"><tspan fill="#6e7781">- </tspan><tspan fill="#1f2328">GitHub Stats</tspan><tspan fill="#6e7781"> -</tspan></text><line x1="548" y1="482" x2="980" y2="482" stroke="#d0d7de" stroke-width="1" class="draw_underline"/>
+<text x="390" y="508" class="r16" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Repos</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">57</tspan><tspan fill="#6e7781">  {contributed: </tspan><tspan fill="#0550ae">67</tspan><tspan fill="#6e7781"  >}  </tspan><tspan fill="#953800">Stars</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">4</tspan></text>
+<text x="390" y="530" class="r17" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Commits</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">2,809</tspan><tspan fill="#6e7781">    </tspan><tspan fill="#953800">Followers</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">92</tspan></text>
+<text x="390" y="552" class="r18" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Lines of Code</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">12,268,526</tspan><tspan fill="#6e7781">  (</tspan><tspan fill="#1a7f37">12,864,952++</tspan><tspan fill="#6e7781">  </tspan><tspan fill="#cf222e">596,426--</tspan><tspan fill="#6e7781">)</tspan></text>
+<text x="390" y="574" class="r19" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Streak</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#1a7f37">14 days</tspan><tspan fill="#6e7781">    </tspan><tspan fill="#953800">Week</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">#15</tspan></text>
+<text x="390" y="596" class="r20" font-size="15"><tspan fill="#8250df">❯</tspan><tspan fill="#6e7781"> </tspan><tspan fill="#1f2328" class="cursor">▊</tspan></text>
+
+<!-- Horizontal separator before heatmap -->
+<line x1="0" y1="522" x2="985" y2="522"
+      stroke="#d0d7de" stroke-width="1" class="draw_line"/>
+
+<!-- Heatmap header -->
+<text x="110" y="540" fill="#6e7781" font-size="13">
+  contributions · last 26 weeks
 </text>
-<text x="390" y="30" fill="#1f2328">
-<tspan x="390" y="30">amethystani</tspan> -———————————————————————————————————————————-—-
-<tspan x="390" y="50" class="cc">. </tspan><tspan class="key">OS</tspan>:<tspan class="cc"> ........................ </tspan><tspan class="value">Sequoia 15.5, iOS 18.5, Linux</tspan>
-<tspan x="390" y="70" class="cc">. </tspan><tspan class="key">Uptime</tspan>:<tspan class="cc" id="age_data_dots"> ....................... </tspan><tspan class="value" id="age_data">2 years, 5 months, 29 days</tspan>
-<tspan x="390" y="130" class="cc">. </tspan><tspan class="key">IDE</tspan>:<tspan class="cc"> ........................ </tspan><tspan class="value">IDEA 2023.3.2, VSCode 1.96.0</tspan>
-<tspan x="390" y="150" class="cc">. </tspan>
-<tspan x="390" y="170" class="cc">. </tspan><tspan class="key">Languages</tspan>.<tspan class="key">Programming</tspan>:<tspan class="cc"> ............... </tspan><tspan class="value">Java, Python, MySql</tspan>
-<tspan x="390" y="190" class="cc">. </tspan><tspan class="key">Languages</tspan>.<tspan class="key">Computer</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">HTML, CSS, JSON, LaTeX, YAML</tspan>
-<tspan x="390" y="210" class="cc">. </tspan><tspan class="key">Languages</tspan>.<tspan class="key">Real</tspan>:<tspan class="cc"> .......................... </tspan><tspan class="value">English, German</tspan>
-<tspan x="390" y="230" class="cc">. </tspan>
-<tspan x="390" y="250" class="cc">. </tspan><tspan class="key">Hobbies</tspan>.<tspan class="key">Software</tspan>:<tspan class="cc"> ........ </tspan><tspan class="value">Scripting, Android Jailbreaking</tspan>
-<tspan x="390" y="270" class="cc">. </tspan><tspan class="key">Hobbies</tspan>.<tspan class="key">Hardware</tspan>:<tspan class="cc"> ............. </tspan><tspan class="value">Overclocking, Undervolting</tspan>
-<tspan x="390" y="310">- Contact</tspan> -——————————————————————————————————————————————-—-
-<tspan x="390" y="330" class="cc">. </tspan><tspan class="key">Email</tspan>.<tspan class="key">Work</tspan>:<tspan class="cc"> ............................. </tspan><tspan class="value">am847@snu.edu.in</tspan>
-<tspan x="390" y="350" class="cc">. </tspan><tspan class="key">Email</tspan>.<tspan class="key">Personal</tspan>:<tspan class="cc"> .............. </tspan><tspan class="value">animeshmishra0567@gmail.com</tspan>
-<tspan x="390" y="390" class="cc">. </tspan><tspan class="key">LinkedIn</tspan>:<tspan class="cc"> ................................. </tspan><tspan class="value">animeshmishra0</tspan>
-<tspan x="390" y="410" class="cc">. </tspan><tspan class="key">Discord</tspan>:<tspan class="cc"> .................................... </tspan><tspan class="value">sch_rodinger</tspan>
-<tspan x="390" y="450">- GitHub Stats</tspan> -—————————————————————————————————————————-—-
-<tspan x="390" y="470" class="cc">. </tspan><tspan class="key">Repos</tspan>:<tspan class="cc" id="repo_data_dots"> .... </tspan><tspan class="value" id="repo_data">38</tspan> {<tspan class="key">Contributed</tspan>: <tspan class="value" id="contrib_data">40</tspan>}  | <tspan class="key">Stars</tspan>:<tspan class="cc" id="star_data_dots"> ............. </tspan><tspan class="value" id="star_data">5</tspan>
-<tspan x="390" y="490" class="cc">. </tspan><tspan class="key">Commmits</tspan>:<tspan class="cc" id="commit_data_dots"> ................. </tspan><tspan class="value" id="commit_data">1,903</tspan> | <tspan class="key">Followers</tspan>:<tspan class="cc" id="follower_data_dots"> ........ </tspan><tspan class="value" id="follower_data">91</tspan>
-<tspan x="390" y="510" class="cc">. </tspan><tspan class="key">Lines of Code</tspan>: <tspan class="cc" id="loc_data_dots"></tspan><tspan class="value" id="loc_data">4,996,451</tspan>        ( <tspan class="addColor" id="loc_add">5,150,515</tspan><tspan class="addColor">++</tspan>, <tspan id="loc_del_dots"></tspan><tspan class="delColor" id="loc_del">154,064</tspan><tspan class="delColor">--</tspan> )
-</text>
+<text x="750" y="540" fill="#6e7781" font-size="13">streak:</text>
+<text x="805" y="540" fill="#1a7f37"   font-size="13">14 days</text>
+
+<!-- Day labels -->
+<text x="98" y="558" fill="#6e7781" font-size="11" text-anchor="end">Mon</text>
+<text x="98" y="580" fill="#6e7781" font-size="11" text-anchor="end">Wed</text>
+<text x="98" y="602" fill="#6e7781" font-size="11" text-anchor="end">Fri</text>
+
+<!-- Contribution heatmap -->
+<rect x="110" y="545" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-12: 0 contributions</title></rect>
+<rect x="110" y="557" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-13: 0 contributions</title></rect>
+<rect x="110" y="569" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-14: 0 contributions</title></rect>
+<rect x="110" y="581" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-15: 0 contributions</title></rect>
+<rect x="110" y="593" width="10" height="10" rx="2" fill="#9be9a8"><title>2025-10-16: 3 contributions</title></rect>
+<rect x="110" y="605" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-17: 0 contributions</title></rect>
+<rect x="110" y="617" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-18: 0 contributions</title></rect>
+<rect x="122" y="545" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-19: 0 contributions</title></rect>
+<rect x="122" y="557" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-20: 0 contributions</title></rect>
+<rect x="122" y="569" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-21: 0 contributions</title></rect>
+<rect x="122" y="581" width="10" height="10" rx="2" fill="#216e39"><title>2025-10-22: 17 contributions</title></rect>
+<rect x="122" y="593" width="10" height="10" rx="2" fill="#40c463"><title>2025-10-23: 4 contributions</title></rect>
+<rect x="122" y="605" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-24: 0 contributions</title></rect>
+<rect x="122" y="617" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-25: 0 contributions</title></rect>
+<rect x="134" y="545" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-26: 0 contributions</title></rect>
+<rect x="134" y="557" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-27: 0 contributions</title></rect>
+<rect x="134" y="569" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-28: 0 contributions</title></rect>
+<rect x="134" y="581" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-29: 0 contributions</title></rect>
+<rect x="134" y="593" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-30: 0 contributions</title></rect>
+<rect x="134" y="605" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-10-31: 0 contributions</title></rect>
+<rect x="134" y="617" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-11-01: 0 contributions</title></rect>
+<rect x="146" y="545" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-11-02: 0 contributions</title></rect>
+<rect x="146" y="557" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-11-03: 0 contributions</title></rect>
+<rect x="146" y="569" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-11-04: 0 contributions</title></rect>
+<rect x="146" y="581" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-11-05: 0 contributions</title></rect>
+<rect x="146" y="593" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-11-06: 0 contributions</title></rect>
+<rect x="146" y="605" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-11-07: 0 contributions</title></rect>
+<rect x="146" y="617" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-11-08: 0 contributions</title></rect>
+<rect x="158" y="545" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-11-09: 0 contributions</title></rect>
+<rect x="158" y="557" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-11-10: 0 contributions</title></rect>
+<rect x="158" y="569" width="10" height="10" rx="2" fill="#9be9a8"><title>2025-11-11: 2 contributions</title></rect>
+<rect x="158" y="581" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-11-12: 0 contributions</title></rect>
+<rect x="158" y="593" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-11-13: 0 contributions</title></rect>
+<rect x="158" y="605" width="10" height="10" rx="2" fill="#216e39"><title>2025-11-14: 18 contributions</title></rect>
+<rect x="158" y="617" width="10" height="10" rx="2" fill="#216e39"><title>2025-11-15: 14 contributions</title></rect>
+<rect x="170" y="545" width="10" height="10" rx="2" fill="#216e39"><title>2025-11-16: 12 contributions</title></rect>
+<rect x="170" y="557" width="10" height="10" rx="2" fill="#216e39"><title>2025-11-17: 48 contributions</title></rect>
+<rect x="170" y="569" width="10" height="10" rx="2" fill="#40c463"><title>2025-11-18: 4 contributions</title></rect>
+<rect x="170" y="581" width="10" height="10" rx="2" fill="#30a14e"><title>2025-11-19: 8 contributions</title></rect>
+<rect x="170" y="593" width="10" height="10" rx="2" fill="#216e39"><title>2025-11-20: 12 contributions</title></rect>
+<rect x="170" y="605" width="10" height="10" rx="2" fill="#216e39"><title>2025-11-21: 12 contributions</title></rect>
+<rect x="170" y="617" width="10" height="10" rx="2" fill="#216e39"><title>2025-11-22: 23 contributions</title></rect>
+<rect x="182" y="545" width="10" height="10" rx="2" fill="#216e39"><title>2025-11-23: 10 contributions</title></rect>
+<rect x="182" y="557" width="10" height="10" rx="2" fill="#216e39"><title>2025-11-24: 14 contributions</title></rect>
+<rect x="182" y="569" width="10" height="10" rx="2" fill="#30a14e"><title>2025-11-25: 9 contributions</title></rect>
+<rect x="182" y="581" width="10" height="10" rx="2" fill="#216e39"><title>2025-11-26: 12 contributions</title></rect>
+<rect x="182" y="593" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-11-27: 0 contributions</title></rect>
+<rect x="182" y="605" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-11-28: 0 contributions</title></rect>
+<rect x="182" y="617" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-11-29: 0 contributions</title></rect>
+<rect x="194" y="545" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-11-30: 0 contributions</title></rect>
+<rect x="194" y="557" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-12-01: 0 contributions</title></rect>
+<rect x="194" y="569" width="10" height="10" rx="2" fill="#30a14e"><title>2025-12-02: 8 contributions</title></rect>
+<rect x="194" y="581" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-12-03: 0 contributions</title></rect>
+<rect x="194" y="593" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-12-04: 0 contributions</title></rect>
+<rect x="194" y="605" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-12-05: 0 contributions</title></rect>
+<rect x="194" y="617" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-12-06: 0 contributions</title></rect>
+<rect x="206" y="545" width="10" height="10" rx="2" fill="#216e39"><title>2025-12-07: 10 contributions</title></rect>
+<rect x="206" y="557" width="10" height="10" rx="2" fill="#9be9a8"><title>2025-12-08: 2 contributions</title></rect>
+<rect x="206" y="569" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-12-09: 0 contributions</title></rect>
+<rect x="206" y="581" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-12-10: 0 contributions</title></rect>
+<rect x="206" y="593" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-12-11: 0 contributions</title></rect>
+<rect x="206" y="605" width="10" height="10" rx="2" fill="#216e39"><title>2025-12-12: 34 contributions</title></rect>
+<rect x="206" y="617" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-12-13: 0 contributions</title></rect>
+<rect x="218" y="545" width="10" height="10" rx="2" fill="#30a14e"><title>2025-12-14: 7 contributions</title></rect>
+<rect x="218" y="557" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-12-15: 0 contributions</title></rect>
+<rect x="218" y="569" width="10" height="10" rx="2" fill="#9be9a8"><title>2025-12-16: 1 contribution</title></rect>
+<rect x="218" y="581" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-12-17: 0 contributions</title></rect>
+<rect x="218" y="593" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-12-18: 0 contributions</title></rect>
+<rect x="218" y="605" width="10" height="10" rx="2" fill="#216e39"><title>2025-12-19: 12 contributions</title></rect>
+<rect x="218" y="617" width="10" height="10" rx="2" fill="#216e39"><title>2025-12-20: 68 contributions</title></rect>
+<rect x="230" y="545" width="10" height="10" rx="2" fill="#216e39"><title>2025-12-21: 44 contributions</title></rect>
+<rect x="230" y="557" width="10" height="10" rx="2" fill="#40c463"><title>2025-12-22: 4 contributions</title></rect>
+<rect x="230" y="569" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-12-23: 0 contributions</title></rect>
+<rect x="230" y="581" width="10" height="10" rx="2" fill="#216e39"><title>2025-12-24: 28 contributions</title></rect>
+<rect x="230" y="593" width="10" height="10" rx="2" fill="#40c463"><title>2025-12-25: 6 contributions</title></rect>
+<rect x="230" y="605" width="10" height="10" rx="2" fill="#216e39"><title>2025-12-26: 78 contributions</title></rect>
+<rect x="230" y="617" width="10" height="10" rx="2" fill="#216e39"><title>2025-12-27: 10 contributions</title></rect>
+<rect x="242" y="545" width="10" height="10" rx="2" fill="#216e39"><title>2025-12-28: 20 contributions</title></rect>
+<rect x="242" y="557" width="10" height="10" rx="2" fill="#216e39"><title>2025-12-29: 20 contributions</title></rect>
+<rect x="242" y="569" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-12-30: 0 contributions</title></rect>
+<rect x="242" y="581" width="10" height="10" rx="2" fill="#ebedf0"><title>2025-12-31: 0 contributions</title></rect>
+<rect x="242" y="593" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-01: 0 contributions</title></rect>
+<rect x="242" y="605" width="10" height="10" rx="2" fill="#216e39"><title>2026-01-02: 10 contributions</title></rect>
+<rect x="242" y="617" width="10" height="10" rx="2" fill="#40c463"><title>2026-01-03: 4 contributions</title></rect>
+<rect x="254" y="545" width="10" height="10" rx="2" fill="#216e39"><title>2026-01-04: 28 contributions</title></rect>
+<rect x="254" y="557" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-05: 0 contributions</title></rect>
+<rect x="254" y="569" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-01-06: 2 contributions</title></rect>
+<rect x="254" y="581" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-07: 0 contributions</title></rect>
+<rect x="254" y="593" width="10" height="10" rx="2" fill="#216e39"><title>2026-01-08: 16 contributions</title></rect>
+<rect x="254" y="605" width="10" height="10" rx="2" fill="#216e39"><title>2026-01-09: 49 contributions</title></rect>
+<rect x="254" y="617" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-01-10: 2 contributions</title></rect>
+<rect x="266" y="545" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-11: 0 contributions</title></rect>
+<rect x="266" y="557" width="10" height="10" rx="2" fill="#30a14e"><title>2026-01-12: 7 contributions</title></rect>
+<rect x="266" y="569" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-13: 0 contributions</title></rect>
+<rect x="266" y="581" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-14: 0 contributions</title></rect>
+<rect x="266" y="593" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-01-15: 2 contributions</title></rect>
+<rect x="266" y="605" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-16: 0 contributions</title></rect>
+<rect x="266" y="617" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-17: 0 contributions</title></rect>
+<rect x="278" y="545" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-18: 0 contributions</title></rect>
+<rect x="278" y="557" width="10" height="10" rx="2" fill="#40c463"><title>2026-01-19: 4 contributions</title></rect>
+<rect x="278" y="569" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-20: 0 contributions</title></rect>
+<rect x="278" y="581" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-21: 0 contributions</title></rect>
+<rect x="278" y="593" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-22: 0 contributions</title></rect>
+<rect x="278" y="605" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-23: 0 contributions</title></rect>
+<rect x="278" y="617" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-24: 0 contributions</title></rect>
+<rect x="290" y="545" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-25: 0 contributions</title></rect>
+<rect x="290" y="557" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-26: 0 contributions</title></rect>
+<rect x="290" y="569" width="10" height="10" rx="2" fill="#40c463"><title>2026-01-27: 6 contributions</title></rect>
+<rect x="290" y="581" width="10" height="10" rx="2" fill="#30a14e"><title>2026-01-28: 7 contributions</title></rect>
+<rect x="290" y="593" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-29: 0 contributions</title></rect>
+<rect x="290" y="605" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-30: 0 contributions</title></rect>
+<rect x="290" y="617" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-01-31: 0 contributions</title></rect>
+<rect x="302" y="545" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-02-01: 0 contributions</title></rect>
+<rect x="302" y="557" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-02-02: 0 contributions</title></rect>
+<rect x="302" y="569" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-02-03: 0 contributions</title></rect>
+<rect x="302" y="581" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-02-04: 0 contributions</title></rect>
+<rect x="302" y="593" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-02-05: 0 contributions</title></rect>
+<rect x="302" y="605" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-02-06: 0 contributions</title></rect>
+<rect x="302" y="617" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-02-07: 0 contributions</title></rect>
+<rect x="314" y="545" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-02-08: 1 contribution</title></rect>
+<rect x="314" y="557" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-02-09: 0 contributions</title></rect>
+<rect x="314" y="569" width="10" height="10" rx="2" fill="#216e39"><title>2026-02-10: 12 contributions</title></rect>
+<rect x="314" y="581" width="10" height="10" rx="2" fill="#40c463"><title>2026-02-11: 6 contributions</title></rect>
+<rect x="314" y="593" width="10" height="10" rx="2" fill="#216e39"><title>2026-02-12: 63 contributions</title></rect>
+<rect x="314" y="605" width="10" height="10" rx="2" fill="#216e39"><title>2026-02-13: 14 contributions</title></rect>
+<rect x="314" y="617" width="10" height="10" rx="2" fill="#30a14e"><title>2026-02-14: 8 contributions</title></rect>
+<rect x="326" y="545" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-02-15: 0 contributions</title></rect>
+<rect x="326" y="557" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-02-16: 0 contributions</title></rect>
+<rect x="326" y="569" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-02-17: 0 contributions</title></rect>
+<rect x="326" y="581" width="10" height="10" rx="2" fill="#40c463"><title>2026-02-18: 6 contributions</title></rect>
+<rect x="326" y="593" width="10" height="10" rx="2" fill="#216e39"><title>2026-02-19: 13 contributions</title></rect>
+<rect x="326" y="605" width="10" height="10" rx="2" fill="#216e39"><title>2026-02-20: 15 contributions</title></rect>
+<rect x="326" y="617" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-02-21: 0 contributions</title></rect>
+<rect x="338" y="545" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-02-22: 0 contributions</title></rect>
+<rect x="338" y="557" width="10" height="10" rx="2" fill="#216e39"><title>2026-02-23: 14 contributions</title></rect>
+<rect x="338" y="569" width="10" height="10" rx="2" fill="#40c463"><title>2026-02-24: 4 contributions</title></rect>
+<rect x="338" y="581" width="10" height="10" rx="2" fill="#216e39"><title>2026-02-25: 16 contributions</title></rect>
+<rect x="338" y="593" width="10" height="10" rx="2" fill="#40c463"><title>2026-02-26: 5 contributions</title></rect>
+<rect x="338" y="605" width="10" height="10" rx="2" fill="#40c463"><title>2026-02-27: 6 contributions</title></rect>
+<rect x="338" y="617" width="10" height="10" rx="2" fill="#40c463"><title>2026-02-28: 5 contributions</title></rect>
+<rect x="350" y="545" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-03-01: 1 contribution</title></rect>
+<rect x="350" y="557" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-03-02: 2 contributions</title></rect>
+<rect x="350" y="569" width="10" height="10" rx="2" fill="#30a14e"><title>2026-03-03: 7 contributions</title></rect>
+<rect x="350" y="581" width="10" height="10" rx="2" fill="#40c463"><title>2026-03-04: 4 contributions</title></rect>
+<rect x="350" y="593" width="10" height="10" rx="2" fill="#30a14e"><title>2026-03-05: 8 contributions</title></rect>
+<rect x="350" y="605" width="10" height="10" rx="2" fill="#216e39"><title>2026-03-06: 11 contributions</title></rect>
+<rect x="350" y="617" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-03-07: 0 contributions</title></rect>
+<rect x="362" y="545" width="10" height="10" rx="2" fill="#40c463"><title>2026-03-08: 4 contributions</title></rect>
+<rect x="362" y="557" width="10" height="10" rx="2" fill="#216e39"><title>2026-03-09: 14 contributions</title></rect>
+<rect x="362" y="569" width="10" height="10" rx="2" fill="#216e39"><title>2026-03-10: 15 contributions</title></rect>
+<rect x="362" y="581" width="10" height="10" rx="2" fill="#216e39"><title>2026-03-11: 16 contributions</title></rect>
+<rect x="362" y="593" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-03-12: 0 contributions</title></rect>
+<rect x="362" y="605" width="10" height="10" rx="2" fill="#40c463"><title>2026-03-13: 6 contributions</title></rect>
+<rect x="362" y="617" width="10" height="10" rx="2" fill="#40c463"><title>2026-03-14: 6 contributions</title></rect>
+<rect x="374" y="545" width="10" height="10" rx="2" fill="#216e39"><title>2026-03-15: 20 contributions</title></rect>
+<rect x="374" y="557" width="10" height="10" rx="2" fill="#216e39"><title>2026-03-16: 19 contributions</title></rect>
+<rect x="374" y="569" width="10" height="10" rx="2" fill="#216e39"><title>2026-03-17: 18 contributions</title></rect>
+<rect x="374" y="581" width="10" height="10" rx="2" fill="#40c463"><title>2026-03-18: 4 contributions</title></rect>
+<rect x="374" y="593" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-03-19: 1 contribution</title></rect>
+<rect x="374" y="605" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-03-20: 3 contributions</title></rect>
+<rect x="374" y="617" width="10" height="10" rx="2" fill="#216e39"><title>2026-03-21: 23 contributions</title></rect>
+<rect x="386" y="545" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-03-22: 3 contributions</title></rect>
+<rect x="386" y="557" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-03-23: 3 contributions</title></rect>
+<rect x="386" y="569" width="10" height="10" rx="2" fill="#216e39"><title>2026-03-24: 22 contributions</title></rect>
+<rect x="386" y="581" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-03-25: 2 contributions</title></rect>
+<rect x="386" y="593" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-03-26: 2 contributions</title></rect>
+<rect x="386" y="605" width="10" height="10" rx="2" fill="#40c463"><title>2026-03-27: 4 contributions</title></rect>
+<rect x="386" y="617" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-03-28: 0 contributions</title></rect>
+<rect x="398" y="545" width="10" height="10" rx="2" fill="#40c463"><title>2026-03-29: 5 contributions</title></rect>
+<rect x="398" y="557" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-03-30: 2 contributions</title></rect>
+<rect x="398" y="569" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-03-31: 3 contributions</title></rect>
+<rect x="398" y="581" width="10" height="10" rx="2" fill="#216e39"><title>2026-04-01: 18 contributions</title></rect>
+<rect x="398" y="593" width="10" height="10" rx="2" fill="#216e39"><title>2026-04-02: 20 contributions</title></rect>
+<rect x="398" y="605" width="10" height="10" rx="2" fill="#40c463"><title>2026-04-03: 6 contributions</title></rect>
+<rect x="398" y="617" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-04-04: 2 contributions</title></rect>
+<rect x="410" y="545" width="10" height="10" rx="2" fill="#30a14e"><title>2026-04-05: 7 contributions</title></rect>
+<rect x="410" y="557" width="10" height="10" rx="2" fill="#40c463"><title>2026-04-06: 4 contributions</title></rect>
+<rect x="410" y="569" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-04-07: 3 contributions</title></rect>
+<rect x="410" y="581" width="10" height="10" rx="2" fill="#40c463"><title>2026-04-08: 4 contributions</title></rect>
+<rect x="410" y="593" width="10" height="10" rx="2" fill="#40c463"><title>2026-04-09: 5 contributions</title></rect>
+<rect x="410" y="605" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-04-10: 2 contributions</title></rect>
+<rect x="410" y="617" width="10" height="10" rx="2" fill="#216e39"><title>2026-04-11: 20 contributions</title></rect>
+
+<!-- Heatmap legend -->
+<text x="855" y="540" fill="#6e7781" font-size="11">less</text>
+<rect x="870" y="530" width="10" height="10" rx="2" fill="#ebedf0"/><rect x="883" y="530" width="10" height="10" rx="2" fill="#9be9a8"/><rect x="896" y="530" width="10" height="10" rx="2" fill="#40c463"/><rect x="909" y="530" width="10" height="10" rx="2" fill="#30a14e"/><rect x="922" y="530" width="10" height="10" rx="2" fill="#216e39"/>
+<text x="935" y="540" fill="#6e7781" font-size="11">more</text>
+
+<!-- Separator before marquee -->
+<line x1="0" y1="625" x2="985" y2="625"
+      stroke="#d0d7de" stroke-width="1"/>
+
+<!-- Scrolling featured project marquee -->
+<g clip-path="url(#marquee_clip)">
+  <text y="646" fill="#6e7781" font-size="13" class="marquee_inner"
+        dominant-baseline="middle">  📌  featured · legalnexus-backend  ·  Legal AI platform with Hyperbolic GNNs, Multi-Agent Systems, and Game Theory  ·  HTML  ·  ⭐ 1  ·  🍴 0       📌  featured · legalnexus-backend  ·  Legal AI platform with Hyperbolic GNNs, Multi-Agent Systems, and Game Theory  ·  HTML  ·  ⭐ 1  ·  🍴 0       📌  featured · legalnexus-backend  ·  Legal AI platform with Hyperbolic GNNs, Multi-Agent Systems, and Game Theory  ·  HTML  ·  ⭐ 1  ·  🍴 0     </text>
+</g>
+
 </svg>
