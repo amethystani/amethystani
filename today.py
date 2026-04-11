@@ -153,15 +153,23 @@ def recursive_loc(owner, repo_name, data, cache_comment, addition_total=0, delet
         }
     }'''
     variables = {'repo_name': repo_name, 'owner': owner, 'cursor': cursor}
-    req = requests.post('https://api.github.com/graphql',
-                        json={'query': query, 'variables': variables}, headers=HEADERS)
-    if req.status_code == 200:
-        ref = req.json()['data']['repository']['defaultBranchRef']
-        if ref is not None:
-            return loc_counter_one_repo(owner, repo_name, data, cache_comment,
-                                        ref['target']['history'],
-                                        addition_total, deletion_total, my_commits)
-        return 0
+    # Retry with exponential backoff on transient server errors (502/503)
+    for attempt in range(4):
+        req = requests.post('https://api.github.com/graphql',
+                            json={'query': query, 'variables': variables}, headers=HEADERS)
+        if req.status_code == 200:
+            ref = req.json()['data']['repository']['defaultBranchRef']
+            if ref is not None:
+                return loc_counter_one_repo(owner, repo_name, data, cache_comment,
+                                            ref['target']['history'],
+                                            addition_total, deletion_total, my_commits)
+            return 0
+        if req.status_code in (502, 503) and attempt < 3:
+            wait = 2 ** (attempt + 1)
+            print(f"⚠️  {req.status_code} — retrying in {wait}s (attempt {attempt + 1}/3)")
+            time.sleep(wait)
+            continue
+        break
     force_close_file(data, cache_comment)
     if req.status_code == 403:
         raise Exception('Rate-limited by GitHub anti-abuse')
@@ -247,10 +255,12 @@ def cache_builder(edges, comment_size, force_cache, loc_add=0, loc_del=0):
                 if int(commit_count) != actual:
                     print(f"🔍 Analyzing: {repo_name}")
                     owner, name_only = repo_name.split('/')
+                    time.sleep(0.3)   # gentle pacing to avoid anti-abuse
                     loc = recursive_loc(owner, name_only, data, cache_comment)
                     data[index] = (repo_hash + ' ' + str(actual) + ' ' +
                                    str(loc[2]) + ' ' + str(loc[0]) + ' ' + str(loc[1]) + '\n')
-            except TypeError:
+            except (TypeError, Exception) as exc:
+                print(f"⚠️  Skipping {repo_name}: {exc}")
                 data[index] = repo_hash + ' 0 0 0 0\n'
 
     print(f"💾 Saving cache ({time.perf_counter() - start_time:.2f}s)")
@@ -937,11 +947,16 @@ if __name__ == '__main__':
     age_data, age_time = perf_counter(daily_readme, datetime.datetime(2002, 7, 5))
     formatter('age calculation', age_time)
 
-    total_loc, loc_time = perf_counter(loc_query, ['OWNER', 'COLLABORATOR', 'ORGANIZATION_MEMBER'], 7)
-    formatter('LOC (cached)' if total_loc[-1] else 'LOC (rebuilt)', loc_time)
-
-    commit_data, commit_time = perf_counter(commit_counter, 7)
-    formatter('commit count', commit_time)
+    try:
+        total_loc, loc_time = perf_counter(loc_query, ['OWNER', 'COLLABORATOR', 'ORGANIZATION_MEMBER'], 7)
+        formatter('LOC (cached)' if total_loc[-1] else 'LOC (rebuilt)', loc_time)
+        commit_data, commit_time = perf_counter(commit_counter, 7)
+        formatter('commit count', commit_time)
+    except Exception as exc:
+        print(f'⚠️  LOC/commit scan failed (using 0): {exc}')
+        total_loc = [0, 0, 0, False]
+        commit_data = 0
+        commit_time = 0
 
     star_data, star_time     = perf_counter(graph_repos_stars, 'stars', ['OWNER'])
     formatter('stars', star_time)
