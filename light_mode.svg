@@ -182,8 +182,8 @@ text, tspan { white-space: pre; }
 <text x="390" y="395" class="r14" font-size="15" fill="#6e7781">.</text>
 <text x="390" y="411" class="r15" font-size="15"><tspan fill="#6e7781">- </tspan><tspan fill="#1f2328">GitHub Stats</tspan><tspan fill="#6e7781"> -</tspan></text><line x1="548" y1="407" x2="980" y2="407" stroke="#d0d7de" stroke-width="1" class="draw_underline"/>
 <text x="390" y="431" class="r16" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Repos</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">57</tspan><tspan fill="#6e7781">  {contributed: </tspan><tspan fill="#0550ae">67</tspan><tspan fill="#6e7781">}  </tspan><tspan fill="#953800">Stars</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">4</tspan></text>
-<text x="390" y="449" class="r17" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Commits</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">2,810</tspan><tspan fill="#6e7781">    </tspan><tspan fill="#953800">Followers</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">92</tspan></text>
-<text x="390" y="467" class="r18" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Lines of Code</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">12,268,534</tspan><tspan fill="#6e7781">  (</tspan><tspan fill="#1a7f37">12,865,019++</tspan><tspan fill="#6e7781">  </tspan><tspan fill="#cf222e">596,485--</tspan><tspan fill="#6e7781">)</tspan></text>
+<text x="390" y="449" class="r17" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Commits</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">2,811</tspan><tspan fill="#6e7781">    </tspan><tspan fill="#953800">Followers</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">92</tspan></text>
+<text x="390" y="467" class="r18" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Lines of Code</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">12,268,535</tspan><tspan fill="#6e7781">  (</tspan><tspan fill="#1a7f37">12,865,020++</tspan><tspan fill="#6e7781">  </tspan><tspan fill="#cf222e">596,485--</tspan><tspan fill="#6e7781">)</tspan></text>
 <text x="390" y="485" class="r19" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Streak</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#1a7f37">14 days</tspan><tspan fill="#6e7781">    </tspan><tspan fill="#953800">Week</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">#15</tspan></text>
 <text x="390" y="503" class="r20" font-size="15"><tspan fill="#8250df">❯</tspan><tspan fill="#6e7781"> </tspan><tspan fill="#1f2328" class="cursor">▊</tspan></text>
 
@@ -382,7 +382,7 @@ text, tspan { white-space: pre; }
 <rect x="410" y="581" width="10" height="10" rx="2" fill="#40c463"><title>2026-04-08: 4 contributions</title></rect>
 <rect x="410" y="593" width="10" height="10" rx="2" fill="#40c463"><title>2026-04-09: 5 contributions</title></rect>
 <rect x="410" y="605" width="10" height="10" rx="2" fill="#9be9a8"><title>2026-04-10: 2 contributions</title></rect>
-<rect x="410" y="617" width="10" height="10" rx="2" fill="#216e39"><title>2026-04-11: 21 contributions</title></rect>
+<rect x="410" y="617" width="10" height="10" rx="2" fill="#216e39"><title>2026-04-11: 22 contributions</title></rect>
 
 <!-- Legend: less □□□□□ more — bottom-right, below grid -->
 <text x="855" y="622" fill="#6e7781" font-size="11">less</text>
