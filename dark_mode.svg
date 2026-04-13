@@ -145,9 +145,9 @@ text, tspan { white-space: pre; }
 </g>
 
 <!-- Right panel stats -->
-<text x="390" y="30" class="r0" font-size="15"><tspan fill="#c9d1d9">amethystani</tspan><tspan fill="#8b949e"> — </tspan><tspan fill="#a371f7">building something new</tspan></text><line x1="390" y1="35" x2="980" y2="35" stroke="#30363d" stroke-width="1" class="draw_underline"/>
+<text x="390" y="30" class="r0" font-size="15"><tspan fill="#c9d1d9">amethystani</tspan><tspan fill="#8b949e"> — </tspan><tspan fill="#a371f7">optimizing algorithms</tspan></text><line x1="390" y1="35" x2="980" y2="35" stroke="#30363d" stroke-width="1" class="draw_underline"/>
 <text x="390" y="52" class="r1" font-size="15"><tspan fill="#8b949e">. </tspan><tspan fill="#ffa657">OS</tspan><tspan fill="#8b949e">: ·························· </tspan><tspan fill="#a5d6ff">Sequoia 15.5 / iOS 18.5 / Linux</tspan></text>
-<text x="390" y="70" class="r2" font-size="15"><tspan fill="#8b949e">. </tspan><tspan fill="#ffa657">Uptime</tspan><tspan fill="#8b949e">: ······················ </tspan><tspan fill="#a5d6ff">23 years, 9 months, 7 days</tspan></text>
+<text x="390" y="70" class="r2" font-size="15"><tspan fill="#8b949e">. </tspan><tspan fill="#ffa657">Uptime</tspan><tspan fill="#8b949e">: ······················ </tspan><tspan fill="#a5d6ff">23 years, 9 months, 8 days</tspan></text>
 <text x="390" y="88" class="r3" font-size="15"><tspan fill="#8b949e">. </tspan><tspan fill="#ffa657">Site</tspan><tspan fill="#8b949e">: ························ </tspan><tspan fill="#a5d6ff">animeshmishra.us</tspan></text>
 <text x="390" y="106" class="r4" font-size="15"><tspan fill="#8b949e">. </tspan><tspan fill="#ffa657">IDE</tspan><tspan fill="#8b949e">: ························· </tspan><tspan fill="#a5d6ff">Cursor, VSCode, IDEA</tspan></text>
 <text x="390" y="124" class="r5" font-size="15"><tspan fill="#8b949e">. </tspan><tspan fill="#ffa657">Shell</tspan><tspan fill="#8b949e">: ······················· </tspan><tspan fill="#a5d6ff">zsh  ·  iTerm2</tspan></text>
@@ -155,20 +155,20 @@ text, tspan { white-space: pre; }
 <text x="390" y="159" class="r7" font-size="15"><tspan fill="#8b949e">- </tspan><tspan fill="#c9d1d9">Top Languages (by bytes written)</tspan><tspan fill="#8b949e"> -</tspan></text><line x1="740" y1="155" x2="980" y2="155" stroke="#30363d" stroke-width="1" class="draw_underline"/>
 <text x="390" y="179" fill="#8b949e" font-size="15">. </text><text x="408" y="179" fill="#ffa657" font-size="15">HTML</text>
 <rect x="518" y="167" width="140" height="9" rx="3" fill="#21262d"/>
-<rect x="518" y="167" width="95" height="9" rx="3" fill="#e34c26" class="bar_fill" style="animation-delay:1.20s"/>
-<text x="668" y="179" fill="#a5d6ff" font-size="14">68.0%</text>
+<rect x="518" y="167" width="94" height="9" rx="3" fill="#e34c26" class="bar_fill" style="animation-delay:1.20s"/>
+<text x="668" y="179" fill="#a5d6ff" font-size="14">67.7%</text>
 <text x="390" y="203" fill="#8b949e" font-size="15">. </text><text x="408" y="203" fill="#ffa657" font-size="15">Python</text>
 <rect x="518" y="191" width="140" height="9" rx="3" fill="#21262d"/>
-<rect x="518" y="191" width="16" height="9" rx="3" fill="#3572A5" class="bar_fill" style="animation-delay:1.35s"/>
-<text x="668" y="203" fill="#a5d6ff" font-size="14">12.0%</text>
+<rect x="518" y="191" width="17" height="9" rx="3" fill="#3572A5" class="bar_fill" style="animation-delay:1.35s"/>
+<text x="668" y="203" fill="#a5d6ff" font-size="14">12.2%</text>
 <text x="390" y="227" fill="#8b949e" font-size="15">. </text><text x="408" y="227" fill="#ffa657" font-size="15">TeX</text>
 <rect x="518" y="215" width="140" height="9" rx="3" fill="#21262d"/>
 <rect x="518" y="215" width="13" height="9" rx="3" fill="#3D6117" class="bar_fill" style="animation-delay:1.50s"/>
-<text x="668" y="227" fill="#a5d6ff" font-size="14">9.8%</text>
+<text x="668" y="227" fill="#a5d6ff" font-size="14">9.7%</text>
 <text x="390" y="251" fill="#8b949e" font-size="15">. </text><text x="408" y="251" fill="#ffa657" font-size="15">TypeScript</text>
 <rect x="518" y="239" width="140" height="9" rx="3" fill="#21262d"/>
 <rect x="518" y="239" width="5" height="9" rx="3" fill="#3178c6" class="bar_fill" style="animation-delay:1.65s"/>
-<text x="668" y="251" fill="#a5d6ff" font-size="14">3.8%</text>
+<text x="668" y="251" fill="#a5d6ff" font-size="14">3.9%</text>
 <text x="390" y="275" fill="#8b949e" font-size="15">. </text><text x="408" y="275" fill="#ffa657" font-size="15">JavaScript</text>
 <rect x="518" y="263" width="140" height="9" rx="3" fill="#21262d"/>
 <rect x="518" y="263" width="3" height="9" rx="3" fill="#f1e05a" class="bar_fill" style="animation-delay:1.80s"/>
@@ -181,10 +181,10 @@ text, tspan { white-space: pre; }
 <text x="390" y="379" class="r13" font-size="15"><tspan fill="#8b949e">. </tspan><tspan fill="#ffa657">Work</tspan><tspan fill="#8b949e">: ························ </tspan><tspan fill="#a5d6ff">am847@snu.edu.in</tspan></text>
 <text x="390" y="395" class="r14" font-size="15" fill="#8b949e">.</text>
 <text x="390" y="411" class="r15" font-size="15"><tspan fill="#8b949e">- </tspan><tspan fill="#c9d1d9">GitHub Stats</tspan><tspan fill="#8b949e"> -</tspan></text><line x1="548" y1="407" x2="980" y2="407" stroke="#30363d" stroke-width="1" class="draw_underline"/>
-<text x="390" y="431" class="r16" font-size="15"><tspan fill="#8b949e">. </tspan><tspan fill="#ffa657">Repos</tspan><tspan fill="#8b949e">: </tspan><tspan fill="#a5d6ff">57</tspan><tspan fill="#8b949e">  {contributed: </tspan><tspan fill="#a5d6ff">67</tspan><tspan fill="#8b949e">}  </tspan><tspan fill="#ffa657">Stars</tspan><tspan fill="#8b949e">: </tspan><tspan fill="#a5d6ff">4</tspan></text>
-<text x="390" y="449" class="r17" font-size="15"><tspan fill="#8b949e">. </tspan><tspan fill="#ffa657">Commits</tspan><tspan fill="#8b949e">: </tspan><tspan fill="#a5d6ff">2,811</tspan><tspan fill="#8b949e">    </tspan><tspan fill="#ffa657">Followers</tspan><tspan fill="#8b949e">: </tspan><tspan fill="#a5d6ff">92</tspan></text>
-<text x="390" y="467" class="r18" font-size="15"><tspan fill="#8b949e">. </tspan><tspan fill="#ffa657">Lines of Code</tspan><tspan fill="#8b949e">: </tspan><tspan fill="#a5d6ff">12,268,535</tspan><tspan fill="#8b949e">  (</tspan><tspan fill="#3fb950">12,865,020++</tspan><tspan fill="#8b949e">  </tspan><tspan fill="#f85149">596,485--</tspan><tspan fill="#8b949e">)</tspan></text>
-<text x="390" y="485" class="r19" font-size="15"><tspan fill="#8b949e">. </tspan><tspan fill="#ffa657">Streak</tspan><tspan fill="#8b949e">: </tspan><tspan fill="#3fb950">14 days</tspan><tspan fill="#8b949e">    </tspan><tspan fill="#ffa657">Week</tspan><tspan fill="#8b949e">: </tspan><tspan fill="#a5d6ff">#15</tspan></text>
+<text x="390" y="431" class="r16" font-size="15"><tspan fill="#8b949e">. </tspan><tspan fill="#ffa657">Repos</tspan><tspan fill="#8b949e">: </tspan><tspan fill="#a5d6ff">60</tspan><tspan fill="#8b949e">  {contributed: </tspan><tspan fill="#a5d6ff">70</tspan><tspan fill="#8b949e">}  </tspan><tspan fill="#ffa657">Stars</tspan><tspan fill="#8b949e">: </tspan><tspan fill="#a5d6ff">4</tspan></text>
+<text x="390" y="449" class="r17" font-size="15"><tspan fill="#8b949e">. </tspan><tspan fill="#ffa657">Commits</tspan><tspan fill="#8b949e">: </tspan><tspan fill="#a5d6ff">2,812</tspan><tspan fill="#8b949e">    </tspan><tspan fill="#ffa657">Followers</tspan><tspan fill="#8b949e">: </tspan><tspan fill="#a5d6ff">92</tspan></text>
+<text x="390" y="467" class="r18" font-size="15"><tspan fill="#8b949e">. </tspan><tspan fill="#ffa657">Lines of Code</tspan><tspan fill="#8b949e">: </tspan><tspan fill="#a5d6ff">12,281,933</tspan><tspan fill="#8b949e">  (</tspan><tspan fill="#3fb950">12,878,418++</tspan><tspan fill="#8b949e">  </tspan><tspan fill="#f85149">596,485--</tspan><tspan fill="#8b949e">)</tspan></text>
+<text x="390" y="485" class="r19" font-size="15"><tspan fill="#8b949e">. </tspan><tspan fill="#ffa657">Streak</tspan><tspan fill="#8b949e">: </tspan><tspan fill="#3fb950">15 days</tspan><tspan fill="#8b949e">    </tspan><tspan fill="#ffa657">Week</tspan><tspan fill="#8b949e">: </tspan><tspan fill="#a5d6ff">#16</tspan></text>
 <text x="390" y="503" class="r20" font-size="15"><tspan fill="#a371f7">❯</tspan><tspan fill="#8b949e"> </tspan><tspan fill="#c9d1d9" class="cursor">▊</tspan></text>
 
 <!-- Horizontal separator before heatmap -->
@@ -193,7 +193,7 @@ text, tspan { white-space: pre; }
 
 <!-- Heatmap header: label left, streak right -->
 <text x="110" y="538" fill="#8b949e" font-size="13">contributions · last 26 weeks</text>
-<text x="820" y="538" fill="#8b949e" font-size="13">streak: <tspan fill="#3fb950">14 days</tspan></text>
+<text x="820" y="538" fill="#8b949e" font-size="13">streak: <tspan fill="#3fb950">15 days</tspan></text>
 
 <!-- Day labels (Mon=row1, Wed=row3, Fri=row5 of 0-indexed weekday) -->
 <text x="104" y="556" fill="#8b949e" font-size="11" text-anchor="end">Mon</text>
@@ -376,7 +376,8 @@ text, tspan { white-space: pre; }
 <rect x="398" y="593" width="10" height="10" rx="2" fill="#006d32"><title>2026-04-09: 5 contributions</title></rect>
 <rect x="398" y="605" width="10" height="10" rx="2" fill="#0e4429"><title>2026-04-10: 2 contributions</title></rect>
 <rect x="398" y="617" width="10" height="10" rx="2" fill="#39d353"><title>2026-04-11: 22 contributions</title></rect>
-<rect x="410" y="545" width="10" height="10" rx="2" fill="#161b22"><title>2026-04-12: 0 contributions</title></rect>
+<rect x="410" y="545" width="10" height="10" rx="2" fill="#26a641"><title>2026-04-12: 8 contributions</title></rect>
+<rect x="410" y="557" width="10" height="10" rx="2" fill="#161b22"><title>2026-04-13: 0 contributions</title></rect>
 
 <!-- Legend: less □□□□□ more — bottom-right, below grid -->
 <text x="855" y="622" fill="#8b949e" font-size="11">less</text>
@@ -390,7 +391,7 @@ text, tspan { white-space: pre; }
 <!-- Scrolling featured project marquee -->
 <g clip-path="url(#marquee_clip)">
   <text y="646" fill="#8b949e" font-size="13" class="marquee_inner"
-        dominant-baseline="middle">  📌  featured · legalnexus-backend  ·  Legal AI platform with Hyperbolic GNNs, Multi-Agent Systems, and Game Theory  ·  HTML  ·  ⭐ 1  ·  🍴 0       📌  featured · legalnexus-backend  ·  Legal AI platform with Hyperbolic GNNs, Multi-Agent Systems, and Game Theory  ·  HTML  ·  ⭐ 1  ·  🍴 0       📌  featured · legalnexus-backend  ·  Legal AI platform with Hyperbolic GNNs, Multi-Agent Systems, and Game Theory  ·  HTML  ·  ⭐ 1  ·  🍴 0     </text>
+        dominant-baseline="middle">  📌  featured · eucalyptus-tree-strawberry-koala  ·  Pixel-art narrative RPG — The Eucalyptus Tree &amp;amp; The Strawberry Koala (Unity 2D +  ·  C#  ·  ⭐ 0  ·  🍴 0       📌  featured · eucalyptus-tree-strawberry-koala  ·  Pixel-art narrative RPG — The Eucalyptus Tree &amp;amp; The Strawberry Koala (Unity 2D +  ·  C#  ·  ⭐ 0  ·  🍴 0       📌  featured · eucalyptus-tree-strawberry-koala  ·  Pixel-art narrative RPG — The Eucalyptus Tree &amp;amp; The Strawberry Koala (Unity 2D +  ·  C#  ·  ⭐ 0  ·  🍴 0     </text>
 </g>
 
 </svg>
