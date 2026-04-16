@@ -147,7 +147,7 @@ text, tspan { white-space: pre; }
 <!-- Right panel stats -->
 <text x="390" y="30" class="r0" font-size="15"><tspan fill="#1f2328">amethystani</tspan><tspan fill="#6e7781"> — </tspan><tspan fill="#8250df">optimizing algorithms</tspan></text><line x1="390" y1="35" x2="980" y2="35" stroke="#d0d7de" stroke-width="1" class="draw_underline"/>
 <text x="390" y="52" class="r1" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">OS</tspan><tspan fill="#6e7781">: ·························· </tspan><tspan fill="#0550ae">Sequoia 15.5 / iOS 18.5 / Linux</tspan></text>
-<text x="390" y="70" class="r2" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Uptime</tspan><tspan fill="#6e7781">: ······················ </tspan><tspan fill="#0550ae">23 years, 9 months, 10 days</tspan></text>
+<text x="390" y="70" class="r2" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Uptime</tspan><tspan fill="#6e7781">: ······················ </tspan><tspan fill="#0550ae">23 years, 9 months, 11 days</tspan></text>
 <text x="390" y="88" class="r3" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Site</tspan><tspan fill="#6e7781">: ························ </tspan><tspan fill="#0550ae">animeshmishra.us</tspan></text>
 <text x="390" y="106" class="r4" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">IDE</tspan><tspan fill="#6e7781">: ························· </tspan><tspan fill="#0550ae">Cursor, VSCode, IDEA</tspan></text>
 <text x="390" y="124" class="r5" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Shell</tspan><tspan fill="#6e7781">: ······················· </tspan><tspan fill="#0550ae">zsh  ·  iTerm2</tspan></text>
@@ -182,7 +182,7 @@ text, tspan { white-space: pre; }
 <text x="390" y="395" class="r14" font-size="15" fill="#6e7781">.</text>
 <text x="390" y="411" class="r15" font-size="15"><tspan fill="#6e7781">- </tspan><tspan fill="#1f2328">GitHub Stats</tspan><tspan fill="#6e7781"> -</tspan></text><line x1="548" y1="407" x2="980" y2="407" stroke="#d0d7de" stroke-width="1" class="draw_underline"/>
 <text x="390" y="431" class="r16" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Repos</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">60</tspan><tspan fill="#6e7781">  {contributed: </tspan><tspan fill="#0550ae">70</tspan><tspan fill="#6e7781">}  </tspan><tspan fill="#953800">Stars</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">4</tspan></text>
-<text x="390" y="449" class="r17" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Commits</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">2,910</tspan><tspan fill="#6e7781">    </tspan><tspan fill="#953800">Followers</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">92</tspan></text>
+<text x="390" y="449" class="r17" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Commits</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">2,910</tspan><tspan fill="#6e7781">    </tspan><tspan fill="#953800">Followers</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">93</tspan></text>
 <text x="390" y="467" class="r18" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Lines of Code</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">12,726,457</tspan><tspan fill="#6e7781">  (</tspan><tspan fill="#1a7f37">13,674,106++</tspan><tspan fill="#6e7781">  </tspan><tspan fill="#cf222e">947,649--</tspan><tspan fill="#6e7781">)</tspan></text>
 <text x="390" y="485" class="r19" font-size="15"><tspan fill="#6e7781">. </tspan><tspan fill="#953800">Streak</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#1a7f37">0 days</tspan><tspan fill="#6e7781">    </tspan><tspan fill="#953800">Week</tspan><tspan fill="#6e7781">: </tspan><tspan fill="#0550ae">#16</tspan></text>
 <text x="390" y="503" class="r20" font-size="15"><tspan fill="#8250df">❯</tspan><tspan fill="#6e7781"> </tspan><tspan fill="#1f2328" class="cursor">▊</tspan></text>
@@ -380,6 +380,7 @@ text, tspan { white-space: pre; }
 <rect x="410" y="557" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-04-13: 0 contributions</title></rect>
 <rect x="410" y="569" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-04-14: 0 contributions</title></rect>
 <rect x="410" y="581" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-04-15: 0 contributions</title></rect>
+<rect x="410" y="593" width="10" height="10" rx="2" fill="#ebedf0"><title>2026-04-16: 0 contributions</title></rect>
 
 <!-- Legend: less □□□□□ more — bottom-right, below grid -->
 <text x="855" y="622" fill="#6e7781" font-size="11">less</text>
