@@ -15,8 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pages: write
-      id-token: write
 
     steps:
       - name: Checkout repository
@@ -65,14 +63,17 @@ jobs:
           git pull --rebase origin main
           git push
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload profile site and live table
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: poker/site-dist/
-
-      - name: Deploy profile site and live table
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish profile site and live table to GitHub Pages
+        run: |
+          git fetch origin gh-pages
+          POKER_SITE_DIR="$(mktemp -d /tmp/poker-pages.XXXXXX)"
+          git worktree add --detach "$POKER_SITE_DIR" origin/gh-pages
+          cp -R poker/site-dist/. "$POKER_SITE_DIR/"
+          git -C "$POKER_SITE_DIR" config user.email "action@github.com"
+          git -C "$POKER_SITE_DIR" config user.name "GitHub Actions"
+          git -C "$POKER_SITE_DIR" add -A
+          if ! git -C "$POKER_SITE_DIR" diff --cached --quiet; then
+            git -C "$POKER_SITE_DIR" commit -m "🤖 deploy poker table and profile site [skip ci]"
+            git -C "$POKER_SITE_DIR" push origin HEAD:gh-pages
+          fi
+          git worktree remove --force "$POKER_SITE_DIR"
