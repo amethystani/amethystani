@@ -1,4 +1,4 @@
-<a href="https://www.animeshmishra.us/"><img src="assets/profile-player.svg" width="49%" alt="Animesh Mishra — ML/NLP researcher. Scientific AI, retrieval and evaluation. Open to research roles in New Delhi." /></a> <a href="https://ansimuz.itch.io/cyberpunk-street-environment"><img src="assets/synth-city.gif" width="49%" alt="Animated retro pixel-art street at sunset, with orange-lit buildings and cars. Artwork by Ansimuz." /></a>
+<a href="https://www.animeshmishra.us/"><img src="assets/profile-arcade.svg" width="100%" alt="Animesh Mishra — ML/NLP researcher. Orange animated Snake traversing my GitHub contribution grid. Scientific AI, retrieval and evaluation. Open to research roles." /></a>
 
 <p align="center">
   <a href="https://www.animeshmishra.us/"><b>WEBSITE ↗</b></a> &emsp;·&emsp;
@@ -31,4 +31,4 @@ I study **when language models can be trusted**—especially when the evidence i
 
 <sub>New Delhi, India &nbsp; / &nbsp; Open to research roles &nbsp; / &nbsp; [ORCID](https://orcid.org/0009-0009-1770-6329)</sub>
 
-<sub>Pixel-art animation: [Synth Cities by Ansimuz](https://ansimuz.itch.io/cyberpunk-street-environment) · [CC0](https://creativecommons.org/publicdomain/zero/1.0/)</sub>
+<sub>Contribution animation powered by [Platane/snk](https://github.com/Platane/snk) · Animated SVG</sub>
