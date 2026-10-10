@@ -2075,7 +2075,8 @@ function playHand(table2, number, random = Math.random) {
     const board2 = inHand ? table2.communityCards().map(cardCode) : frames.at(-1)?.board || [];
     const pots = inHand ? table2.pots() : [];
     const pot = inHand ? pots.reduce((s, p) => s + p.size, 0) + seats2.reduce((s, p) => s + (p.betSize || 0), 0) : frames.at(-1)?.pot || 0;
-    frames.push({ hand: number, dealer, board: board2, seats: seats2, pot, message, kind, winners: winnerSeats, street: inHand ? table2.roundOfBetting() : "result", active: inHand && table2.isBettingRoundInProgress() ? table2.playerToAct() : -1, duration: kind === "result" ? 4e3 : kind === "street" ? 1800 : 1100, startingTotal });
+    const duration = kind === "result" ? 7800 : kind === "street" ? 4700 : 2600 + Math.floor(random() * 1e3);
+    frames.push({ hand: number, dealer, board: board2, seats: seats2, pot, message, kind, winners: winnerSeats, street: inHand ? table2.roundOfBetting() : "result", active: inHand && table2.isBettingRoundInProgress() ? table2.playerToAct() : -1, duration, startingTotal });
   }
   snapshot(refills.length ? `${refills.join(", ")} rebuy \xB7 1,000 chips` : "Cards dealt \xB7 blinds 5 / 10", "street");
   while (table2.isHandInProgress()) {
@@ -2159,13 +2160,13 @@ function render(f) {
   $("#pot").textContent = f.pot.toLocaleString("en-US");
   board.innerHTML = Array.from({ length: 5 }, (_, i) => f.board[i] ? card(f.board[i]) : '<div class="empty-card"></div>').join("");
   const spot = ["seat-bottom", "seat-left", "seat-top", "seat-right"];
-  seats.innerHTML = f.seats.map((p, i) => `<article class="seat ${spot[i]} ${i === f.active ? "active" : ""} ${f.winners.includes(i) ? "winner" : ""}" data-seat="${i}"><div class="seat-head"><b class="seat-name">${p.name}</b><span class="seat-stack">${(p?.stack ?? 0).toLocaleString()} \u25C9</span></div><div class="seat-sub">${esc(p.status || (i === f.dealer ? "DEALER BUTTON" : "AT THE TABLE"))}</div><div class="seat-cards">${(p.cards || []).slice(0, 2).map((c) => card(c, p.folded)).join("")}</div></article>`).join("");
+  seats.innerHTML = f.seats.map((p, i) => `<article class="seat ${spot[i]} ${i === f.active ? "active" : ""} ${f.winners.includes(i) ? "winner" : ""}" data-seat="${i}"><div class="seat-head"><b class="seat-name">${p.name}</b><span class="seat-stack">${(p?.stack ?? 0).toLocaleString()} \u25C9</span></div><div class="seat-sub">${esc(p.status || (i === f.dealer ? "DEALER BUTTON" : "AT THE TABLE"))}</div><div class="seat-cards">${(p.cards || []).slice(0, 2).map((c) => card(c, p.folded || f.street !== "result")).join("")}</div></article>`).join("");
   const pos = ["bottom", "left", "top", "right"][f.dealer];
   $("#dealer-track").innerHTML = `<div class="button-chip seat-${pos}" aria-label="Dealer button">D</div>`;
   toast.textContent = f.message.toUpperCase();
   toast.classList.add("show");
   clearTimeout(timer);
-  timer = setTimeout(() => toast.classList.remove("show"), f.kind === "result" ? 2e3 : 850);
+  timer = setTimeout(() => toast.classList.remove("show"), f.kind === "result" ? 5200 : f.kind === "street" ? 3800 : 2400);
   feed.innerHTML = `<span>H${String(f.hand).padStart(3, "0")}</span> &nbsp;\xB7&nbsp; ${esc(f.message)} &nbsp;\xB7&nbsp; ${f.seats.map((p) => `${p.name} ${p.stack}`).join(" / ")}`;
 }
 function runHand() {
@@ -2179,16 +2180,16 @@ function step() {
   if (paused) return;
   const frames = current;
   if (!frames || sequence >= frames.length) {
-    setTimeout(runHand, 650 / speed);
+    setTimeout(runHand, 2200 / speed);
     return;
   }
   const f = frames[sequence++];
   render(f);
-  setTimeout(step, Math.max(420, f.duration) / speed);
+  setTimeout(step, f.duration / speed);
 }
 $("#speed").addEventListener("click", () => {
-  speed = speed === 1 ? 1.7 : 1;
-  $("#speed b").textContent = speed === 1 ? "1\xD7" : "1.7\xD7";
+  speed = speed === 1 ? 0.7 : 1;
+  $("#speed b").textContent = speed === 1 ? "1\xD7" : "0.7\xD7";
 });
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
