@@ -51,7 +51,7 @@ jobs:
 
       - name: Generate profile SVGs
         env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          ACCESS_TOKEN: ${{ github.token }}
         run: python today.py
 
       - name: Commit & push updated SVGs
