@@ -1,8 +1,9 @@
-Contribution Arcade
-Generator: Platane/snk — https://github.com/Platane/snk
-Generated with the upstream npm package generate-snake-animation@3.
-Data: amethystani GitHub contribution grid, retrieved 2026-10-11.
-Colors customized through the generator options. Original snake animation embedded in a static orange profile frame. No GIF or video used.
-Source animation: contribution-arcade.svg
-Composed header: profile-arcade.svg
-Framing script: scripts/compose-header.py
+The Long Game — README Poker animation
+
+The Texas Hold’em game rules and state machine use poker-ts (MIT):
+https://github.com/claudijo/poker-ts
+The playing-card SVG artwork is from Block52/cards (MIT):
+https://github.com/block52/cards
+Their full license texts are in poker/vendor/.
+
+poker-run.svg is generated locally by poker/generate.mjs from actual hands dealt by poker-ts. GitHub Actions refreshes the set of hands during the daily profile update. The README SVG cycles those deals and links to the live table at https://amethystani.github.io/amethystani/poker/.

@@ -1,4 +1,4 @@
-<a href="https://www.animeshmishra.us/"><img src="assets/profile-arcade.svg" width="100%" alt="Animesh Mishra — ML/NLP researcher. Orange animated Snake traversing my GitHub contribution grid. Scientific AI, retrieval and evaluation. Open to research roles." /></a>
+<a href="https://amethystani.github.io/amethystani/poker/"><img src="assets/poker-run.svg" width="100%" alt="The Long Game: an orange-accented animated Texas Hold’em table playing fresh hands. Click to watch the live table run endlessly." /></a>
 
 <p align="center">
   <a href="https://www.animeshmishra.us/"><b>WEBSITE ↗</b></a> &emsp;·&emsp;
@@ -31,4 +31,4 @@ I study **when language models can be trusted**—especially when the evidence i
 
 <sub>New Delhi, India &nbsp; / &nbsp; Open to research roles &nbsp; / &nbsp; [ORCID](https://orcid.org/0009-0009-1770-6329)</sub>
 
-<sub>Contribution animation powered by [Platane/snk](https://github.com/Platane/snk) · Animated SVG</sub>
+<sub>Texas Hold’em engine: [poker-ts](https://github.com/claudijo/poker-ts) · Playing-card artwork: [Block52/cards](https://github.com/block52/cards) · [Watch the live table →](https://amethystani.github.io/amethystani/poker/)</sub>

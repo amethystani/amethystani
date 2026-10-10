@@ -1,0 +1,17 @@
+{
+  "name": "profile-poker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "generate": "node generate.mjs",
+    "build": "esbuild table.mjs --bundle --format=esm --target=es2020 --alias:crypto=./crypto-browser.mjs --alias:assert=./assert-browser.mjs --outfile=app.bundle.js",
+    "package": "node package-site.mjs"
+  },
+  "dependencies": {
+    "poker-ts": "1.5.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12"
+  }
+}
