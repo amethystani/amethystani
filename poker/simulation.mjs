@@ -16,7 +16,8 @@ export function playHand(table,number,random=Math.random){
   const board=inHand?table.communityCards().map(cardCode):(frames.at(-1)?.board||[]);
   const pots=inHand?table.pots():[];
   const pot=inHand?pots.reduce((s,p)=>s+p.size,0)+seats.reduce((s,p)=>s+(p.betSize||0),0):(frames.at(-1)?.pot||0);
-  frames.push({hand:number,dealer,board,seats,pot,message,kind,winners:winnerSeats,street:inHand?table.roundOfBetting():'result',active:inHand&&table.isBettingRoundInProgress()?table.playerToAct():-1,duration:kind==='result'?4000:kind==='street'?1800:1100,startingTotal});
+  const duration=kind==='result'?7800:kind==='street'?4700:2600+Math.floor(random()*1000);
+  frames.push({hand:number,dealer,board,seats,pot,message,kind,winners:winnerSeats,street:inHand?table.roundOfBetting():'result',active:inHand&&table.isBettingRoundInProgress()?table.playerToAct():-1,duration,startingTotal});
  }
  snapshot(refills.length?`${refills.join(', ')} rebuy · 1,000 chips`:'Cards dealt · blinds 5 / 10','street');
  while(table.isHandInProgress()){

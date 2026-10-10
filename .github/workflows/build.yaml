@@ -58,7 +58,7 @@ jobs:
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Actions"
-          git add dark_mode.svg light_mode.svg cache/ assets/poker-run.svg poker/app.bundle.js
+          git add dark_mode.svg light_mode.svg cache/ assets/the-long-game.svg poker/app.bundle.js
           git diff --cached --quiet || git commit -m "🤖 auto-update: stats + featured rotation [skip ci]"
           git pull --rebase origin main
           git push

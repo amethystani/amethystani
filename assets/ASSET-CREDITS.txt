@@ -6,4 +6,4 @@ The playing-card SVG artwork is from Block52/cards (MIT):
 https://github.com/block52/cards
 Their full license texts are in poker/vendor/.
 
-poker-run.svg is generated locally by poker/generate.mjs from actual hands dealt by poker-ts. GitHub Actions refreshes the set of hands during the daily profile update. The README SVG cycles those deals and links to the live table at https://amethystani.github.io/amethystani/poker/.
+the-long-game.svg is generated locally by poker/generate.mjs from actual hands dealt by poker-ts. GitHub Actions refreshes the set of hands during the daily profile update. The README SVG cycles those deals and links to the live table at https://amethystani.github.io/amethystani/poker/.

@@ -1,4 +1,4 @@
-<a href="https://amethystani.github.io/amethystani/poker/"><img src="assets/poker-run.svg" width="100%" alt="The Long Game: an orange-accented animated Texas Hold’em table playing fresh hands. Click to watch the live table run endlessly." /></a>
+<a href="https://www.animeshmishra.us/"><img src="assets/profile-orbit.svg" width="100%" alt="Animesh Mishra — ML/NLP researcher. I build models, then question them. Scientific AI, conflicting evidence, and model evaluation." /></a>
 
 <p align="center">
   <a href="https://www.animeshmishra.us/"><b>WEBSITE ↗</b></a> &emsp;·&emsp;
@@ -12,6 +12,16 @@
 I study **when language models can be trusted**—especially when the evidence is conflicting, the input changes form, or the evaluation misses something important. Then I build the benchmarks and systems to test it.
 
 **Previously / alongside:** open-source contributions at **Nous Research**, research at **DRDO** and **Complexity Science Hub Vienna**, and co-founding **ClerkTree**.
+
+<br />
+
+### THE LONG GAME · LIVE HOLD’EM
+
+Real Texas Hold’em rules, a full table of rotating players, and a slower hand-by-hand pace. Hole cards stay private until showdown; the table deals on forever. **Play chips only.**
+
+<a href="https://amethystani.github.io/amethystani/poker/"><img src="assets/the-long-game.svg" width="100%" alt="An orange-lit, animated Texas Hold’em table. Watch a complete hand unfold, then click to join the endlessly running live table." /></a>
+
+<p align="center"><a href="https://amethystani.github.io/amethystani/poker/"><b>TAKE A SEAT · WATCH THE LIVE TABLE ↗</b></a></p>
 
 <br />
 
