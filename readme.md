@@ -15,11 +15,11 @@ I study **when language models can be trusted**—especially when the evidence i
 
 <br />
 
-<img src="assets/section.svg" width="100%" alt="Research you can run — selected work" />
+<img src="assets/section-orange.svg" width="100%" alt="Research you can run — selected work" />
 
-<a href="https://github.com/amethystani/evirag-bench"><img src="assets/evirag-bench.svg" width="49%" alt="EVIRAG-Bench: scientific retrieval that keeps conflicting evidence apart." /></a> <a href="https://github.com/amethystani/notation-matters"><img src="assets/notation-matters.svg" width="49%" alt="Notation Matters: why chemistry model predictions change with molecular notation." /></a>
+<a href="https://github.com/amethystani/evirag-bench"><img src="assets/evirag-bench-orange.svg" width="49%" alt="EVIRAG-Bench: scientific retrieval that keeps conflicting evidence apart." /></a> <a href="https://github.com/amethystani/notation-matters"><img src="assets/notation-matters-orange.svg" width="49%" alt="Notation Matters: why chemistry model predictions change with molecular notation." /></a>
 <br />
-<a href="https://github.com/amethystani/palimpsest"><img src="assets/palimpsest.svg" width="49%" alt="Palimpsest: translation evaluation for information lost during tokenisation." /></a> <a href="https://github.com/amethystani/deferseg"><img src="assets/deferseg.svg" width="49%" alt="DeferSeg: tile-scheduled neural passes for real-time AR compositing." /></a>
+<a href="https://github.com/amethystani/palimpsest"><img src="assets/palimpsest-orange.svg" width="49%" alt="Palimpsest: translation evaluation for information lost during tokenisation." /></a> <a href="https://github.com/amethystani/deferseg"><img src="assets/deferseg-orange.svg" width="49%" alt="DeferSeg: tile-scheduled neural passes for real-time AR compositing." /></a>
 
 <br />
 
