@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="690" height="500" viewBox="0 0 690 500" role="img" aria-labelledby="title desc">
+<title id="title">Animesh Mishra — ML/NLP researcher</title><desc id="desc">Scientific AI. Retrieval. Evaluation. Research, build, release, repeat. New Delhi, India. Open to research roles.</desc>
+<rect width="690" height="500" fill="#16120f"/>
+<path d="M0 0H690V8H0Z" fill="#ff792e"/>
+<text x="32" y="54" fill="#ff994c" font-family="monospace" font-size="18" letter-spacing="2">AMETHYSTANI / PLAYER 01</text>
+<text x="28" y="154" fill="#fff0d9" font-family="Arial,Helvetica,sans-serif" font-size="79" font-weight="900" letter-spacing="-5">ANIMESH</text>
+<text x="28" y="235" fill="#fff0d9" font-family="Arial,Helvetica,sans-serif" font-size="79" font-weight="900" letter-spacing="-5">MISHRA<tspan fill="#ff792e">_</tspan></text>
+<rect x="32" y="265" width="345" height="43" fill="#ff792e"/>
+<text x="46" y="294" fill="#16120f" font-family="monospace" font-size="23" font-weight="bold">ML / NLP RESEARCHER</text>
+<text x="32" y="357" fill="#e8c7a7" font-family="Arial,Helvetica,sans-serif" font-size="25">Scientific AI. Retrieval. Evaluation.</text>
+<text x="32" y="399" fill="#b9977a" font-family="monospace" font-size="20">RESEARCH → BUILD → RELEASE</text>
+<path d="M32 432H658" stroke="#634029"/>
+<text x="32" y="470" fill="#ff994c" font-family="monospace" font-size="18">NEW DELHI / OPEN TO RESEARCH ROLES</text>
+</svg>

@@ -1,4 +1,4 @@
-<a href="https://www.animeshmishra.us/"><img src="assets/profile-orbit.svg" width="100%" alt="Animesh Mishra — ML/NLP researcher. I build models. Then question them. Scientific AI, conflicting evidence, and the things our benchmarks miss. Open to research roles." /></a>
+<a href="https://www.animeshmishra.us/"><img src="assets/profile-player.svg" width="49%" alt="Animesh Mishra — ML/NLP researcher. Scientific AI, retrieval and evaluation. Open to research roles in New Delhi." /></a> <a href="https://ansimuz.itch.io/cyberpunk-street-environment"><img src="assets/synth-city.gif" width="49%" alt="Animated retro pixel-art street at sunset, with orange-lit buildings and cars. Artwork by Ansimuz." /></a>
 
 <p align="center">
   <a href="https://www.animeshmishra.us/"><b>WEBSITE ↗</b></a> &emsp;·&emsp;
@@ -17,11 +17,9 @@ I study **when language models can be trusted**—especially when the evidence i
 
 <img src="assets/section.svg" width="100%" alt="Research you can run — selected work" />
 
-<a href="https://github.com/amethystani/evirag-bench"><img src="assets/evirag-bench.svg" width="49%" alt="EVIRAG-Bench: scientific retrieval that keeps conflicting evidence apart." /></a>
-<a href="https://github.com/amethystani/notation-matters"><img src="assets/notation-matters.svg" width="49%" alt="Notation Matters: why chemistry model predictions change with molecular notation." /></a>
+<a href="https://github.com/amethystani/evirag-bench"><img src="assets/evirag-bench.svg" width="49%" alt="EVIRAG-Bench: scientific retrieval that keeps conflicting evidence apart." /></a> <a href="https://github.com/amethystani/notation-matters"><img src="assets/notation-matters.svg" width="49%" alt="Notation Matters: why chemistry model predictions change with molecular notation." /></a>
 <br />
-<a href="https://github.com/amethystani/palimpsest"><img src="assets/palimpsest.svg" width="49%" alt="Palimpsest: translation evaluation for information lost during tokenisation." /></a>
-<a href="https://github.com/amethystani/deferseg"><img src="assets/deferseg.svg" width="49%" alt="DeferSeg: tile-scheduled neural passes for real-time AR compositing." /></a>
+<a href="https://github.com/amethystani/palimpsest"><img src="assets/palimpsest.svg" width="49%" alt="Palimpsest: translation evaluation for information lost during tokenisation." /></a> <a href="https://github.com/amethystani/deferseg"><img src="assets/deferseg.svg" width="49%" alt="DeferSeg: tile-scheduled neural passes for real-time AR compositing." /></a>
 
 <br />
 
@@ -32,3 +30,5 @@ I study **when language models can be trusted**—especially when the evidence i
 **Interesting questions deserve working code.** [Bring me yours →](mailto:animeshmishra0567@gmail.com)
 
 <sub>New Delhi, India &nbsp; / &nbsp; Open to research roles &nbsp; / &nbsp; [ORCID](https://orcid.org/0009-0009-1770-6329)</sub>
+
+<sub>Pixel-art animation: [Synth Cities by Ansimuz](https://ansimuz.itch.io/cyberpunk-street-environment) · [CC0](https://creativecommons.org/publicdomain/zero/1.0/)</sub>
