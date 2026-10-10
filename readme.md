@@ -1,4 +1,4 @@
-<a href="https://www.animeshmishra.us/"><img src="assets/profile-header.svg" width="100%" alt="Animesh Mishra — ML/NLP researcher. I build models. Then question them. Scientific AI, conflicting evidence, and the things our benchmarks miss. Open to research roles." /></a>
+<a href="https://www.animeshmishra.us/"><img src="assets/profile-orbit.svg" width="100%" alt="Animesh Mishra — ML/NLP researcher. I build models. Then question them. Scientific AI, conflicting evidence, and the things our benchmarks miss. Open to research roles." /></a>
 
 <p align="center">
   <a href="https://www.animeshmishra.us/"><b>WEBSITE ↗</b></a> &emsp;·&emsp;
