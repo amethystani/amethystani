@@ -11,7 +11,7 @@
 
 <p align="center"><sub>ML / NLP RESEARCHER &nbsp;·&nbsp; NEW DELHI, INDIA &nbsp;·&nbsp; OPEN TO RESEARCH ROLES</sub></p>
 
-<a href="https://amethystani.github.io/amethystani/"><img src="assets/live-poker-simulation.png" width="100%" alt="A looping replay generated from real Texas Hold’em hands dealt by the game engine. Click to open the live table." /></a>
+<a href="https://amethystani.github.io/amethystani/"><img src="assets/live-poker-simulation.png?v=39129144594" width="100%" alt="A looping replay generated from real Texas Hold’em hands dealt by the game engine. Click to open the live table." /></a>
 
 <p align="center"><a href="https://amethystani.github.io/amethystani/"><b>PLAY THE TABLE ↗</b></a></p>
 
