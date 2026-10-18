@@ -12,9 +12,9 @@
 // fresh cache and `activate` purges the old one — that's the cache-bust. It also
 // clears the old failure mode where a deploy-window 404 could be cached as a
 // hashed asset forever (see the response.ok guards below).
-// (`7ed36eb` stays literal in dev, where the worker isn't registered.)
+// (`f580976` stays literal in dev, where the worker isn't registered.)
 const BASE_PATH = '/amethystani'
-const CACHE = 'long-game-7ed36eb'
+const CACHE = 'long-game-f580976'
 const SHELL = `${BASE_PATH}/`
 
 // Note: no skipWaiting() here. On an update the new worker parks in "waiting"
