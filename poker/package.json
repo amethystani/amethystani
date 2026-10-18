@@ -9,6 +9,7 @@
     "package": "node package-site.mjs"
   },
   "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "poker-ts": "1.5.0"
   },
   "devDependencies": {

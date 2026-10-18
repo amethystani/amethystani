@@ -1,7 +1,11 @@
-import {mkdir,writeFile} from 'node:fs/promises';
+import {mkdtemp,mkdir,rm,writeFile} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {spawn} from 'node:child_process';
+import {renderPreviewFrames} from './render-preview-frames.mjs';
 import {createTable,playHand} from './simulation.mjs';
 
-const handCount=7;
+const handCount=4;
 const table=createTable();
 const hands=Array.from({length:handCount},(_,i)=>playHand(table,i+1));
 const selected=[];
@@ -66,4 +70,29 @@ const anim=views.map((view,index)=>{
 const svg=`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1040" height="500" viewBox="0 0 1040 500" role="img" aria-labelledby="title desc"><title id="title">The Long Game: Animesh Mishra’s animated Texas Hold’em table</title><desc id="desc">A slowly unfolding multi-hand Hold’em replay with unique hole cards, private hands until showdown, rotating dealers and a clickable link to the live table.</desc><style>svg{font-family:Arial,sans-serif}</style><a xlink:href="https://amethystani.github.io/amethystani/poker/" target="_blank"><rect width="1040" height="500" fill="#11120f"/>${anim}<rect width="1040" height="500" fill="transparent"/></a></svg>`;
 await mkdir('../assets',{recursive:true});
 await writeFile('../assets/the-long-game.svg',svg);
-console.log(`Generated ${views.length} table moments from ${hands.length} complete Hold’em hands (${Math.round(elapsed)}s loop).`);
+
+// GitHub profile READMEs flatten animated SVGs. Rasterize each state from the
+// same poker-ts hands so the profile preview is a real replay of the current
+// game engine rather than a stock hero clip or a hand-drawn animation.
+const frameDir=await mkdtemp(join(tmpdir(),'long-game-'));
+const previewPath='../assets/live-poker-simulation.png';
+try {
+  const frameSvgs=selected.map(frame=>`<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="500" viewBox="0 0 1040 500"><style>svg{font-family:Arial,sans-serif}</style>${scene(frame)}</svg>`);
+  const framePaths=await renderPreviewFrames(frameSvgs,frameDir);
+  const entries=[];
+  for(let index=0;index<framePaths.length;index++){
+    const duration=Math.max(0.8,selected[index].duration/1000);
+    entries.push(`file '${framePaths[index]}'\nduration ${duration.toFixed(3)}`);
+  }
+  entries.push(entries.at(-1).split('\n')[0]);
+  const concatPath=join(frameDir,'frames.txt');
+  await writeFile(concatPath,entries.join('\n')+'\n');
+  await new Promise((resolve,reject)=>{
+    const ffmpeg=spawn('ffmpeg',['-y','-f','concat','-safe','0','-i',concatPath,'-fps_mode','vfr','-plays','0','-f','apng',previewPath],{stdio:'inherit'});
+    ffmpeg.on('error',reject);
+    ffmpeg.on('exit',code=>code===0?resolve():reject(new Error(`ffmpeg exited with ${code}`)));
+  });
+} finally {
+  await rm(frameDir,{recursive:true,force:true});
+}
+console.log(`Generated ${views.length} table moments from ${hands.length} complete Hold’em hands (${Math.round(elapsed)}s loop) and rendered ${selected.length} real engine states into ${previewPath}.`);

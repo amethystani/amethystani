@@ -29,6 +29,23 @@ jobs:
           cache: pnpm
           cache-dependency-path: poker/app/pnpm-lock.yaml
 
+      - name: Generate a fresh README replay from real poker hands
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          npm ci --prefix poker
+          npm --prefix poker run generate
+          node -e 'const fs=require("node:fs"); const path="readme.md"; const text=fs.readFileSync(path,"utf8"); fs.writeFileSync(path,text.replace(/assets\/live-poker-simulation\.png(?:\?v=[^" ]*)?/g, `assets/live-poker-simulation.png?v=${process.env.GITHUB_RUN_ID}`));'
+          git config user.email "action@github.com"
+          git config user.name "GitHub Actions"
+          git add readme.md assets/live-poker-simulation.png assets/the-long-game.svg
+          if ! git diff --cached --quiet; then
+            git commit -m "Refresh engine-generated poker replay [skip ci]"
+            git fetch origin main
+            git rebase origin/main
+            git push origin HEAD:main
+          fi
+
       - name: Install, test, build, and package the full poker app
         run: |
           cd poker/app
