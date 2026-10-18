@@ -11,7 +11,7 @@
 
 <p align="center"><sub>ML / NLP RESEARCHER &nbsp;·&nbsp; NEW DELHI, INDIA &nbsp;·&nbsp; OPEN TO RESEARCH ROLES</sub></p>
 
-<a href="https://amethystani.github.io/amethystani/"><img src="assets/poker-table.png" width="100%" alt="The Long Game: a full Texas Hold’em table against AI opponents. Click to play." /></a>
+<a href="https://amethystani.github.io/amethystani/"><img src="assets/the-long-game.svg" width="100%" alt="A Texas Hold’em table replaying hands on loop. Click to play the live table." /></a>
 
 <p align="center"><a href="https://amethystani.github.io/amethystani/"><b>PLAY THE TABLE ↗</b></a></p>
 
