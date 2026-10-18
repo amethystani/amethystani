@@ -1,27 +1,29 @@
-<a href="https://www.animeshmishra.us/"><img src="assets/profile-orbit.svg" width="100%" alt="Animesh Mishra — ML/NLP researcher. I build models, then question them. Scientific AI, conflicting evidence, and model evaluation." /></a>
+<p align="center">
+  <a href="https://www.animeshmishra.us/"><img src="assets/profile-orbit.svg" width="100%" alt="Animesh Mishra — ML/NLP researcher studying when language models can be trusted." /></a>
+</p>
 
 <p align="center">
-  <a href="https://www.animeshmishra.us/"><b>WEBSITE ↗</b></a> &emsp;·&emsp;
-  <a href="https://www.animeshmishra.us/releases"><b>PUBLICATIONS ↗</b></a> &emsp;·&emsp;
-  <a href="https://www.linkedin.com/in/animesh-mishra-in/"><b>LINKEDIN ↗</b></a> &emsp;·&emsp;
+  <a href="https://www.animeshmishra.us/"><b>WEBSITE ↗</b></a> &nbsp;·&nbsp;
+  <a href="https://www.animeshmishra.us/releases"><b>PUBLICATIONS ↗</b></a> &nbsp;·&nbsp;
+  <a href="https://www.linkedin.com/in/animesh-mishra-in/"><b>LINKEDIN ↗</b></a> &nbsp;·&nbsp;
   <a href="mailto:animeshmishra0567@gmail.com"><b>LET’S TALK ↗</b></a>
 </p>
 
-<br />
-
-I study **when language models can be trusted**—especially when the evidence is conflicting, the input changes form, or the evaluation misses something important. Then I build the benchmarks and systems to test it.
-
-**Previously / alongside:** open-source contributions at **Nous Research**, research at **DRDO** and **Complexity Science Hub Vienna**, and co-founding **ClerkTree**.
+<p align="center"><sub>ML / NLP RESEARCHER &nbsp;·&nbsp; NEW DELHI, INDIA &nbsp;·&nbsp; OPEN TO RESEARCH ROLES</sub></p>
 
 <br />
 
-### THE LONG GAME · LIVE HOLD’EM
+<p align="center"><b>THE LONG GAME</b> &nbsp; / &nbsp; <sub>LIVE TEXAS HOLD’EM · PLAY CHIPS ONLY</sub></p>
 
-Real Texas Hold’em rules, a full table of rotating players, and a slower hand-by-hand pace. Hole cards stay private until showdown; the table deals on forever. **Play chips only.**
+<a href="https://amethystani.github.io/amethystani/poker/"><img src="assets/the-long-game.svg" width="100%" alt="An animated, endlessly dealing Texas Hold’em table. Click to open the live table." /></a>
 
-<a href="https://amethystani.github.io/amethystani/poker/"><img src="assets/the-long-game.svg" width="100%" alt="An orange-lit, animated Texas Hold’em table. Watch a complete hand unfold, then click to join the endlessly running live table." /></a>
+<p align="center"><a href="https://amethystani.github.io/amethystani/"><b>OPEN THE LIVE TABLE ↗</b></a> &nbsp;·&nbsp; Four seats. Real Hold’em rules. Fresh hands, forever.</p>
 
-<p align="center"><a href="https://amethystani.github.io/amethystani/poker/"><b>TAKE A SEAT · WATCH THE LIVE TABLE ↗</b></a></p>
+<br />
+
+I study **when language models can be trusted**—especially when evidence conflicts, inputs change form, or evaluations miss something important. I build benchmarks and systems to test those limits.
+
+<sub>Previously: **Nous Research** · **DRDO** · **Complexity Science Hub Vienna** &nbsp; / &nbsp; Co-founded **ClerkTree**</sub>
 
 <br />
 
@@ -31,14 +33,8 @@ Real Texas Hold’em rules, a full table of rotating players, and a slower hand-
 <br />
 <a href="https://github.com/amethystani/palimpsest"><img src="assets/palimpsest-orange.svg" width="49%" alt="Palimpsest: translation evaluation for information lost during tokenisation." /></a> <a href="https://github.com/amethystani/deferseg"><img src="assets/deferseg-orange.svg" width="49%" alt="DeferSeg: tile-scheduled neural passes for real-time AR compositing." /></a>
 
-<br />
+<p align="center"><sub>PYTHON &nbsp;·&nbsp; RUST &nbsp;·&nbsp; PYTORCH &nbsp;·&nbsp; NLP &nbsp;·&nbsp; RAG &nbsp;·&nbsp; MODEL EVALUATION</sub></p>
 
-**TOOLS OF THE TRADE** &nbsp; `Python` `Rust` `PyTorch` `NLP` `RAG` `Model evaluation` `Backend systems`
+<hr />
 
----
-
-**Interesting questions deserve working code.** [Bring me yours →](mailto:animeshmishra0567@gmail.com)
-
-<sub>New Delhi, India &nbsp; / &nbsp; Open to research roles &nbsp; / &nbsp; [ORCID](https://orcid.org/0009-0009-1770-6329)</sub>
-
-<sub>Texas Hold’em engine: [poker-ts](https://github.com/claudijo/poker-ts) · Playing-card artwork: [Block52/cards](https://github.com/block52/cards) · [Watch the live table →](https://amethystani.github.io/amethystani/poker/)</sub>
+<p align="center"><b>Interesting questions deserve working code.</b><br /><a href="mailto:animeshmishra0567@gmail.com">Bring me yours →</a> &nbsp;·&nbsp; <a href="https://orcid.org/0009-0009-1770-6329">ORCID</a></p>

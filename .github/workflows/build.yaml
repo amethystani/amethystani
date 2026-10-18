@@ -6,7 +6,7 @@ on:
   schedule:
     # Daily at 04:20 UTC — refresh the animated poker table
     - cron: "20 4 * * *"
-    # Weekly on Monday 06:00 UTC — featured project rotation
+    # Weekly on Monday 06:00 UTC — refresh the table animation
     - cron: "0 6 * * 1"
   workflow_dispatch:   # allow manual trigger from Actions tab
 
