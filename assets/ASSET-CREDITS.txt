@@ -6,4 +6,4 @@ The playing-card SVG artwork is from Block52/cards (MIT):
 https://github.com/block52/cards
 Their full license texts are in poker/vendor/.
 
-the-long-game.svg and live-poker-simulation.png are generated from complete hands dealt by poker-ts through poker/simulation.mjs. The APNG shows 62 game states across four hands and loops continuously. GitHub Actions refreshes it during each main-branch deployment. It is a finite replay because GitHub profile READMEs cannot execute a live JavaScript game; clicking the preview opens the autoplaying table at https://amethystani.github.io/amethystani/.
+the-long-game.svg and live-poker-simulation.png are generated from complete hands dealt by poker-ts through poker/simulation.mjs. The APNG shows dozens of game states across four hands and loops continuously. GitHub Actions refreshes it during each main-branch deployment. It is a finite replay because GitHub profile READMEs cannot execute a live JavaScript game; clicking the preview opens the autoplaying table at https://amethystani.github.io/amethystani/.
