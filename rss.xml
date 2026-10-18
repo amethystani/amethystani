@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog · Pip</title>
+    <link>https://amethystani.github.io/amethystani/blog</link>
+    <atom:link href="https://amethystani.github.io/amethystani/rss.xml" rel="self" type="application/rss+xml" />
+    <description>Notes from the Pip table — what shipped, what changed, and the occasional hand worth talking about.</description>
+    <item>
+      <title>Your cards stay on the server</title>
+      <link>https://amethystani.github.io/amethystani/blog/your-cards-stay-on-the-server</link>
+      <guid>https://amethystani.github.io/amethystani/blog/your-cards-stay-on-the-server</guid>
+      <description>In single-player Pip the whole deck is in your browser. At a multiplayer table that would let anyone read your cards, so our server deals and sends each player only what they may see. The test that checks every step, the one that keeps the AI players honest, and what it does not do.</description>
+      <pubDate>Mon, 12 Oct 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>A beginner beat our hardest table by betting</title>
+      <link>https://amethystani.github.io/amethystani/blog/a-beginner-beat-the-main-event</link>
+      <guid>https://amethystani.github.io/amethystani/blog/a-beginner-beat-the-main-event</guid>
+      <description>The Main Event folded 71% of checked flops to a two-thirds pot bet, where 40% already pays. A player two months into poker found it before we did. What the bots remember now.</description>
+      <pubDate>Thu, 08 Oct 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Why a flush beats a full house in Short Deck</title>
+      <link>https://amethystani.github.io/amethystani/blog/short-deck-flush-beats-full-house</link>
+      <guid>https://amethystani.github.io/amethystani/blog/short-deck-flush-beats-full-house</guid>
+      <description>Short Deck throws out the deuces through fives, and the hand order moves to match. Every five- and seven-card hand on a thirty-six card deck, counted by the evaluator that settles Pip’s Short Deck pots.</description>
+      <pubDate>Tue, 06 Oct 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Omaha’s exactly-two rule, in five hands</title>
+      <link>https://amethystani.github.io/amethystani/blog/omaha-exactly-two</link>
+      <guid>https://amethystani.github.io/amethystani/blog/omaha-exactly-two</guid>
+      <description>In Pot-Limit Omaha you hold four cards and must play exactly two with three from the board. Five hands where that changes the answer, checked against the evaluator that settles Pip’s Omaha pots, and how big a pot-limit raise can be.</description>
+      <pubDate>Mon, 05 Oct 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>What Google and Apple tell us when you sign in</title>
+      <link>https://amethystani.github.io/amethystani/blog/sign-in-with-google-and-apple</link>
+      <guid>https://amethystani.github.io/amethystani/blog/sign-in-with-google-and-apple</guid>
+      <description>Pip accounts can now be made with Google or Apple. Both send us your email and an id, Google adds your name and picture, Apple your name once. We never show or use them.</description>
+      <pubDate>Sun, 04 Oct 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Pot odds when you can’t cover the bet</title>
+      <link>https://amethystani.github.io/amethystani/blog/short-stack-pot-odds</link>
+      <guid>https://amethystani.github.io/amethystani/blog/short-stack-pot-odds</guid>
+      <description>Facing a bet bigger than your stack, you pay less than the bet and play for less than the pot. Our session review got both halves wrong and called a fold that cost four big blinds a good one. The right sum, worked through one spot.</description>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Deal me in dealt you a menu</title>
+      <link>https://amethystani.github.io/amethystani/blog/deal-me-in</link>
+      <guid>https://amethystani.github.io/amethystani/blog/deal-me-in</guid>
+      <description>In September, 68 of the 217 people who made a player on Pip did not play a hand within the hour. The tour was not why. The button that said Deal me in opened the lobby, and now it opens a table.</description>
+      <pubDate>Wed, 30 Sep 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Pip has a membership now</title>
+      <link>https://amethystani.github.io/amethystani/blog/pip-has-a-membership</link>
+      <guid>https://amethystani.github.io/amethystani/blog/pip-has-a-membership</guid>
+      <description>£5.99 a month or £49 a year, for the side tables and the games that are not Hold’em. The ladder, the Rail, the Daily and the freeroll stay free.</description>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>The mock-ups on your landing page are untested claims</title>
+      <link>https://amethystani.github.io/amethystani/blog/landing-page-mockups</link>
+      <guid>https://amethystani.github.io/amethystani/blog/landing-page-mockups</guid>
+      <description>Our home page draws four small pictures of what the game produces. Three were typed out by hand and all three had drifted: a share line missing the address that makes it a loop, a hand permalink six characters long on the card that says there is no server, and an equity read labelled with a phrase the game has never emitted, over a percentage its own caption contradicted. Why the suite stayed green, and the two ways to draw your own output that are true by construction.</description>
+      <pubDate>Thu, 17 Sep 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Your Cloudflare Pages site is on Google twice</title>
+      <link>https://amethystani.github.io/amethystani/blog/cloudflare-pages-dev-duplicate</link>
+      <guid>https://amethystani.github.io/amethystani/blog/cloudflare-pages-dev-duplicate</guid>
+      <description>Cloudflare noindexes preview deployments and says nothing about the production pages.dev alias, which serves your whole site on a second host. Ours did, for five weeks, with a correct canonical tag on every page. The two-line rule that fixed it, why it is not a redirect, and the test that stops the same file deindexing the real domain.</description>
+      <pubDate>Wed, 16 Sep 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>A route missing from your sitemap is not noindexed</title>
+      <link>https://amethystani.github.io/amethystani/blog/sitemap-is-not-noindex</link>
+      <guid>https://amethystani.github.io/amethystani/blog/sitemap-is-not-noindex</guid>
+      <description>Leaving a URL out of the sitemap instructs nobody. Ours never listed the game, Google indexed it anyway under the home page’s title, and the fix we shipped covered one route and missed thirty-two. What replaced it: every route is published, noindex, or written down with a reason.</description>
+      <pubDate>Tue, 15 Sep 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>How accurate is a poker equity calculator? We checked ours against an answer we could count</title>
+      <link>https://amethystani.github.io/amethystani/blog/how-accurate-is-a-poker-equity-calculator</link>
+      <guid>https://amethystani.github.io/amethystani/blog/how-accurate-is-a-poker-equity-calculator</guid>
+      <description>Every sampled equity number carries an error bar, and almost nobody prints one or tests it. There is exactly one spot where the true answer is countable. Here is what 100 runs against it say about the band we print.</description>
+      <pubDate>Mon, 14 Sep 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>August: what shipped</title>
+      <link>https://amethystani.github.io/amethystani/blog/august-what-shipped</link>
+      <guid>https://amethystani.github.io/amethystani/blog/august-what-shipped</guid>
+      <description>Six written guides, a free odds calculator, a drill that marks your answer, a card at the end of a tournament, and the month we measured our own bots and published our own errors.</description>
+      <pubDate>Wed, 02 Sep 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Five things pokersolver does that its README does not mention</title>
+      <link>https://amethystani.github.io/amethystani/blog/pokersolver-undocumented</link>
+      <guid>https://amethystani.github.io/amethystani/blog/pokersolver-undocumented</guid>
+      <description>Its cards array can hand you seven cards for a five-card hand, an ace playing low comes back with the value 1, and a royal flush is named “Straight Flush”. Each one with the input that produces it.</description>
+      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Everything we have published that was wrong</title>
+      <link>https://amethystani.github.io/amethystani/blog/what-we-got-wrong</link>
+      <guid>https://amethystani.github.io/amethystani/blog/what-we-got-wrong</guid>
+      <description>Every false claim we have shipped: what each one said, how long it served, how we found it, and the test that now fails if it comes back. The newest one is a sentence in this post.</description>
+      <pubDate>Mon, 24 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Verify today’s deal yourself</title>
+      <link>https://amethystani.github.io/amethystani/blog/verify-todays-deal</link>
+      <guid>https://amethystani.github.io/amethystani/blog/verify-todays-deal</guid>
+      <description>Everyone playing the Daily gets the same shuffle. Here are the six steps that produce it, a snippet that runs anywhere, and one day’s deck to check yourself against.</description>
+      <pubDate>Thu, 20 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Two devices, two chip counts</title>
+      <link>https://amethystani.github.io/amethystani/blog/two-devices-two-chip-counts</link>
+      <guid>https://amethystani.github.io/amethystani/blog/two-devices-two-chip-counts</guid>
+      <description>Pip now has an optional account that carries your progress to a second device. The interesting part isn’t the sign-in, it’s what happens when both devices have been played.</description>
+      <pubDate>Tue, 04 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Pip, for readers who aren’t people</title>
+      <link>https://amethystani.github.io/amethystani/blog/agent-readable</link>
+      <guid>https://amethystani.github.io/amethystani/blog/agent-readable</guid>
+      <description>Every content page now answers Accept: text/markdown with its plain text version — a free-plan build of what Cloudflare offers as Markdown for Agents, in about ninety lines.</description>
+      <pubDate>Sun, 26 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Launch week: what shipped</title>
+      <link>https://amethystani.github.io/amethystani/blog/launch-week</link>
+      <guid>https://amethystani.github.io/amethystani/blog/launch-week</guid>
+      <description>A new card back, four more hand nicknames, a quicker freeroll, and three strangers in the credits — everything that changed in Pip’s first days in the open.</description>
+      <pubDate>Sat, 25 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Pip is live, and it’s open source</title>
+      <link>https://amethystani.github.io/amethystani/blog/pip-is-live</link>
+      <guid>https://amethystani.github.io/amethystani/blog/pip-is-live</guid>
+      <description>Single-player Texas Hold’em with no account needed, no ads, and no real money — now live at playpip.io, with the whole codebase in the open.</description>
+      <pubDate>Sat, 25 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,114 @@
+# Cloudflare Pages response headers (copied verbatim to out/_headers on export).
+# The OG image routes are extension-less files, so static hosting would serve
+# them as octet-stream and social scrapers would reject them. Force image/png.
+/opengraph-image
+  Content-Type: image/png
+  Cache-Control: public, max-age=86400
+/hand/opengraph-image
+  Content-Type: image/png
+  Cache-Control: public, max-age=86400
+# The route handler's Content-Type is dropped by the static export (no server
+# is left to send it), so Pages would serve the feed off the .xml extension as
+# application/xml. Readers accept that, but say what it actually is.
+/rss.xml
+  Content-Type: application/rss+xml; charset=utf-8
+# The Pages project's production alias serves this same build on a second host,
+# and Cloudflare only adds noindex to *preview* deployments, so
+# pip-web-9oj.pages.dev is a fully crawlable duplicate of the whole site. The
+# canonical tag on every page points at playpip.io, but a canonical is a hint
+# and a directive is not, and the one thing we cannot afford on a domain this
+# young is splitting what little ranking signal exists across two hosts.
+#
+# A rule with a host in it applies to that host only, so playpip.io is
+# untouched. Preview deployments are a different host again
+# (<hash>.pip-web-9oj.pages.dev) and keep the noindex Cloudflare gives them,
+# which matters because their permanent addresses are how any past build gets
+# audited from outside (see the account outage, #92).
+#
+# Chosen over a 301 in a Pages Function: a root functions/_middleware.ts runs
+# for every request to the project including static assets, so redirecting one
+# host would put a Worker invocation in front of every chunk, image and font on
+# playpip.io as well. That is a real cost for an SEO hygiene fix, and this file
+# costs nothing at runtime.
+https://pip-web-9oj.pages.dev/*
+  X-Robots-Tag: noindex
+
+# Markdown mirrors point back at their pages (scripts/gen-llms.mjs).
+/index.md
+  Link: <https://amethystani.github.io/amethystani>; rel="canonical"
+/learn.md
+  Link: <https://amethystani.github.io/amethystani/learn>; rel="canonical"
+/daily.md
+  Link: <https://amethystani.github.io/amethystani/daily>; rel="canonical"
+/play-poker-free-no-signup.md
+  Link: <https://amethystani.github.io/amethystani/play-poker-free-no-signup>; rel="canonical"
+/poker-odds-calculator.md
+  Link: <https://amethystani.github.io/amethystani/poker-odds-calculator>; rel="canonical"
+/blog.md
+  Link: <https://amethystani.github.io/amethystani/blog>; rel="canonical"
+/credits.md
+  Link: <https://amethystani.github.io/amethystani/credits>; rel="canonical"
+/membership.md
+  Link: <https://amethystani.github.io/amethystani/membership>; rel="canonical"
+/privacy.md
+  Link: <https://amethystani.github.io/amethystani/privacy>; rel="canonical"
+/terms.md
+  Link: <https://amethystani.github.io/amethystani/terms>; rel="canonical"
+/support.md
+  Link: <https://amethystani.github.io/amethystani/support>; rel="canonical"
+/learn/hand-rankings.md
+  Link: <https://amethystani.github.io/amethystani/learn/hand-rankings>; rel="canonical"
+/learn/how-to-play-texas-holdem.md
+  Link: <https://amethystani.github.io/amethystani/learn/how-to-play-texas-holdem>; rel="canonical"
+/learn/starting-hands.md
+  Link: <https://amethystani.github.io/amethystani/learn/starting-hands>; rel="canonical"
+/learn/pot-odds.md
+  Link: <https://amethystani.github.io/amethystani/learn/pot-odds>; rel="canonical"
+/learn/position.md
+  Link: <https://amethystani.github.io/amethystani/learn/position>; rel="canonical"
+/learn/bet-sizing.md
+  Link: <https://amethystani.github.io/amethystani/learn/bet-sizing>; rel="canonical"
+/learn/how-often-do-you-flop-a-set.md
+  Link: <https://amethystani.github.io/amethystani/learn/how-often-do-you-flop-a-set>; rel="canonical"
+/learn/three-pair-in-texas-holdem.md
+  Link: <https://amethystani.github.io/amethystani/learn/three-pair-in-texas-holdem>; rel="canonical"
+/blog/your-cards-stay-on-the-server.md
+  Link: <https://amethystani.github.io/amethystani/blog/your-cards-stay-on-the-server>; rel="canonical"
+/blog/a-beginner-beat-the-main-event.md
+  Link: <https://amethystani.github.io/amethystani/blog/a-beginner-beat-the-main-event>; rel="canonical"
+/blog/short-deck-flush-beats-full-house.md
+  Link: <https://amethystani.github.io/amethystani/blog/short-deck-flush-beats-full-house>; rel="canonical"
+/blog/omaha-exactly-two.md
+  Link: <https://amethystani.github.io/amethystani/blog/omaha-exactly-two>; rel="canonical"
+/blog/sign-in-with-google-and-apple.md
+  Link: <https://amethystani.github.io/amethystani/blog/sign-in-with-google-and-apple>; rel="canonical"
+/blog/short-stack-pot-odds.md
+  Link: <https://amethystani.github.io/amethystani/blog/short-stack-pot-odds>; rel="canonical"
+/blog/deal-me-in.md
+  Link: <https://amethystani.github.io/amethystani/blog/deal-me-in>; rel="canonical"
+/blog/pip-has-a-membership.md
+  Link: <https://amethystani.github.io/amethystani/blog/pip-has-a-membership>; rel="canonical"
+/blog/landing-page-mockups.md
+  Link: <https://amethystani.github.io/amethystani/blog/landing-page-mockups>; rel="canonical"
+/blog/cloudflare-pages-dev-duplicate.md
+  Link: <https://amethystani.github.io/amethystani/blog/cloudflare-pages-dev-duplicate>; rel="canonical"
+/blog/sitemap-is-not-noindex.md
+  Link: <https://amethystani.github.io/amethystani/blog/sitemap-is-not-noindex>; rel="canonical"
+/blog/how-accurate-is-a-poker-equity-calculator.md
+  Link: <https://amethystani.github.io/amethystani/blog/how-accurate-is-a-poker-equity-calculator>; rel="canonical"
+/blog/august-what-shipped.md
+  Link: <https://amethystani.github.io/amethystani/blog/august-what-shipped>; rel="canonical"
+/blog/pokersolver-undocumented.md
+  Link: <https://amethystani.github.io/amethystani/blog/pokersolver-undocumented>; rel="canonical"
+/blog/what-we-got-wrong.md
+  Link: <https://amethystani.github.io/amethystani/blog/what-we-got-wrong>; rel="canonical"
+/blog/verify-todays-deal.md
+  Link: <https://amethystani.github.io/amethystani/blog/verify-todays-deal>; rel="canonical"
+/blog/two-devices-two-chip-counts.md
+  Link: <https://amethystani.github.io/amethystani/blog/two-devices-two-chip-counts>; rel="canonical"
+/blog/agent-readable.md
+  Link: <https://amethystani.github.io/amethystani/blog/agent-readable>; rel="canonical"
+/blog/launch-week.md
+  Link: <https://amethystani.github.io/amethystani/blog/launch-week>; rel="canonical"
+/blog/pip-is-live.md
+  Link: <https://amethystani.github.io/amethystani/blog/pip-is-live>; rel="canonical"

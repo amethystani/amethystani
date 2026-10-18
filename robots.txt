@@ -1,0 +1,10 @@
+# Everyone is welcome: people, search engines, and AI tools alike. Pip is
+# open source (https://github.com/playpip/pip-web); see /llms.txt for an
+# agent-friendly index of every content page's raw Markdown mirror.
+# Content Signals: https://contentsignals.org/
+
+User-Agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+Allow: /
+
+Sitemap: https://playpip.io/sitemap.xml

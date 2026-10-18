@@ -1,0 +1,1 @@
+self.__SSG_MANIFEST=new Set(["\u002Fgame\u002Fdrills\u002F[kind]","\u002Fgame\u002Flessons\u002F[lesson]","\u002Fplay\u002F[venue]"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()
