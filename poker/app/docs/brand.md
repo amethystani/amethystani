@@ -1,0 +1,134 @@
+# Brand — Pip
+
+## Name
+
+**Pip** (lowercase wordmark: `pip`).
+
+A pip is the small suit symbol printed on every playing card — the atom of the card
+world. It's charming, minimal, and instantly card-flavored without needing poker
+literacy: exactly the register of the clean, calm UI. One soft syllable, easy to say
+and spell, and it names a *thing you can draw* — the identity (favicon, wordmark,
+motifs) falls out of it naturally.
+
+(GitHub repo: [`playpip/pip-web`](https://github.com/playpip/pip-web). Lives at
+[playpip.io](https://playpip.io).)
+
+## Positioning
+
+Casual, single-player Texas Hold'em, **redesigned** — inspired by [Offsuit](https://offsuit.app/)'s
+anti-casino ethos but its own product (desktop-first; Offsuit is phone-only).
+
+The founding frustration we design against: free poker apps that *"look and feel like a
+scam"* — fake felt, leather, neon, and more time spent closing pop-ups than playing.
+Pip is the opposite.
+
+It is also **open source and local-first** — the code is public and the app runs entirely
+in your browser. That openness is core positioning, not a dev detail: it's the credibility
+that lets us grow (paid cosmetics, multiplayer) without becoming the thing we replaced.
+
+## Principles
+
+1. **No scam energy.** Play money only. No real currency, no `$` symbols (balances read
+   `N chips`). No dark patterns, no forced pop-ups, no pay-to-win.
+
+   **The one place real money appears is the membership's own price** (Will, 2026-09-23),
+   and it is shown in the buyer's currency — `£5.99`, `$7.99`, `€6.99`, `¥58` — on
+   `/membership`, `/terms` and the settings row that sells it. That is a price for a
+   subscription, not a balance, and the rule it is an exception to is about chips: a
+   currency symbol still never sits next to a chip count, a buy-in, a prize or anything
+   in the Chip Shop, and chips are still never for sale. Every price comes from
+   `MEMBERSHIP_PRICES` in `src/config/membership.ts`; nothing writes one by hand.
+
+   **What "pay-to-win" means here, since the membership made it a live question**
+   (Will, 2026-09-16): buying an advantage *over another player*. Pip is single-player,
+   there is no leaderboard, and there is nobody to overtake — so there is no contest a
+   member can buy their way to the front of. Member rooms are ranked and a member does
+   reach a rank sooner for having more tables to win at, but that is pace through
+   single-player content, which is what every game with paid content sells. If somebody
+   wants to farm chips, that is their evening.
+
+   **The line doing the real work underneath it is narrower and absolute: nothing you can
+   buy changes a hand** — not the cards, the odds, the information on screen, or a rebuy.
+   That one holds in every case, including the one below.
+
+   **Made again for multiplayer (2026-10-11)**, because now there is somebody to play
+   against. Nobody at a table can see anybody else's Roll or rank, so rank is still private
+   pace; everyone at a table sits with the same stack, sees the same things and has the
+   same clock; and the membership changes nothing once the cards are dealt. See
+   [multiplayer.md](./multiplayer.md) and `docs/membership.md` rule 3.
+2. **Clean over decorated.** Flat, black-first, one accent at a time. The table is drawn as
+   a table (a quiet cloth, a dark rail), but never as a casino: no baize texture, no
+   leather, no neon, no gold.
+3. **Calm information.** Helpful stats (win %, hand strength) are ambient, never nagging.
+4. **Premium restraint.** Subtle motion and sound; generous space; nothing gratuitous.
+5. **Play first, then a free account worth having.** No login, no barrier, nothing to verify
+   before you play: press Play and you are dealt in, under a placeholder name and a random
+   face you can change from the lobby (2026-10-07; it used to be "type a name"). The free account is the second half of
+   that sentence, not a footnote. An email and a password, nothing to confirm, and your Roll
+   follows you to every device. Offer it plainly and often; lead with the offer, never with
+   "no account needed". **Prominent is not pushy, and the line is mechanical:** permanent
+   furniture on a screen the player is already on is fine, anything that appears over what
+   they were doing, or comes back after being closed, is not. See docs/sync.md → Where the
+   account is offered. **On the marketing and search pages it is one shared sentence,
+   `ACCOUNT_OFFER` in `src/config/account.ts`**, because within a week of this principle
+   landing the site was describing the same account three different ways and the eight
+   `/learn` guides did not mention it at all. A page that wants to say something else about
+   the account edits that constant, for every page at once. `tests/accountClaims.test.ts`
+   holds the inventory of the pages allowed to phrase it themselves, with the reason.
+6. **Open by default.** Pip is open source — the deterministic, seeded engine most of
+   all. Anyone can read exactly how a hand is dealt and shuffled, fork it, or self-host.
+   This is a deliberate trust foundation, not a footnote: when we later add things you
+   can pay for (rooms, formats, cosmetics, coaching) and social/multiplayer play,
+   *"you can read the code"* is what keeps the no-scam promise credible. Provably fair
+   beats "trust us." **It also does the arguing for us on the membership**: anyone who
+   suspects a member room deals differently can read `config/venues.ts` and the engine and
+   find that it does not. Guard this — closing the source, or shipping logic the public
+   repo doesn't reflect, would quietly break the brand's core promise.
+
+## Voice & tone
+
+- Short, confident, unfussy. Lowercase wordmark; sentence-case UI.
+- Poker-literate but friendly (venue taglines: *"Hustlers between shots."*,
+  *"Balanced ranges, semi-bluffs, traps."*). Never hype-y or casino-barker.
+- Encouraging, not exploitative — the broke-player line is *"Broke? Win your way back
+  at the Kitchen Table."* (a freeroll, not a handout).
+
+### The dry line (character copy)
+
+Character copy — table talk, bios, shop blurbs — has a house register:
+**deadpan and observational, usually two beats, the second undercutting the
+first.**
+
+> *"Ted asks what the blinds are. Again."*
+> *"Pearl straightens the shelf. It was already straight."*
+> *"Racing Green. Goes faster. (It doesn't.)"*
+> *"The Golden Pip. It's a pip. It's gold. It does nothing at all."*
+
+Rules of the register:
+
+- **Observe, don't perform.** The narrator reports what happened, flatly; the
+  joke lives in the gap between the sentences, never in an exclamation mark.
+- **Affectionate, never mean.** The joke is on the situation (or the product
+  being honest about itself), never on the player.
+- **Short.** One line, two sentences at most. If it needs a third beat, cut it.
+- **Honest.** The dryness often comes from telling the truth plainly —
+  especially about cosmetics doing nothing. Self-aware beats salesy.
+- The bartender test: if the line wouldn't land spoken flatly by a bartender,
+  cut it.
+
+## Naming within the product
+
+- The bankroll is **"your Roll."**
+- Tables are **venues**, arranged as a **ladder** from *Friends' Garage* → *The Main Event*.
+- Opponents are **the cast** — a fixed troupe of named regulars (see
+  `config/cast.ts` and [cast.md](./cast.md)).
+
+## Do / Don't
+
+| Do | Don't |
+|----|-------|
+| Say "chips", show `1,200 chips` | Show `$1,200` or imply real money |
+| Use one accent per surface | Rainbow gradients, neon |
+| Flat cards, subtle shadow | Fake felt, leather textures, glossy 3D |
+| Quiet, tactile SFX | Casino jingles, coin-clatter, fanfares |
+| Open source, provably fair | Hidden logic, "trust us", closed shuffles |

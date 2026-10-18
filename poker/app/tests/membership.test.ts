@@ -1,0 +1,126 @@
+import test from 'ava'
+import {
+  HOW_TO_CANCEL,
+  MEMBERSHIP_FEATURES,
+  MEMBERSHIP_PRICE,
+  MEMBERSHIP_PROMISES,
+  checkoutReady,
+  included,
+  sellableFeatures,
+} from '@/config/membership'
+
+// What is checked here is not arithmetic, it is honesty.
+//
+// `/membership` is the first page this project has ever built whose job is to
+// persuade, and the failure it is prone to has a name in this repo already: the
+// ROADMAP said the membership was not built when part of it was, then said one
+// drill was behind it when it was two. Both were written by somebody who meant
+// it at the time. A sales page has the same shape and a worse consequence,
+// because somebody pays.
+//
+// So the list of what you get is data, the page renders a filtered view of it,
+// and the filter is tested. A feature that does not exist cannot reach the page
+// by being written enthusiastically.
+
+test('a feature nobody can use yet is never advertised', (t) => {
+  for (const feature of sellableFeatures()) {
+    t.true(feature.shipped, `${feature.id} is sellable without being shipped`)
+  }
+  const unshipped = MEMBERSHIP_FEATURES.filter((f) => !f.shipped)
+  t.false(
+    sellableFeatures().some((f) => unshipped.includes(f)),
+    'an unshipped feature reached the sellable list',
+  )
+  // Multiplayer is built, and sold only by a build with a room server to sit at.
+  t.is(
+    sellableFeatures().some((f) => f.id === 'multiplayer'),
+    Boolean(process.env.NEXT_PUBLIC_ROOMS_URL),
+  )
+})
+
+// The list used to be required to carry something unbuilt, so the roadmap half
+// could not quietly vanish from the file and reappear as marketing. Multiplayer
+// was the last thing in it, and it shipped on 2026-10-11, so that half of this
+// test was deleted on purpose, as it asked to be. In a build with no room
+// server multiplayer is unbuilt again (`shipped` follows NEXT_PUBLIC_ROOMS_URL),
+// and the page's "What isn't built yet" answer comes back by itself.
+test('every feature on the list has something to say', (t) => {
+  t.true(
+    MEMBERSHIP_FEATURES.every((f) => f.title && f.blurb),
+    'a feature with nothing to say',
+  )
+})
+
+// Drills shipped and are gated today. If this fails, either the drills became
+// free or the list stopped mentioning them, and both are decisions rather than
+// slips.
+test('the drills are on the list and they are real', (t) => {
+  const drills = MEMBERSHIP_FEATURES.find((f) => f.id === 'drills')
+  t.truthy(drills, 'the one thing the membership actually contains is not listed')
+  t.true(drills?.shipped, 'the gated drills are live in the app')
+})
+
+// One price, written once. The pence and the display string are two
+// representations of one number and the way they break is that somebody edits
+// the copy and not the integer Stripe is charging against.
+test('the price says the same thing twice', (t) => {
+  t.is(MEMBERSHIP_PRICE.monthlyPence, 599)
+  t.is(MEMBERSHIP_PRICE.annualPence, 4900)
+  t.is(MEMBERSHIP_PRICE.monthly, '£5.99')
+  t.is(MEMBERSHIP_PRICE.annual, '£49')
+  t.is(MEMBERSHIP_PRICE.currency, 'GBP')
+  t.true(
+    MEMBERSHIP_PRICE.annualPence < MEMBERSHIP_PRICE.monthlyPence * 12,
+    'the annual price is not a saving',
+  )
+})
+
+// Nobody can buy anything until the Stripe ids are configured, and the join
+// button reads this rather than rendering hopefully. A checkout that cannot
+// complete is worse than no button.
+test('checkout is closed until Stripe is configured', (t) => {
+  t.is(
+    checkoutReady(),
+    Boolean(
+      process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTHLY && process.env.NEXT_PUBLIC_STRIPE_PRICE_ANNUAL,
+    ),
+  )
+})
+
+// The two promises are said out loud on the page rather than kept in docs,
+// because a rule the customer can read is a rule we can be held to. Pinned here
+// so that removing one is a test edit somebody has to justify.
+test('the two promises are still made', (t) => {
+  t.is(MEMBERSHIP_PROMISES.length, 2)
+  t.regex(MEMBERSHIP_PROMISES[0], /free/i)
+  t.regex(MEMBERSHIP_PROMISES[1], /nothing you can buy changes a hand/i)
+  t.regex(HOW_TO_CANCEL, /cancel/i)
+})
+
+// The gate itself. One line, and the only thing worth pinning is the direction
+// of the default: no flag means everybody, and that is what stops a new venue
+// or cosmetic being paid by accident.
+test('the gate lets everyone through unless something says otherwise', (t) => {
+  t.true(included({}, false), 'an unflagged thing is not free')
+  t.true(included({}, true))
+  t.true(included({ membersOnly: false }, false))
+  t.false(included({ membersOnly: true }, false), 'a stranger opened a paid thing')
+  t.true(included({ membersOnly: true }, true), 'a member was refused what they paid for')
+})
+
+// The daily free game is written once and the page says it from there.
+test('the plans section says one member game a day is free', async (t) => {
+  const { DAILY_FREE_GAME } = await import('@/config/membership')
+  t.regex(DAILY_FREE_GAME, /^One member game a day is free without joining/)
+  t.regex(DAILY_FREE_GAME, /midnight UTC/, 'it does not say when it comes back')
+  const { readFileSync } = await import('node:fs')
+  const page = readFileSync(
+    new URL('../src/components/membership/MembershipScreen.tsx', import.meta.url),
+    'utf-8',
+  )
+  const plans = page.slice(page.indexOf('function Plans('), page.indexOf('// --- joining'))
+  t.true(plans.includes('DAILY_FREE_GAME'), 'the plans box does not mention the daily free game')
+  // And the copy on the cards agrees with the page about how many.
+  const { TASTE_COPY } = await import('@/lib/membership/taste')
+  t.regex(TASTE_COPY.note, /One member game a day is free/)
+})

@@ -1,0 +1,250 @@
+import type { Metadata } from 'next'
+import { MEMBERSHIP_PRICE } from './membership'
+import { contentAlternates, contentSocial, SITE_URL } from './site'
+
+// The blog's table of contents. Each post is a static page under
+// src/app/blog/<slug>/ — this registry drives the index page, the sitemap, and
+// per-post metadata, so a new post is one folder plus one entry here.
+
+export interface BlogPost {
+  /** URL segment — must match the post's folder under src/app/blog/. */
+  slug: string
+  title: string
+  /** One-line summary, used on the index and as the meta description. */
+  description: string
+  /** ISO date, e.g. '2026-07-25'. */
+  date: string
+}
+
+/** Newest first — the index renders this order as-is. */
+export const BLOG_POSTS: BlogPost[] = [
+  {
+    slug: 'your-cards-stay-on-the-server',
+    title: 'Your cards stay on the server',
+    description:
+      'In single-player Pip the whole deck is in your browser. At a multiplayer table that would let anyone read your cards, so our server deals and sends each player only what they may see. The test that checks every step, the one that keeps the AI players honest, and what it does not do.',
+    date: '2026-10-12',
+  },
+  {
+    slug: 'a-beginner-beat-the-main-event',
+    title: 'A beginner beat our hardest table by betting',
+    description:
+      'The Main Event folded 71% of checked flops to a two-thirds pot bet, where 40% already pays. A player two months into poker found it before we did. What the bots remember now.',
+    date: '2026-10-08',
+  },
+  {
+    slug: 'short-deck-flush-beats-full-house',
+    title: 'Why a flush beats a full house in Short Deck',
+    description:
+      'Short Deck throws out the deuces through fives, and the hand order moves to match. Every five- and seven-card hand on a thirty-six card deck, counted by the evaluator that settles Pip’s Short Deck pots.',
+    date: '2026-10-06',
+  },
+  {
+    slug: 'omaha-exactly-two',
+    title: 'Omaha’s exactly-two rule, in five hands',
+    description:
+      'In Pot-Limit Omaha you hold four cards and must play exactly two with three from the board. Five hands where that changes the answer, checked against the evaluator that settles Pip’s Omaha pots, and how big a pot-limit raise can be.',
+    date: '2026-10-05',
+  },
+  {
+    slug: 'sign-in-with-google-and-apple',
+    title: 'What Google and Apple tell us when you sign in',
+    description:
+      'Pip accounts can now be made with Google or Apple. Both send us your email and an id, Google adds your name and picture, Apple your name once. We never show or use them.',
+    date: '2026-10-04',
+  },
+  {
+    slug: 'short-stack-pot-odds',
+    title: 'Pot odds when you can’t cover the bet',
+    description:
+      'Facing a bet bigger than your stack, you pay less than the bet and play for less than the pot. Our session review got both halves wrong and called a fold that cost four big blinds a good one. The right sum, worked through one spot.',
+    date: '2026-10-02',
+  },
+  {
+    slug: 'deal-me-in',
+    title: 'Deal me in dealt you a menu',
+    description:
+      'In September, 68 of the 217 people who made a player on Pip did not play a hand within the hour. The tour was not why. The button that said Deal me in opened the lobby, and now it opens a table.',
+    date: '2026-09-30',
+  },
+  {
+    slug: 'pip-has-a-membership',
+    title: 'Pip has a membership now',
+    description: `${MEMBERSHIP_PRICE.monthly} a month or ${MEMBERSHIP_PRICE.annual} a year, for the side tables and the games that are not Hold’em. The ladder, the Rail, the Daily and the freeroll stay free.`,
+    date: '2026-09-29',
+  },
+  {
+    slug: 'landing-page-mockups',
+    title: 'The mock-ups on your landing page are untested claims',
+    description:
+      'Our home page draws four small pictures of what the game produces. Three were typed out by hand and all three had drifted: a share line missing the address that makes it a loop, a hand permalink six characters long on the card that says there is no server, and an equity read labelled with a phrase the game has never emitted, over a percentage its own caption contradicted. Why the suite stayed green, and the two ways to draw your own output that are true by construction.',
+    date: '2026-09-17',
+  },
+  {
+    slug: 'cloudflare-pages-dev-duplicate',
+    title: 'Your Cloudflare Pages site is on Google twice',
+    description:
+      'Cloudflare noindexes preview deployments and says nothing about the production pages.dev alias, which serves your whole site on a second host. Ours did, for five weeks, with a correct canonical tag on every page. The two-line rule that fixed it, why it is not a redirect, and the test that stops the same file deindexing the real domain.',
+    date: '2026-09-16',
+  },
+  {
+    slug: 'sitemap-is-not-noindex',
+    title: 'A route missing from your sitemap is not noindexed',
+    description:
+      'Leaving a URL out of the sitemap instructs nobody. Ours never listed the game, Google indexed it anyway under the home page’s title, and the fix we shipped covered one route and missed thirty-two. What replaced it: every route is published, noindex, or written down with a reason.',
+    date: '2026-09-15',
+  },
+  {
+    slug: 'how-accurate-is-a-poker-equity-calculator',
+    title:
+      'How accurate is a poker equity calculator? We checked ours against an answer we could count',
+    description:
+      'Every sampled equity number carries an error bar, and almost nobody prints one or tests it. There is exactly one spot where the true answer is countable. Here is what 100 runs against it say about the band we print.',
+    date: '2026-09-14',
+  },
+  {
+    slug: 'august-what-shipped',
+    title: 'August: what shipped',
+    description:
+      'Six written guides, a free odds calculator, a drill that marks your answer, a card at the end of a tournament, and the month we measured our own bots and published our own errors.',
+    date: '2026-09-02',
+  },
+  {
+    slug: 'pokersolver-undocumented',
+    title: 'Five things pokersolver does that its README does not mention',
+    description:
+      'Its cards array can hand you seven cards for a five-card hand, an ace playing low comes back with the value 1, and a royal flush is named “Straight Flush”. Each one with the input that produces it.',
+    date: '2026-08-28',
+  },
+  {
+    slug: 'what-we-got-wrong',
+    title: 'Everything we have published that was wrong',
+    description:
+      'Every false claim we have shipped: what each one said, how long it served, how we found it, and the test that now fails if it comes back. The newest one is a sentence in this post.',
+    date: '2026-08-24',
+  },
+  {
+    slug: 'verify-todays-deal',
+    title: 'Verify today’s deal yourself',
+    description:
+      'Everyone playing the Daily gets the same shuffle. Here are the six steps that produce it, a snippet that runs anywhere, and one day’s deck to check yourself against.',
+    date: '2026-08-20',
+  },
+  {
+    slug: 'two-devices-two-chip-counts',
+    title: 'Two devices, two chip counts',
+    description:
+      'Pip now has an optional account that carries your progress to a second device. The interesting part isn’t the sign-in, it’s what happens when both devices have been played.',
+    date: '2026-08-04',
+  },
+  {
+    slug: 'agent-readable',
+    title: 'Pip, for readers who aren’t people',
+    description:
+      'Every content page now answers Accept: text/markdown with its plain text version — a free-plan build of what Cloudflare offers as Markdown for Agents, in about ninety lines.',
+    date: '2026-07-26',
+  },
+  {
+    slug: 'launch-week',
+    title: 'Launch week: what shipped',
+    description:
+      'A new card back, four more hand nicknames, a quicker freeroll, and three strangers in the credits — everything that changed in Pip’s first days in the open.',
+    date: '2026-07-25',
+  },
+  {
+    slug: 'pip-is-live',
+    title: 'Pip is live, and it’s open source',
+    description:
+      'Single-player Texas Hold’em with no account needed, no ads, and no real money — now live at playpip.io, with the whole codebase in the open.',
+    date: '2026-07-25',
+  },
+]
+
+const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+] as const
+
+/**
+ * Everything a post's page needs to head itself: title, description, canonical,
+ * feed link and share card, all from the registry entry.
+ *
+ * It is a helper rather than four hand-written blocks because hand-written is
+ * where it went wrong. Each post declared its own title and description and
+ * stopped there, which left all four unfurling as the home page's card, and the
+ * next post would have made the same omission in the same place.
+ */
+export function postMetadata(post: BlogPost): Metadata {
+  const path = `/blog/${post.slug}`
+  return {
+    title: `${post.title} · Pip`,
+    description: post.description,
+    alternates: contentAlternates(path),
+    ...contentSocial({ path, title: post.title, description: post.description }),
+  }
+}
+
+/** '2026-07-25' -> '25 July 2026'. Fixed format — no locale or timezone involved. */
+export function formatPostDate(date: string): string {
+  const [y, m, d] = date.split('-').map(Number)
+  return `${d} ${MONTHS[m - 1]} ${y}`
+}
+
+const SITE = SITE_URL
+
+/** Escape the five XML entities so registry copy stays safe to edit. */
+function escapeXml(text: string): string {
+  return text
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&apos;')
+}
+
+/**
+ * RSS 2.0 feed for the blog, built from the registry as-is (newest first —
+ * the order tests/blog.test.ts pins), served statically from /rss.xml.
+ */
+export function buildRssXml(posts: BlogPost[]): string {
+  const items = posts
+    .map((post) => {
+      const url = `${SITE}/blog/${post.slug}`
+      const pubDate = new Date(`${post.date}T00:00:00Z`).toUTCString()
+      return [
+        '    <item>',
+        `      <title>${escapeXml(post.title)}</title>`,
+        `      <link>${url}</link>`,
+        `      <guid>${url}</guid>`,
+        `      <description>${escapeXml(post.description)}</description>`,
+        `      <pubDate>${pubDate}</pubDate>`,
+        '    </item>',
+      ].join('\n')
+    })
+    .join('\n')
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
+    '  <channel>',
+    '    <title>Blog · Pip</title>',
+    `    <link>${SITE}/blog</link>`,
+    // Tells aggregators the feed's own address, so a mirrored or proxied copy
+    // still points home. The one thing the W3C validator asks for.
+    `    <atom:link href="${SITE}/rss.xml" rel="self" type="application/rss+xml" />`,
+    '    <description>Notes from the Pip table — what shipped, what changed, and the occasional hand worth talking about.</description>',
+    items,
+    '  </channel>',
+    '</rss>',
+    '',
+  ].join('\n')
+}

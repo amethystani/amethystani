@@ -1,0 +1,202 @@
+name: Build and Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-pages
+  cancel-in-progress: true
+
+# Needed to commit the version bump, push the tag, and cut the GitHub Release.
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # main is protected by a ruleset, and GITHUB_TOKEN cannot be given a bypass:
+      # GitHub Actions is not an org-installed app, so it is rejected as a bypass
+      # actor ("must be part of the ruleset source or owner organization").
+      # This app exists solely so the release commit can push through the rule.
+      #
+      # It is deliberately NOT the same app the CTO and CMO runs use. Their token
+      # would then bypass the gate too, which is the whole thing the gate prevents.
+      # This key lives only in pip-web's secrets and nothing else reads it.
+      - name: Mint the release token
+        id: release_app
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.RELEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          # Full history + tags so the release notes can diff against the last
+          # release, and so we can push the bump commit back to main.
+          fetch-depth: 0
+          # Persist the app credential, so the later `git push` carries the
+          # bypass. Without this the push goes out as GITHUB_TOKEN and the
+          # ruleset rejects it, after the deploy has already gone live.
+          token: ${{ steps.release_app.outputs.token }}
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # The test:all gate, one step per check so a failure names its culprit.
+      - name: Check formatting
+        run: pnpm test:format
+
+      - name: Check types
+        run: pnpm test:types
+
+      - name: Lint
+        run: pnpm test:lint
+
+      - name: Run engine tests (AVA)
+        run: pnpm test:ava
+
+      - name: Check for unused code (knip)
+        run: pnpm test:knip
+
+      - name: Security audit
+        run: pnpm test:audit
+
+      # Only real pushes to main cut a release; a manual dispatch just redeploys
+      # the current version. Patch by default; put #minor or #major in a commit
+      # SUBJECT (first lines only, so a body that merely mentions the tokens
+      # can't trigger a bump) to bump harder. The bump is committed BEFORE the
+      # build so the deployed PWA reports the new version and its build id is
+      # this commit.
+      - name: Bump version and stage release commit
+        if: github.event_name == 'push'
+        id: release
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          level=patch
+          # Read every subject since the LAST RELEASE TAG, not just the tip. A
+          # feature is rarely the last commit on a branch: sync's #minor was
+          # thirteen commits down when it landed and shipped as a patch
+          # (technology#18).
+          #
+          # The anchor is the tag rather than github.event.before because this
+          # workflow's concurrency group cancels in-progress runs. When several
+          # merges land inside a minute, every run but the last dies seconds in,
+          # and `before..sha` for the survivor covers ONLY the last merge — every
+          # #minor in a cancelled run's range is never read. Nothing fails and
+          # nothing warns; the site is right and the number is wrong. It ate a
+          # #minor twice (shipped as v1.8.5 and v1.8.11; technology#41).
+          #
+          # A cancelled run leaves no tag behind, so anchoring here makes the
+          # next surviving run's range automatically cover everything the
+          # cancelled ones would have. It is also the range `--generate-notes`
+          # already uses below, so the bump and the notes can no longer disagree.
+          before='${{ github.event.before }}'
+          last_tag=$(git describe --tags --abbrev=0 --match 'v[0-9]*' 2>/dev/null || true)
+          if [ -n "$last_tag" ]; then
+            range="$last_tag..${{ github.sha }}"
+          elif git rev-parse --quiet --verify "$before^{commit}" >/dev/null 2>&1; then
+            # No release tag reachable yet (first release, or tags unfetched).
+            # The pushed range is the next best anchor.
+            range="$before..${{ github.sha }}"
+          else
+            range=''
+          fi
+          if [ -n "$range" ]; then
+            subjects=$(git log --pretty=%s "$range")
+          else
+            # First push to the branch or a force-push: no usable range, so the
+            # tip is the honest answer rather than an error.
+            subjects=$(git log -1 --pretty=%s)
+          fi
+          echo "Subjects in range (${range:-tip only}):"
+          echo "$subjects"
+          if echo "$subjects" | grep -qi '#minor'; then level=minor; fi
+          if echo "$subjects" | grep -qi '#major'; then level=major; fi
+          pnpm version "$level" --no-git-tag-version >/dev/null
+          version=$(node -p "require('./package.json').version")
+          # [skip ci] IS LOAD-BEARING NOW. It used to be belt-and-braces, because a
+          # GITHUB_TOKEN push cannot retrigger a workflow. This commit is pushed with
+          # a GitHub App token, and App pushes DO retrigger: without the marker this
+          # deploy re-runs itself on its own release commit, forever. Do not remove it.
+          git commit -am "chore: release v$version [skip ci]"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Releasing v$version (bump: $level)"
+
+      - name: Build static export
+        # NEXT_PUBLIC_* is baked into the client bundle at build time, so it must
+        # be present for THIS step. It's not a secret (it ships to every visitor),
+        # so it lives as a repo Variable, not a Secret. Unset → no analytics tag.
+        #
+        # The Supabase pair is the same deal, with a sharper failure mode: unset,
+        # syncConfigured() returns false and every account surface hides itself.
+        # The build stays green and sync is simply missing, with nothing in the
+        # logs to say so. If accounts vanish from production, check here first.
+        env:
+          NEXT_PUBLIC_UMAMI_WEBSITE_ID: ${{ vars.NEXT_PUBLIC_UMAMI_WEBSITE_ID }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          # Google / Apple sign-in buttons (docs/sync.md). Unset → email only.
+          NEXT_PUBLIC_AUTH_PROVIDERS: ${{ vars.NEXT_PUBLIC_AUTH_PROVIDERS }}
+          # The two Stripe price ids (docs/stripe.md). Unset → checkoutReady() is
+          # false and /membership shows "Checkout isn't open yet". Set both in the
+          # same breath as deploying the billing Edge Functions, never before.
+          NEXT_PUBLIC_STRIPE_PRICE_MONTHLY: ${{ vars.NEXT_PUBLIC_STRIPE_PRICE_MONTHLY }}
+          NEXT_PUBLIC_STRIPE_PRICE_ANNUAL: ${{ vars.NEXT_PUBLIC_STRIPE_PRICE_ANNUAL }}
+          # `on` shows the opt-in email switches (docs/email.md). Unset → no
+          # switches. Set it once send-emails is deployed and scheduled, never before.
+          NEXT_PUBLIC_EMAILS: ${{ vars.NEXT_PUBLIC_EMAILS }}
+          # The multiplayer room server (docs/multiplayer.md), e.g.
+          # https://rooms.playpip.io. Unset → the Multiplayer tile, the hub and
+          # the membership's multiplayer entry all hide themselves. Set it once
+          # the rooms Worker is deployed and answering, never before.
+          NEXT_PUBLIC_ROOMS_URL: ${{ vars.NEXT_PUBLIC_ROOMS_URL }}
+        run: pnpm build
+
+      # The only place the truth about sync config exists is the emitted bundle. `pnpm build`
+      # cannot fail on missing NEXT_PUBLIC_SUPABASE_*: Next leaves a runtime `process.env.…`
+      # lookup behind, the build goes green, and the site ships with every account surface
+      # rendering null. That is what took accounts off playpip.io for an unknown number of
+      # days (technology#69). This reads `out/` and stops the deploy instead.
+      #
+      # Deliberately not in `pnpm build` or `test:all`: missing config is a supported state
+      # for local builds and forks. It is a fault only here, where the variables are wired.
+      - name: Assert the build has sync configured
+        run: pnpm test:sync-config
+
+      # Plain npx rather than wrangler-action: the action installs wrangler via
+      # the repo's package manager, and pnpm 11 blocks workerd's build script.
+      - name: Publish to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler@4 pages deploy out --project-name=pip-web --branch=main
+
+      # Deploy succeeded — now make it official: push the bump, tag it, and let
+      # GitHub write the release notes from the commits since the last release.
+      - name: Tag and publish GitHub Release
+        if: github.event_name == 'push'
+        env:
+          # The app token, not GITHUB_TOKEN: this push has to clear the ruleset.
+          GITHUB_TOKEN: ${{ steps.release_app.outputs.token }}
+        run: |
+          tag="v${{ steps.release.outputs.version }}"
+          git tag "$tag"
+          git push origin "HEAD:${{ github.ref_name }}"
+          git push origin "$tag"
+          gh release create "$tag" --title "$tag" --generate-notes

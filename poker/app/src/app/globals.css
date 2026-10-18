@@ -1,0 +1,425 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-geist-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* Three sizes the app uses a lot and Tailwind does not name.
+   They exist so the text size setting can reach them. A font size written in
+   pixels is frozen whatever the root font size is, and a caption that stays put
+   while the paragraph around it doubles is the failure WCAG 1.4.4 is about.
+   Repeated sizes get a token, genuine one-offs use an arbitrary rem value, and
+   nothing outside a card face is sized in px. See docs/design.md. */
+@theme {
+  --text-3xs: 0.625rem; /* 10px */
+  --text-2xs: 0.6875rem; /* 11px */
+  --text-md: 0.9375rem; /* 15px, the reading size on /learn */
+}
+
+/* Pip brand palette — the flat, anti-casino look. */
+@theme {
+  --color-suit-red: #f0574e;
+  --color-suit-black: #16161d;
+  /* Four-colour deck (a Chip Shop purchase): diamonds blue, clubs green. */
+  --color-suit-blue: #3d6fc4;
+  --color-suit-green: #3a8f5f;
+  --color-cardface: #fafafa;
+  --color-cardface-ink: #16161d;
+  --color-pip: #ff7628;
+  /* The streak's flame (components/StreakBadge), lit once today has a hand. */
+  --color-streak: #ff8a3d;
+  --color-felt: #0a0a0b;
+
+  /* The table itself (components/table/surface.tsx). A quiet graphite cloth
+     (the venue's accent is mixed into it) and a dark rail: a place to sit, not
+     a casino. A table finish from the Chip Shop replaces the cloth; the rail
+     and the chips stay. */
+  --color-table-cloth: #22242b;
+  --color-table-rail: #141418;
+  --color-table-rail-edge: #2a2a31;
+  --color-table-line: #f4efe1;
+  --color-table-shade: #050506;
+
+  /* Chips. Muted, four denominations, read as clay rather than plastic. */
+  --color-chip-ivory: #e9e3d3;
+  --color-chip-coral: #c9574f;
+  --color-chip-slate: #4a6488;
+  --color-chip-ink: #26262e;
+  --color-chip-stripe: #f6f2e8;
+}
+
+/* Dark only (Will, 2026-10-03). The `dark` class stays on <html> so the
+   `dark:` variants still apply. */
+:root {
+  --background: oklch(0.08 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: #ff7628;
+  --primary-foreground: #10110e;
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: #ff7628;
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+/* --- venue ambience — "barely alive" ---------------------------------------
+   One slow, subtle motion per venue tile (see components/menu/VenueArt.tsx).
+   The rule: a screenshot must look identical. Off under reduced motion. */
+@keyframes venue-drift {
+  from {
+    transform: scale(1.04) translateX(-0.5%);
+  }
+  to {
+    transform: scale(1.04) translateX(0.5%);
+  }
+}
+@keyframes venue-breathe {
+  from {
+    opacity: 0.02;
+  }
+  to {
+    opacity: 0.09;
+  }
+}
+@keyframes venue-flicker {
+  0%,
+  86%,
+  94%,
+  100% {
+    opacity: 0.07;
+  }
+  90% {
+    opacity: 0.015;
+  }
+  92% {
+    opacity: 0.09;
+  }
+}
+.venue-drift {
+  animation: venue-drift 16s ease-in-out infinite alternate;
+}
+.venue-breathe {
+  animation: venue-breathe 7s ease-in-out infinite alternate;
+}
+.venue-flicker {
+  animation: venue-flicker 11s linear infinite;
+}
+/* --- the members' foil ------------------------------------------------------
+   The sheen on a member card back (see components/CardBack.tsx). Slow and long
+   on purpose: seven seconds apart, so it is something you notice rather than
+   something happening at you, and the card is still a card in between. The
+   keyline it sits under is drawn inline and does not move, which is what
+   reduced motion is left with. */
+@keyframes foil-sweep {
+  0% {
+    transform: translateX(0);
+  }
+  /* The travel takes a fifth of the cycle; the rest is the card at rest. */
+  20%,
+  100% {
+    transform: translateX(260%);
+  }
+}
+.foil-sweep {
+  animation: foil-sweep 7s ease-in-out infinite;
+}
+/* --- the hero rise ----------------------------------------------------------
+   Above-the-fold copy on the marketing pages. CSS, not Framer: a Framer
+   `initial` is written into the static HTML as `opacity:0` and only lifted once
+   React hydrates, so on a slow script the headline and the Play button were
+   invisible for seconds. This runs on first paint with no JS at all. Stagger
+   with `--rise-delay`. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise-in {
+  animation: rise-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--rise-delay, 0s);
+}
+
+/* --- the table: chips and the turn ring --------------------------------------
+   A chip is an ellipse seen from a low angle: a striped edge (conic stripes),
+   a plain face inset on top, and a darker lip underneath for thickness. Stacks
+   are absolutely placed chips, three pixels apart. Sized in px because it is a
+   drawing, not type. */
+.table-chip {
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 13px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    from 8deg,
+    var(--chip) 0deg 30deg,
+    var(--color-chip-stripe) 30deg 45deg
+  );
+  box-shadow:
+    0 2px 0 color-mix(in oklab, var(--chip) 55%, var(--color-table-shade)),
+    0 3px 5px color-mix(in oklab, var(--color-table-shade) 45%, transparent);
+}
+.table-chip::after {
+  content: "";
+  position: absolute;
+  inset: 2.5px 4px;
+  border-radius: 50%;
+  background: var(--chip);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-chip-stripe) 35%, transparent);
+}
+
+/* The active seat's ring: a short bright arc travelling round a faint track.
+   Under reduced motion it stops and is simply a ring. */
+@keyframes seat-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.seat-turn {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 200deg,
+    color-mix(in oklab, var(--foreground) 85%, transparent) 300deg,
+    transparent 360deg
+  );
+  animation: seat-turn 1.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .venue-drift,
+  .venue-breathe,
+  .venue-flicker,
+  .foil-sweep,
+  .rise-in {
+    animation: none;
+  }
+  .seat-turn {
+    animation: none;
+    background: color-mix(in oklab, var(--foreground) 70%, transparent);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply text-foreground overscroll-none;
+    /* Native-app feel: no long-press text selection, and no iOS callout
+       ("Copy / Look Up") menu. Selection is re-enabled on real inputs below. */
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+  html:has([data-plain]) {
+    --felt-edge: var(--background);
+  }
+  html:has([data-plain]) [data-felt-backdrop] {
+    display: none;
+  }
+  /* A bar is one flat colour and the felt glows brighter in the middle, so
+     the bar showed as a band (Will, 2026-10-12). In a browser tab the glow
+     fades to the bar's colour at the top and bottom edges, so they meet
+     without a seam. The PWA and the store app have no bars, and keep the
+     glow to the edge. */
+  [data-felt-fade] {
+    display: none;
+    background: linear-gradient(
+      to bottom,
+      var(--felt-edge) env(safe-area-inset-top),
+      transparent calc(env(safe-area-inset-top) + 6rem),
+      transparent calc(100% - env(safe-area-inset-bottom) - 6rem),
+      var(--felt-edge) calc(100% - env(safe-area-inset-bottom))
+    );
+  }
+  @media (display-mode: browser) {
+    html:not([data-pip-app]) [data-felt-fade] {
+      display: block;
+    }
+  }
+  /* Text entry must stay selectable/editable. */
+  input,
+  textarea,
+  [contenteditable] {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+  html {
+    /* The page colour. Under the felt it is the felt's colour where it meets
+       the screen's edges (about the glow's strength there; FeltBackdrop),
+       because iOS Safari paints its bars behind the clock and the address bar
+       in it. A page that paints itself plain (`data-plain`) keeps it plain. */
+    --felt-edge: color-mix(in srgb, var(--felt, var(--background)) 28%, var(--background));
+    background-color: var(--felt-edge);
+    /* overscroll-none kills the PWA rubber-band bounce at the page ends. */
+    @apply font-sans scroll-smooth overscroll-none;
+    /* Native-app feel: kill double-tap-to-zoom (the viewport meta blocks
+       pinch-zoom; this covers the double-tap gesture). */
+    touch-action: manipulation;
+  }
+  /* iOS zooms toward any focused control whose text is under 16px. Keeping the
+     font at least 16px stops that jump even where the viewport hint is loose. */
+  input,
+  textarea,
+  select {
+    font-size: max(16px, 1rem);
+  }
+  /* Honour reduced-motion — no smooth-scroll animation for anchor jumps. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* Safe areas: the notch and the home bar. viewport-fit=cover (layout.tsx)
+   lets the page draw behind them, in the store app (whose web view runs edge
+   to edge) and in the installed PWA (black-translucent status bar). The page
+   pads itself clear instead. In a browser tab, and on anything without a
+   notch, every inset is zero and none of this does anything.
+
+   Unlayered on purpose: these must beat the Tailwind classes on the same
+   elements (h-dvh, pb-8), and utilities outrank anything in @layer base.
+
+   By default the body pads top and bottom. A screen whose own background
+   should run behind the clock pads itself instead: the felt screens
+   (`data-felt`, which also keep their own bottom inset on the action bar) and
+   the website pages' sticky headers (`data-safe-top`), so the header's
+   background sits behind the clock and its content stays clear of it while
+   the page scrolls. */
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+body:has([data-felt], [data-safe-top]) {
+  padding-top: 0;
+}
+/* These paint their own background to the bottom of the screen, so a body
+   pad there would show the table finish in a strip below them. */
+body:has([data-felt], [data-safe-top]) {
+  padding-bottom: 0;
+}
+[data-felt],
+[data-safe-top] {
+  padding-top: env(safe-area-inset-top);
+}
+/* A one-screen page (`data-screen`, the onboarding) is the height between the
+   notch and the home bar, not the full screen: inside the padded body a
+   min-h-dvh page is always one notch and one home bar too tall, so it scrolls
+   with nothing to scroll to. Content taller than a small phone still can. */
+[data-screen] {
+  min-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+}
+/* Dialogs centre in, and cap their height to, the area between the notch and
+   the home bar. Every dialog is ui/dialog.tsx's popup. */
+[data-slot="dialog-content"] {
+  top: calc(50% + (env(safe-area-inset-top) - env(safe-area-inset-bottom)) / 2);
+  max-height: calc(100dvh - 2rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+}
+
+/* The store app only (mobile/). `data-pip-app` is set on <html> by AppBoot.
+
+   Scrolling should feel like a native app: the header stays put and only the
+   content under it scrolls and springs. So the page itself never rubber-bands
+   on a screen that has a frame (`data-shell`, PageShell) or a table
+   (`data-felt`). Both are fixed to the screen height. PageShell's <main>
+   becomes the scroller and keeps iOS's bounce inside it. A page with neither
+   (the website pages) scrolls and bounces as a whole, like a document. */
+html[data-pip-app]:has([data-felt], [data-shell], [data-screen]),
+html[data-pip-app]:has([data-felt], [data-shell], [data-screen]) body {
+  overscroll-behavior: none;
+}
+html[data-pip-app] body:has([data-shell]) {
+  padding-bottom: 0;
+}
+html[data-pip-app] [data-shell] {
+  height: calc(100dvh - env(safe-area-inset-top));
+  min-height: 0;
+}
+html[data-pip-app] [data-shell] > main {
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+  /* Content fades out as it scrolls up under the header, instead of being cut
+     off in a hard line. The mask belongs to the scroller's box, not its
+     content, so the fade stays put while the content moves through it. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 1.5rem);
+  mask-image: linear-gradient(to bottom, transparent, #000 1.5rem);
+}
+/* The home screen's frame sits close under the profile row (pt-4). At least
+   the fade's depth, so nothing is faded while you're at the top. */
+html[data-pip-app] [data-shell="tight"] > main {
+  padding-top: 1.75rem;
+}

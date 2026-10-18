@@ -13,11 +13,13 @@
 
 <br />
 
-<p align="center"><b>THE LONG GAME</b> &nbsp; / &nbsp; <sub>LIVE TEXAS HOLD’EM · PLAY CHIPS ONLY</sub></p>
+<p align="center"><b>THE LONG GAME</b> &nbsp; / &nbsp; <sub>FULL TEXAS HOLD’EM · AI TABLE · PLAY CHIPS ONLY</sub></p>
 
-<a href="https://amethystani.github.io/amethystani/poker/"><img src="assets/the-long-game.svg" width="100%" alt="An animated, endlessly dealing Texas Hold’em table. Click to open the live table." /></a>
+<a href="https://amethystani.github.io/amethystani/"><img src="assets/poker-table.png" width="100%" alt="The Long Game: a full Texas Hold’em table against AI opponents. Click to play." /></a>
 
-<p align="center"><a href="https://amethystani.github.io/amethystani/"><b>OPEN THE LIVE TABLE ↗</b></a> &nbsp;·&nbsp; Four seats. Real Hold’em rules. Fresh hands, forever.</p>
+<p align="center"><a href="https://amethystani.github.io/amethystani/"><b>SIT DOWN AND PLAY ↗</b></a> &nbsp;·&nbsp; No account. Real Hold’em rules. Your game saves in this browser.</p>
+
+<p align="center"><sub>Built from <a href="https://github.com/playpip/pip-web">Pip</a> · MIT licensed · Re-themed for Animesh's profile</sub></p>
 
 <br />
 

@@ -1,0 +1,10 @@
+# Copy to rooms/.dev.vars for `pnpm rooms:dev`. Never commit .dev.vars.
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+# Local only: accept "dev:<user id>:member" (or ":free") as a token, so two
+# browsers can sit at one table without real accounts. Never set in production.
+DEV_AUTH=1
+# Optional, for camera and mic across networks that block direct connections.
+TURN_KEY_ID=
+TURN_KEY_API_TOKEN=

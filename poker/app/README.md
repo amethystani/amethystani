@@ -1,0 +1,237 @@
+<p align="center">
+  <img src="docs/assets/pip-logo.png" width="72" alt="pip logo" />
+</p>
+
+<h1 align="center">pip</h1>
+
+<p align="center">
+  <b>Texas Hold'em against AI, or with your friends. No real money,<br/>
+  open source down to the shuffle.</b>
+</p>
+
+<p align="center">
+  <a href="https://amethystani.github.io/amethystani"><b>▶ Play at playpip.io</b></a> · no signup, nothing to install
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-111111" /></a>
+  <img alt="Static export" src="https://img.shields.io/badge/deploy-static-111111" />
+  <a href="https://amethystani.github.io/amethystani"><img alt="Live" src="https://img.shields.io/badge/live-playpip.io-111111" /></a>
+  <a href="https://github.com/playpip/pip-web/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/playpip/pip-web?style=flat&color=111111&labelColor=555555" /></a>
+  <a href="https://pwa.directory/directory/pip"><img alt="Listed on pwa.directory" src="https://pwa.directory/badge.svg" width="152" height="20" /></a>
+</p>
+
+<p align="center">
+  <img src="docs/assets/hero-hand.gif" width="640" alt="A hand of Pip at The Pub: flopping a flush, the win-% climbing, and taking the pot at showdown" />
+</p>
+
+Free poker apps tend to look and feel like a scam: neon, leather textures, coin
+jingles, and more time spent closing offers than playing cards. Pip is the opposite —
+a flat, calm, black-first table where the poker is the whole product. Play money
+only, no pop-ups, no fake felt.
+
+## How it plays
+
+<p align="center">
+  <img src="docs/assets/venues-ladder.png" width="720" alt="The venue ladder — ten tournaments from Friends' Garage to The Main Event" />
+</p>
+
+- **The venue ladder** — ten winner-take-all sit-and-go tournaments, from the
+  100-chip *Friends' Garage* to the 1,000,000-chip *Main Event*. The buy-in is your
+  starting stack; win the table, take the prize, climb. Blinds escalate, so
+  tournaments always end. Side tables (turbo, deep, heads-up, bounty) twist the
+  format; they come with the membership and never gate the climb.
+- **The cast** — opponents are a fixed troupe of regulars with faces, bios, and
+  personalities, not random bots. Doris plays every hand; Frank bluffs constantly;
+  the Vault has a boss. Your reads on them build **across sessions**, and they
+  occasionally say something dry.
+- **The Daily Deal** — one date-seeded tournament a day: everyone in the world
+  plays the identical shuffle, provably (the engine is open and deterministic).
+  Free to enter, once a day, with a copyable result line.
+- **The streak** — a flame that counts the days in a row you play a hand, at any table.
+- **Hand permalinks** — share any hand as a URL; the whole hand is encoded in the
+  link (no server, no account) and replays step-by-step for whoever opens it.
+- **The Chip Shop** — spend winnings on card backs, a four-colour deck, table
+  finishes, and souvenir chips of venues you've conquered. **Style, never edge**:
+  nothing for sale affects gameplay, and award chips can't be bought.
+- **Broke? Win your way back** — there's no free top-up. *The Kitchen Table* freeroll
+  opens when you can't afford the Garage: beat one soft opponent heads-up and the
+  winner's stake buys you back onto the ladder.
+- **Ambient help** — live win-% equity, hand strength, plain-English reads on
+  opponents, and a reviewable last-hand history. Informative, never nagging.
+- **Drills** — short spots with a right answer, graded by the engine rather than by
+  a lookup table, and never metered. *What have you got?* and *Which hand wins?* are
+  free forever; the rest, and the practice packs, come with the membership.
+- **Lessons with Webb** — an interactive course on the real felt: Webb deals, pauses,
+  asks, and you answer with the real buttons. Level 1 is free; Levels 2–5 are the
+  membership's. Every written guide stays free.
+- **More than Hold'em** (membership) — Pot-Limit Omaha, Short Deck, Omaha Hi-Lo,
+  Five-Card Draw and blackjack. Same engine, genuinely different games.
+- **Build your own table** — seats, stakes, stack depth, blind speed, bounty, and
+  which regulars sit down. The opposition still comes from the buy-in, so you
+  can't build yourself an easy game.
+- **Yours, locally, and on every device if you want** — your profile, Roll (bankroll),
+  rank, collection, and style live in localStorage (versioned, exportable), and play
+  needs no account at all. A free account is an email and a password with nothing to
+  confirm, and it carries all of it to every device you sign in on (see
+  [sync](docs/sync.md)).
+  The only analytics are anonymous and cookieless — see [Privacy](#privacy) below.
+- Dark, quiet tactile sound, desktop and mobile layouts.
+
+<p align="center">
+  <img src="docs/assets/table-desktop.png" width="560" alt="Pip's table at Downtown Casino, on the flop" />
+  <img src="docs/assets/table-mobile.png" width="196" alt="The same table on a phone" />
+</p>
+
+<p align="center">
+  <img src="docs/assets/lobby.png" width="720" alt="The lobby: your Roll, your streak, the next rung of the ladder and the other ways to play" />
+</p>
+
+Play money only: balances are **chips**, never a currency. Chips cannot be bought
+and cannot be cashed out, and the Chip Shop only ever takes chips you won at the
+table.
+
+### What's free, and what isn't
+
+**Pip is free to play and the core game is free forever** — the whole ladder, the
+Rail's cash games, the Daily, the Chip Shop, the freeroll, two drills, Level 1 of the
+lessons, every written guide, the odds calculator, and the read on every hand you play.
+None of it is ever metered.
+
+There is also an optional **membership** (£5.99/mo or £49/yr) that adds more to
+play: every side table and member room, the games that aren't Hold'em, build-your-own-table,
+the rest of the drills and practice packs, Lessons with Webb from Level 2, a report on
+your own play across every hand, the session review, and spectating after you bust. It's a real fence and we'd
+rather call it one than pretend otherwise. One member game a day is free without joining:
+any one poker table on the side tables shelf. **It is not pay-to-win.** Nobody at a
+table sees another player's Roll or rank, there is no leaderboard, and the membership
+changes nothing once the cards are dealt. Nothing you can buy changes a hand: not the cards, the odds, what
+you're shown, or a rebuy. See [ROADMAP → How Pip pays for itself](ROADMAP.md).
+
+Checkout, billing and cancelling run through Stripe — see [docs/stripe.md](docs/stripe.md).
+Cancel any time from Settings → Membership.
+
+## Quick start
+
+Requires [Node.js](https://nodejs.org) and [pnpm](https://pnpm.io).
+
+```bash
+pnpm install
+pnpm dev        # → http://localhost:3000
+```
+
+## Commands
+
+| Command | What it does |
+|---------|--------------|
+| `pnpm dev` | Dev server at `localhost:3000` |
+| `pnpm test` | AVA suite (engine + game logic) |
+| `pnpm test:all` | The full gate: format, types, lint (Biome), AVA, knip, audit |
+| `pnpm format` | Biome — format + safe fixes |
+| `pnpm build` | Production build |
+
+A change is done when **`pnpm test:all` passes** (and `build` for structural
+work). The UI isn't unit-tested — verify it by running the app.
+
+## Architecture
+
+Three layers with hard boundaries (Next.js App Router, React 19, Tailwind v4,
+Zustand, Framer Motion):
+
+1. **Engine** — [`src/lib/poker/`](src/lib/poker). Pure, deterministic, React-free
+   Texas Hold'em: dealing, betting, side pots, hand evaluation, Monte-Carlo equity,
+   and the AI policy. Every rule lives here, and ships with tests.
+2. **Orchestration** — [`src/store/`](src/store). `game.ts` runs the tournament over
+   time (turn pacing, AI timers, blind escalation, hand history, the economy);
+   `profile.ts` is the persisted player (versioned, with migrations).
+3. **Presentation** — [`src/components/`](src/components), [`src/app/`](src/app).
+   Reads the stores; look & feel only.
+
+Full documentation lives in [`docs/`](docs/README.md):
+
+| Doc | What's in it |
+|-----|--------------|
+| [architecture.md](docs/architecture.md) | Stack, layout, data flow, design decisions |
+| [poker-engine.md](docs/poker-engine.md) | The pure engine: rules, evaluation, equity, AI |
+| [game-flow.md](docs/game-flow.md) | The tournament loop, economy, ranks, the freeroll, the Daily Deal |
+| [cast.md](docs/cast.md) | The cast — Pip's troupe of opponents, career reads, table talk |
+| [venues.md](docs/venues.md) | The venue ladder and venue art |
+| [awards.md](docs/awards.md) | Collectible "special chips" — the set, triggers, visuals |
+| [shop.md](docs/shop.md) | The Chip Shop & earned unlocks — style, never edge |
+| [membership.md](docs/membership.md) | What is paid, what is free, and the rules that keep it honest |
+| [design.md](docs/design.md) | Theme tokens, typography, motion, sound |
+| [brand.md](docs/brand.md) | The name, the voice (including the dry line), the anti-casino principles |
+| [development.md](docs/development.md) | Setup, testing, conventions, gotchas |
+
+Agents working in this repo should start with [`CLAUDE.md`](CLAUDE.md) /
+[`AGENTS.md`](AGENTS.md).
+
+## Posts about this code
+
+Each one is about a file in this repo, and links it:
+
+- [The mock-ups on your landing page are untested claims](https://amethystani.github.io/amethystani/blog/landing-page-mockups?utm_source=github&utm_medium=readme).
+  Three of the four cards on the home page were pictures of our own output, typed by
+  hand, and all three had drifted.
+- [Your Cloudflare Pages site is on Google twice](https://amethystani.github.io/amethystani/blog/cloudflare-pages-dev-duplicate?utm_source=github&utm_medium=readme).
+  The production `pages.dev` alias serves your whole site on a second host. Ours did,
+  for five weeks, with a correct canonical tag on every page.
+- [A route missing from your sitemap is not noindexed](https://amethystani.github.io/amethystani/blog/sitemap-is-not-noindex?utm_source=github&utm_medium=readme).
+  Leaving `/game` out instructed nobody: Google indexed it anyway, wearing the home
+  page's title.
+- [How accurate is a poker equity calculator?](https://amethystani.github.io/amethystani/blog/how-accurate-is-a-poker-equity-calculator?utm_source=github&utm_medium=readme)
+  There is exactly one spot where the true answer is countable, so we checked the
+  printed error bar against it.
+- [Five things pokersolver does that its README does not mention](https://amethystani.github.io/amethystani/blog/pokersolver-undocumented?utm_source=github&utm_medium=readme).
+  The edges `src/lib/poker/handEval.ts` has to absorb, each with the input that
+  produces it.
+- [Verify today's deal yourself](https://amethystani.github.io/amethystani/blog/verify-todays-deal?utm_source=github&utm_medium=readme).
+  The six steps that turn a date into the Daily's shuffle, and one day's deck to check
+  yourself against.
+
+## Privacy
+
+No account needed, no cookies, no personal data. Your profile lives in your browser.
+Nothing leaves your device unless you ask it to: there's an optional account purely for
+carrying your progress to another device, it's off unless you turn it on, and it stores
+your email and that same profile and nothing else. With an account you can also ask for two
+emails, a Daily reminder and a weekly summary; both are off until you turn them on, and every
+one has a one-click unsubscribe ([docs/email.md](docs/email.md)).
+
+The only thing Pip records is **anonymous, cookieless usage counts** (via
+[Umami](https://umami.is)) — no fingerprinting, no ad tech, nothing tied to you. The
+[privacy page](https://amethystani.github.io/amethystani/privacy) lists exactly what's counted and for how long.
+Because the whole app is open source, you can verify all of this in the code.
+
+## Contributing
+
+Contributions are welcome — and not only code. Playtesting and bug reports, design and
+UX feedback, docs, and spreading the word all count. Start with
+[CONTRIBUTING.md](CONTRIBUTING.md), see what's next in [ROADMAP.md](ROADMAP.md), or pick
+up a [`good first issue`](https://github.com/playpip/pip-web/labels/good%20first%20issue).
+
+## About
+
+Pip is built by [playpip](https://github.com/playpip), **open source**, and under
+active development. It's a front-end app: everything runs in the browser and persists
+locally, with one optional account for cross-device sync and no server in the game itself. The engine is deterministic
+and fully unit-tested, so anyone can read exactly how a hand is dealt and shuffled —
+provably fair by inspection, not by promise. The product docs in [`docs/`](docs/README.md)
+are the source of truth for everything from the [brand](docs/brand.md) to the
+[economy](docs/game-flow.md).
+
+Openness is a deliberate foundation: now that Pip has things you can pay for — extra
+rooms, formats and tools, **never pay-to-win** — and multiplayer, where the cards are
+dealt by a server running this same engine, a public codebase is what keeps the anti-scam
+promise honest. It does real work here:
+anyone who suspects a member room deals differently can read
+[`config/venues.ts`](src/config/venues.ts) and the engine beside it and find that it
+does not. Contributions welcome.
+
+**Play money only, forever.** Chips are never a currency: they cannot be bought, they
+cannot be cashed out, and the only shop takes chips you won at the table. The optional
+membership buys access to more of the game and never a chip, a card, or an edge in a
+hand.
+
+*Keywords: poker · texas hold'em · sit-and-go · tournament · play money ·
+multiplayer · card game · next.js · react · typescript*

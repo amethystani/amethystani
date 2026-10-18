@@ -1,0 +1,192 @@
+'use client'
+
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { legalActions, potSize, type Action, type HandState } from '@/lib/poker/engine'
+import { useGame } from '@/store/game'
+import { sound } from '@/lib/sound'
+import { useMoney } from '@/lib/useMoney'
+import { cn } from '@/lib/utils'
+
+const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n))
+
+export function ActionBar({
+  hand,
+  marked = [],
+  onDrawn,
+  viewerId = 'hero',
+  onAct,
+}: {
+  hand: HandState
+  /** Five-Card Draw: the cards the hero has marked to throw away. */
+  marked?: readonly number[]
+  /** Called once the discard has been sent, so the selection can be cleared. */
+  onDrawn?: () => void
+  /** Whose buttons these are. The single-player table's hero unless told otherwise. */
+  viewerId?: string
+  /** Where a move goes. The game store unless told otherwise (a multiplayer room). */
+  onAct?: (action: Action) => void
+}) {
+  const localAct = useGame((s) => s.act)
+  const act = onAct ?? localAct
+  const money = useMoney()
+  const [sizerOpen, setSizerOpen] = useState(false)
+  const [raiseTo, setRaiseTo] = useState(0)
+
+  const legal = legalActions(hand)
+  const hero = hand.players[hand.toActIndex]
+  const isHeroTurn = hero?.id === viewerId && !!legal
+
+  // Match the real button row's height exactly (py-4 + text-base = 56px) so the
+  // bar appearing/clearing on the hero's turn never resizes the layout — that
+  // resize is what nudges the community cards.
+  if (!isHeroTurn || !legal) {
+    return <div className="h-[56px]" aria-hidden />
+  }
+
+  const pot = potSize(hand)
+  const isAllIn = raiseTo >= legal.maxRaiseTo
+
+  const openSizer = () => {
+    setRaiseTo(clamp(legal.minRaiseTo, legal.minRaiseTo, legal.maxRaiseTo))
+    setSizerOpen(true)
+  }
+  const preset = (fraction: number) => {
+    sound.play('tap')
+    setRaiseTo(
+      clamp(hand.currentBet + Math.round(pot * fraction), legal.minRaiseTo, legal.maxRaiseTo),
+    )
+  }
+  const confirmRaise = () => {
+    act({ type: legal.canBet ? 'bet' : 'raise', amount: raiseTo })
+    setSizerOpen(false)
+  }
+
+  // The draw round: one button, and what it says depends on what you picked.
+  // Standing pat is a real decision rather than a no-op, so the button is never
+  // disabled — "Stand pat" is the answer when nothing is marked.
+  if (legal.canDraw) {
+    const count = marked.length
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex gap-2"
+      >
+        <Pill
+          tone="primary"
+          onClick={() => {
+            act({ type: 'draw', discard: [...marked] })
+            onDrawn?.()
+          }}
+        >
+          {count === 0 ? 'Stand pat' : `Draw ${count}`}
+        </Pill>
+      </motion.div>
+    )
+  }
+
+  return (
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex gap-2"
+      >
+        <Pill onClick={() => act({ type: 'fold' })} tone="ghost">
+          Fold
+        </Pill>
+        {legal.canCheck ? (
+          <Pill onClick={() => act({ type: 'check' })}>Check</Pill>
+        ) : (
+          <Pill onClick={() => act({ type: 'call' })}>Call {money(legal.callAmount)}</Pill>
+        )}
+        {(legal.canBet || legal.canRaise) && (
+          <Pill onClick={openSizer} tone="primary">
+            {legal.canBet ? 'Bet' : 'Raise'}
+          </Pill>
+        )}
+      </motion.div>
+
+      <Dialog open={sizerOpen} onOpenChange={setSizerOpen}>
+        <DialogContent className="sm:max-w-xs">
+          <DialogHeader>
+            <DialogTitle>{legal.canBet ? 'Bet' : 'Raise'}</DialogTitle>
+          </DialogHeader>
+
+          <div className="flex flex-col gap-4 pt-1">
+            <div className="text-center text-4xl font-semibold tabular-nums">
+              {isAllIn ? 'All in' : money(raiseTo)}
+            </div>
+
+            <input
+              type="range"
+              min={legal.minRaiseTo}
+              max={legal.maxRaiseTo}
+              value={raiseTo}
+              onChange={(e) => setRaiseTo(Number(e.target.value))}
+              aria-label={legal.canBet ? 'Bet size' : 'Raise size'}
+              // Without this the slider reads out a bare chip count. Say what
+              // the big number above it says.
+              aria-valuetext={isAllIn ? 'All in' : money(raiseTo)}
+              className="w-full accent-foreground"
+            />
+
+            <div className="flex gap-2">
+              {(['½', '¾', 'Pot'] as const).map((label, i) => (
+                <button
+                  key={label}
+                  onClick={() => preset([0.5, 0.75, 1][i])}
+                  className="flex-1 rounded-xl bg-foreground/5 py-2 text-sm font-medium transition hover:bg-foreground/10"
+                >
+                  {label}
+                </button>
+              ))}
+              <button
+                onClick={() => {
+                  sound.play('tap')
+                  setRaiseTo(legal.maxRaiseTo)
+                }}
+                className="flex-1 rounded-xl bg-foreground/5 py-2 text-sm font-medium transition hover:bg-foreground/10"
+              >
+                Max
+              </button>
+            </div>
+
+            <button
+              onClick={confirmRaise}
+              className="w-full rounded-2xl bg-primary py-3.5 font-semibold text-primary-foreground transition hover:bg-primary/90 active:scale-[0.98]"
+            >
+              {legal.canBet ? 'Bet' : 'Raise'} {isAllIn ? 'all in' : money(raiseTo)}
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  )
+}
+
+function Pill({
+  children,
+  onClick,
+  tone = 'default',
+}: {
+  children: React.ReactNode
+  onClick: () => void
+  tone?: 'default' | 'primary' | 'ghost'
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        'flex-1 rounded-2xl py-4 text-base font-semibold transition active:scale-[0.97]',
+        tone === 'primary' && 'bg-primary text-primary-foreground hover:bg-primary/90',
+        tone === 'default' && 'bg-foreground/[0.08] text-foreground hover:bg-foreground/[0.14]',
+        tone === 'ghost' && 'bg-foreground/[0.03] text-muted-foreground hover:bg-foreground/[0.08]',
+      )}
+    >
+      {children}
+    </button>
+  )
+}

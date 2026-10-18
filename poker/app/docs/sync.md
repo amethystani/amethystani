@@ -1,0 +1,297 @@
+# Sync (optional accounts)
+
+Pip is a local-first app. Your profile lives in `localStorage` and nothing leaves the device.
+**Sync is an optional account on top of that**, and its only job is carrying your progress to a
+second device.
+
+This document is the why. The code is `src/lib/sync/*`, `src/store/sync.ts` and
+`supabase/migrations/`.
+
+## The rules the build keeps
+
+1. **Opt-in is absolute.** No account means no client, no request, no identity and no stored row.
+   Not "we don't track you much", literally no network call. That is what makes the privacy claim
+   checkable rather than promised.
+2. **Signed out is a first-class state, permanently.** No modal, no interstitial, nothing that
+   appears over what the player was doing or comes back after being closed. Everything about the
+   account is visible where they already are (below).
+3. **Sync never blocks play.** Every push is fire-and-forget. A failure marks the profile dirty
+   and retries on reconnect, on the next change, or on the next app open. A dropped connection
+   must never cost a hand, and neither must a tab killed mid-push: what to retry is worked out
+   from a fingerprint rather than remembered (below).
+4. **Never silently destroy progress.** Additive fields always merge in the player's favour. The
+   one case that can't merge asks.
+5. **Free forever, and never sold.** Sync shipped free, so it stays free.
+
+## Where the account is offered
+
+Until #97 the only two doors were the foot of the Edit player dialog and Settings, both of them
+two taps inside something nobody opens, and the landing page argued against the account in the
+one place a visitor decides. **The fix was placement and timing, not pressure.** Five surfaces,
+all of them signed-out only, all of them gone for good once there is an account:
+
+| Where | Component |
+|-------|-----------|
+| Lobby, under the Roll | `settings/AccountOffer` in `menu/Home` |
+| End-of-run overlay, under the recap | `settings/AccountOffer variant="overlay"` in `table/RunRecap` |
+| AppBar, beside Style and Settings | `settings/AccountBarButton` |
+| Foot of Edit player | `profile/AccountRow` |
+| Settings → Your account | `settings/SyncSection` |
+
+**The test any new one has to pass:** it is furniture on a screen the player is already looking
+at, it never covers anything, it has no dismiss button because there is nothing to dismiss, and
+it counts nothing. `Landing.tsx` ships *"No forced pop-ups, no pay-to-win, no nagging. Ever."*
+An interstitial, a load-time modal, or a prompt after N hands all fail that sentence. Prominence
+does not.
+
+**Anything that offers an account waits for `useSync().ready`,** which flips once the stored
+session has been looked for. `status` starts at `'signed-out'` because that is the honest default
+before anything is known, so without the gate a returning player watches "create a free account"
+flash over their own signed-in lobby on every load.
+
+The landing page has no signup route to link to (the account is a dialog), so its CTA links to
+`/game?account=new` and the lobby offer opens the form once, then strips the parameter so a
+reload does not reopen what was closed.
+
+**The copy says "nothing to confirm".** That is true because production runs with
+`mailer_autoconfirm` on, so Supabase Auth sends nothing but a password reset when asked. (The
+opt-in emails in [email.md](./email.md) confirm nothing and are off by default.) Turn autoconfirm
+off and the landing trust card, the signup dialog and the offer all become false together.
+
+## What is stored
+
+One row per user in `public.profiles`: the persisted profile's `state` blob, the
+`PERSIST_VERSION` that wrote it, a timestamp, and a `device_id` for the conflict prompt. Plus the
+email address, which Supabase Auth holds.
+
+That is everything. The `state` blob is the same object already sitting in `localStorage`, so
+sync stores nothing the device didn't already have.
+
+**RLS is the entire security model.** The publishable key ships in the client bundle and this repo
+is public, so anyone can call the API as an anonymous user. The one policy in
+`supabase/migrations/` is what stops them reading somebody else's row. Treat any change to it as
+security-sensitive, and change it in a migration rather than in the dashboard, so the diff is
+reviewable.
+
+**Deleting an account** goes through `delete_own_account()`, a `security definer` function, because
+a client holding only the publishable key cannot remove an `auth.users` row on its own. It takes no
+arguments and deletes `auth.uid()`, which is what keeps it safe: there is no id to tamper with, so
+the only account it can reach is the caller's. **Never give it a parameter.** The cascade on
+`profiles.user_id` takes the data with the user. The same cascade takes
+`email_prefs` (docs/email.md) and `memberships`.
+
+## Versioning
+
+A row can have been written by an older client on another device that hasn't updated yet. So the
+reader runs `migrateProfile()` (the same chain zustand's persist uses) over the row's `state`
+before anything merges it, and **refuses a row from a newer version than it understands** rather
+than guessing. That mirrors what the backup-restore path already does with a pasted code.
+
+## The merge policy
+
+Two devices both played offline. The phone says Roll 4,200, the laptop says 900. **There is no
+correct answer here, only a chosen one, and it has to be a rule a player can predict.**
+
+Field by field:
+
+| Field | Rule |
+|---|---|
+| `peakRoll` | `max()` — monotonic, always safe |
+| `awards` | union, keeping the earliest time earned |
+| `owned` | union |
+| `venueRecords`, `castRecords` | per key, the better of the two |
+| `challengeWins` | union: you beat them, and a device that hasn't heard isn't evidence you didn't |
+| `challengesPlayed` | `max()`, monotonic, like `peakRoll` |
+| `drills` | per kind: counters and `bestRun` take the better of the two; **`rating` (and its `history`, the graph's line) follows whichever side answered more spots** |
+| `created` | either side saying yes wins |
+| cosmetics (`name`, `avatar`, `cardBack`, `deckFace`, `tableFinish`, `tableTalk`) | chosen side |
+| `daily` | later day; same day, a played run beats an abandoned one |
+| `streak` | runs that touch or overlap join into one; otherwise the later run. `best` is the max |
+| **`roll`, `rollHistory`, `stats`, `tendencies`** | **the side the player picks** |
+
+**Why the drill rating is neither maxed nor averaged.** It is the one kept number that is
+*meant* to go down, so `max()` would ratchet it up every time two devices met, and the mean of
+two ratings is a number neither device ever earned. More answers is the better reading of the
+same player, so the busier side's rating wins outright.
+
+**Why `roll` can't merge.** Adding invents chips. `max()` rewards keeping a losing session
+unsynced. Latest-write-wins silently destroys a good night. All three are worse than asking.
+
+**Why `stats` follows `roll` rather than being maxed.** The counters are cumulative, so `max()`
+loses the smaller device's hands and summing double-counts everything before the split. Both are
+wrong; at least following the same side as the Roll leaves a profile that is internally coherent.
+Doing this properly needs a per-device ancestor snapshot for a real three-way merge, which is a
+much bigger build for a single-player game where one device is almost always the active one. If
+players complain, that is the upgrade path.
+
+**Why the graph follows the Roll too.** `rollHistory` used to be a union by timestamp, which
+reads well right up until the two sides disagree — and disagreeing is the only reason a side ever
+loses. The losing side's points are stamped *later* than anything in the winner's history, because
+being the more recently played device is what put it in the merge at all, so the union sorted them
+last: the graph ended in a cliff down to a Roll the player no longer had, sitting under a Roll that
+said otherwise. A player who opened a fresh browser, played two hands down to 150 and then signed
+into an account worth far more got exactly that, and a 150 entry in their stats with it. The cap
+stays at 300 and is re-applied on the way out, because a row written by another client is not this
+store's output.
+
+## When the player actually gets asked
+
+Only when all three are true:
+
+1. The remote row moved since this device last saw it, **and** a different device wrote it.
+2. This device has local changes waiting to go up.
+3. The two sides disagree about the Roll or about hands played.
+
+Change your card back on the bus and nothing prompts. Play a session on each of two devices and
+it does. If only one side moved, the merge is silent because there is nothing to lose.
+
+**A device that has never synced with the account counts as (2)**, as long as it has actually
+played. This is the guest flow — play, like it, make an account — and it used to slip through
+both of the signals in "not synced yet" below: the hands were played signed out, so the dirty
+flag never ran, and nothing had ever been pushed from that browser, so there was no fingerprint
+to compare against either. The device read as level and the account was adopted over the guest's
+session without asking, which is rule 4 broken in the one flow where most players meet sync.
+A profile straight out of onboarding is still a silent `restore`, because it has nothing to lose.
+
+## What counts as "not synced yet"
+
+`dirty` on its own could not answer that. It lived in memory, and the bookmark in `pip.sync`
+recorded only the row's `updated_at`, so a reload lost the one fact that mattered: whether the
+server had taken what is on this device. A push killed in flight (backgrounding a PWA does it
+routinely) came back looking synced, and the winnings sat there. If the row had moved since, the
+next pull adopted the server's Roll with no prompt, which is chips vanishing (technology#89).
+
+The bookmark now also holds a **fingerprint of the state the server last accepted from this
+device**. Unpushed means `fingerprint(local) !== bookmark.pushed`: derived rather than remembered,
+so it survives a reload, a crash and a killed tab, and it self-heals, because a profile that does
+not match is pushed at the next opportunity whatever went wrong.
+
+Two rules keep it honest:
+
+- **Only a successful push writes it.** Any pull that replaces the local profile clears it to
+  null, meaning "unknown", which falls back to the in-memory flag: the behaviour that shipped. An
+  upgrading player's old `{ seen }` bookmark reads as unknown too, so nothing prompts on the first
+  run after this.
+- **It gets no vote in the restore branch below.** A cleared profile does not match the
+  fingerprint either, and reading that as work to upload is the exact disaster that branch exists
+  to prevent.
+
+The decision it feeds is a pure function, `planSync` in `lib/sync/plan`, covered branch by branch
+in `tests/syncPlan.test.ts`.
+
+## When it talks to the server
+
+Push: four seconds after a profile change (debounced), on reconnect, and when the tab goes hidden.
+Pull: at app open, at sign-in, on the button in Settings, and **when the tab comes back to the
+foreground**, at most once every 30 seconds. Without that last one, a warm PWA or a tab left open
+since before you played on the phone pulls only at app open, and its next change writes over the
+fresher row.
+
+## An empty device is a restore, not a merge
+
+A profile straight out of onboarding — starting Roll, nothing played, no awards, no purchases — is
+not progress, it is the shape of a player. When such a device pulls a row with real history, sync
+**adopts the row outright** rather than merging (`isPristine` in `lib/sync/merge`).
+
+This is checked **before** `movedWithoutUs`, because the two cases it covers both have a bookmark
+that looks current:
+
+- **Signing in on a fresh device.** Onboarding's placeholder — the origin point `createProfile`
+  seeds, the empty award and purchase sets — is not history and should not be folded into an
+  account that has some. (The Roll graph used to be the sharp end of this, and is now safe on its
+  own account: it follows the Roll rather than unioning. The rest of the argument stands.)
+- **Storage half-cleared.** Drop `pip.profile` and keep `pip.sync` and the bookmark still matches
+  the row, so the pull is skipped entirely — and the first change after onboarding pushes the empty
+  profile over the account. That one costs real progress, not just a wrong-looking graph.
+
+**The player a first visit makes is pristine too.** Play deals a new visitor in under the name
+`Player` and a random face (`onboarding/firstSeat`, `lib/newPlayer`), and `isPristine` does not
+read identity, so a returning player who presses "Sign in" on the landing page restores over that
+placeholder rather than merging with it. And when a placeholder does reach a merge (a guest
+played some hands, then signed in), **a chosen name beats the placeholder whichever side wins the
+Roll**, and the face goes with the name (`mergeProfiles`, tested in `syncMerge`).
+
+The check is deliberately strict, and both sides are tested: if the account's row is pristine too it
+falls through to the ordinary merge, so the name just typed in isn't overwritten by an empty row.
+
+## Resetting resets everything
+
+**Reset profile in Settings clears the account's copy too, on every device.** Resetting means
+starting again, not starting again until the next sync puts it all back, and the confirm says so
+while signed in.
+
+`resetEverywhere` pushes immediately rather than waiting for the 4-second debounce. A reset produces
+a profile indistinguishable from a cleared device, and the restore above would undo it — so the
+write goes up now, keeping the window where a reload would resurrect the old profile as small as it
+can be. What separates the two is `dirty`: a reset is waiting to go up, a cleared device isn't.
+Offline, the reset stays dirty and goes up on reconnect like any other change.
+
+**A reset made while signed out stays on the device.** Signing out clears the bookmark, so when that
+device signs back in it has never synced. If it has never moved the Roll either (`hasNoRoll`:
+starting Roll, no hands, no tournaments, at most the origin point), the plan merges with the
+account's side winning and pushes. That keeps the account's Roll, stats and graph, and anything the
+device did since (drills, the free game) survives through the additive merge. This used to fall
+through to the conflict dialog, whose first button wrote 200 chips and no hands over the account,
+or, when the row was last written by that same device, straight to a push of the reset profile. The
+dialog now also puts whichever side has played more hands first.
+
+## Bundle cost
+
+`@supabase/supabase-js` is **imported dynamically**, not statically. Importing it normally put
+~54 KB (brotli) into the shared chunk that every page loads, including the marketing landing page
+where it can never be used. It is now a lazy chunk fetched only when someone has a session or
+opens the sign-in form. **Keep it that way** — `getSupabase()` returns a promise for this reason
+and for no other.
+
+## Signing in with Google or Apple
+
+Both go through Supabase's built-in providers with the same implicit flow as the password reset
+(no PKCE, see `lib/sync/client.ts`). `signInWith()` in `store/sync.ts` sends the player to the
+provider, they come back to the page they left, and `init()` finds the session through
+`getSession()` and syncs as it does on any app open. The buttons only show for providers listed in
+`NEXT_PUBLIC_AUTH_PROVIDERS`, so a provider is turned on in this order:
+
+1. **Supabase dashboard → Authentication → URL Configuration.** Add
+   `https://playpip.io/**` to Redirect URLs. Without it the player lands on the Site URL instead
+   of where they started. Add any preview domain the same way.
+2. **Google.** In Google Cloud console, create an OAuth client (type *Web application*), fill in
+   the consent screen (app name, logo, `https://playpip.io/privacy`, `https://playpip.io/terms`)
+   and add the callback URL that Supabase shows under Providers → Google as an authorised
+   redirect URI. Paste the client id and secret into Providers → Google and enable it.
+3. **Apple.** Needs the Apple Developer account. Create a Services ID for sign-in with
+   `playpip.io` as the domain and the Supabase callback as the return URL, and a Sign in with
+   Apple key. Supabase generates the client secret from the key on the Providers → Apple page.
+   **That secret expires after six months** and has to be regenerated, or Apple sign-in stops.
+4. **Then** add the provider to the `NEXT_PUBLIC_AUTH_PROVIDERS` repo Variable (`google,apple`)
+   and redeploy.
+
+**Same email, one account.** Supabase links a Google or Apple sign-in to an existing account with
+the same email, so someone who made a password account and later presses Google keeps their Roll.
+Because email confirmation is off, that has a known weakness: someone could create a password
+account on an address they don't own, and if the real owner later signs in with Google on it, the
+squatter's password still works on that account. It needs someone to set it up in advance on one
+particular address, and what it gets them is a poker profile, so it is accepted for now. Turning
+confirmation on closes it.
+
+**An account made with Google or Apple has no password.** The account dialog offers "Set a
+password" instead of "Change password", and setting one adds email sign-in to the same account.
+
+## Running without a backend
+
+Leave `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` empty and sync does not
+exist: no client, no Account section in Settings, and the app is exactly the local-first app it
+was. **A contributor never needs to set up a backend to run Pip.**
+
+## Known limits
+
+- **Email confirmation is off** for v1. Less signup friction and one less delivery failure mode,
+  at the cost of a typo'd email being unrecoverable. The mitigation already exists: the transfer
+  code and QR still work, so nobody's profile is ever trapped behind an account.
+- **Supabase's free tier pauses a project after inactivity.** Fine now. Needs a real answer before
+  this is a feature people rely on.
+- **The Data safety declaration on any app-store listing has to match this page and `/privacy`.**
+  Pip collecting nothing was true before sync and isn't any more: there is now an email address and
+  a copy of the profile. The declaration is written out in full in the technology repo's
+  `drafts/build-twa-play-store.md` and should be re-read against both pages before anyone files it.
+  Two gaps are known and unsolved: Play wants a **deletion request URL** reachable without
+  installing the app, and we have never stated a **retention period** for a deleted account.

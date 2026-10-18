@@ -1,0 +1,33 @@
+// The room server: one Durable Object per multiplayer table, one per
+// quick-match stake. Its own Worker, beside the Pages site rather than in it —
+// Pages cannot hold a Durable Object (see docs/multiplayer.md).
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "pip-rooms",
+  // Pip's Cloudflare account (the one with the pip-web Pages project and the
+  // playpip.io zone). Pinned so a deploy can never land on another account a
+  // login happens to see. Not a secret.
+  "account_id": "dfedd2e916065d5e424d44e78e5041f4",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "durable_objects": {
+    "bindings": [
+      { "name": "ROOMS", "class_name": "PokerRoom" },
+      { "name": "QUEUES", "class_name": "Matchmaker" }
+    ]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["PokerRoom", "Matchmaker"] }],
+  "vars": {
+    // Where the site is served from. Every socket and request is checked
+    // against this list, so a page on another site cannot drive a table.
+    "ALLOWED_ORIGINS": "https://playpip.io,https://www.playpip.io,http://localhost:3000"
+  },
+  // The browser connects here directly. A custom domain on the playpip.io zone:
+  // the first deploy creates its DNS record and certificate.
+  "routes": [{ "pattern": "rooms.playpip.io", "custom_domain": true }],
+  "observability": { "enabled": true }
+  // Secrets (wrangler secret put, never in this file):
+  //   SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
+  //   TURN_KEY_ID, TURN_KEY_API_TOKEN   (camera and mic; optional)
+}

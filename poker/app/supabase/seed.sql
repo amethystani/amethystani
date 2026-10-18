@@ -1,0 +1,9 @@
+-- Deliberately empty. Pip has no seed data.
+--
+-- `profiles` starts empty and gets one row per player, written by that player's
+-- own client the first time they sync. There is no fixture, no reference table
+-- and no lookup data, so there is nothing to put here.
+--
+-- If you are about to put the schema in this file: don't. This runs against the
+-- LOCAL stack only (`supabase db reset`), so DDL here never reaches the hosted
+-- project. Schema changes go in `supabase/migrations/`.

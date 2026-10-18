@@ -1,0 +1,827 @@
+// Persistent player profile — the only thing we keep in localStorage. Versioned
+// with a migration hook so the save format can evolve without wiping progress,
+// and so it's a clean seam to swap for a real backend later.
+
+'use client'
+
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+import type { AvatarSpec } from '@/lib/avatar'
+import { emptySeatStats, type SeatStats } from '@/lib/reads'
+import { STARTING_ROLL } from '@/config/venues'
+import { DEFAULT_CARD_BACK, nearestCardBack } from '@/config/cardBacks'
+import { DEALER_BUTTONS, DEFAULT_SOUND_PACK } from '@/config/cosmetics'
+import type { BlackjackSession } from '@/lib/blackjack/session'
+import type { CustomTableSpec } from '@/config/customTable'
+import { STARTING_RATING, nextRating } from '@/lib/drills/rating'
+import { type RatingPoint, appendRatingPoint, seedRatingHistory } from '@/lib/drills/history'
+import { claimEscrow, type Escrow } from '@/lib/sync/escrow'
+import { emptyReviewStats, foldHand, type ReviewStats } from '@/lib/review/stats'
+import type { ReviewHand } from '@/lib/review/session'
+import { track } from '@/lib/analytics'
+import { type PlayStreak, emptyStreak, recordPlay, streakFromDaily } from '@/lib/streak'
+import { dailyDateKey } from '@/lib/daily'
+import { spendTaste, type TasteRecord, type TasteTarget } from '@/lib/membership/taste'
+import { DEFAULT_PLAYER_NAME } from '@/lib/newPlayer'
+
+export interface LifetimeStats {
+  handsPlayed: number
+  handsWon: number
+  biggestPot: number
+  /** Hands won at a showdown. */
+  showdownsWon: number
+  tournamentsEntered: number
+  tournamentsWon: number
+}
+
+const emptyStats = (): LifetimeStats => ({
+  handsPlayed: 0,
+  handsWon: 0,
+  biggestPot: 0,
+  showdownsWon: 0,
+  tournamentsEntered: 0,
+  tournamentsWon: 0,
+})
+
+/** One point on the Roll-over-time graph. */
+export interface RollPoint {
+  t: number
+  roll: number
+}
+
+/** Kept to a sane size — old points age out of the front. */
+const ROLL_HISTORY_CAP = 300
+
+export interface VenueRecord {
+  entered: number
+  won: number
+  /** Best finishing position (1 = won it). */
+  bestFinish: number | null
+  /** Fewest hands a win took. */
+  fastestWinHands: number | null
+}
+
+const emptyVenueRecord = (): VenueRecord => ({
+  entered: 0,
+  won: 0,
+  bestFinish: null,
+  fastestWinHands: null,
+})
+
+/** Career history with one cast character (see config/cast.ts). */
+export interface CastRecord {
+  /** Tendencies observed across every session — reads that persist. */
+  stats: SeatStats
+  /** Times you've taken their last chip. */
+  kos: number
+}
+
+const emptyCastRecord = (): CastRecord => ({ stats: emptySeatStats(), kos: 0 })
+
+/**
+ * What one drill kind knows about you. Four numbers, and every one of them is a
+ * mirror rather than a lever (see lib/drills/rating.ts):
+ *
+ * - none of them decays, because nothing in the drills layer can read the clock;
+ * - none of them is an allowance, because the free kind is never metered;
+ * - `bestRun` is a personal best and not a streak. A streak is a thing you lose
+ *   by not turning up. This is a thing you did, and it stays done.
+ */
+export interface DrillRecord {
+  /** Spots answered, ever. */
+  answered: number
+  /** How many of those were right. */
+  correct: number
+  /** The rating, on the same scale as the spots (lib/drills/rating.ts). */
+  rating: number
+  /** The longest unbroken run of correct answers, ever. */
+  bestRun: number
+  /**
+   * The same two counters again, split by what settled the spot (the `SpotKind`
+   * vocabulary in lib/drills/rating.ts). Read by lib/drills/shapes.ts.
+   *
+   * `Record<string, …>` rather than `Record<SpotKind, …>` on purpose, and for
+   * the same reason `drills` itself is keyed by `string`: this is persisted
+   * data, so a shape that is renamed or retired leaves rows here that no longer
+   * type-check as a `SpotKind` and must not stop an old profile loading.
+   * Anything reading it joins against a kind's ladder and ignores the rest.
+   */
+  shapes: Record<string, ShapeRecord>
+  /**
+   * The rating's past, as `[answered, rating]` pairs: the line on the graph.
+   *
+   * Over spots answered, never over dates, because nothing in the drills layer
+   * reads the clock (lib/drills/history.ts). Capped, and thinned rather than
+   * truncated when the cap bites, so the first point and the recent stretch are
+   * always there. The last point is always `[answered, rating]`.
+   */
+  history: RatingPoint[]
+}
+
+/** What one shape of spot knows about you. Two counters, nothing derived. */
+export interface ShapeRecord {
+  answered: number
+  correct: number
+}
+
+/** Today's Daily Deal — one play per UTC day; abandoning counts as played. */
+export interface DailyRecord {
+  /** UTC day key, e.g. "2026-07-16". */
+  date: string
+  /** Which daily this was (#1 = the epoch day). */
+  dayNo: number
+  /** Finishing place (1 = won), or null if abandoned mid-tournament. */
+  place: number | null
+  /** Hands the run lasted. */
+  hands: number
+  /** The tier it was played at (config/venues `dailyFor`); absent before tiers. */
+  tier?: string
+}
+
+export interface ProfileState {
+  /** Onboarding complete? */
+  created: boolean
+  name: string
+  avatar: AvatarSpec | null
+  /** The Roll — your bankroll, and your table stack in the cash game. */
+  roll: number
+  /** Highest Roll ever reached — drives your rank/title. */
+  peakRoll: number
+  stats: LifetimeStats
+  /** The Roll sampled at tournament results and cash-outs (drives the stats graph). */
+  rollHistory: RollPoint[]
+  /** Per-venue records: entries, wins, best finish, fastest win. */
+  venueRecords: Record<string, VenueRecord>
+  /** Lifetime tendencies of the hero — feeds the play-style chart on /stats. */
+  tendencies: SeatStats
+  /** Chosen face-down card design (a curated id — see config/cardBacks). */
+  cardBack: string
+  /** Earned award chips: id → epoch ms earned (see lib/awards). */
+  awards: Record<string, number>
+  /** Comeback flag: the current run started with a Kitchen Table win. */
+  cameFromFreeroll: boolean
+  /** The lobby's "Getting started" checklist has been put away (menu/GettingStarted). */
+  gettingStartedDismissed: boolean
+  /** Career history per cast character: reads that persist across sessions. */
+  castRecords: Record<string, CastRecord>
+  /** Rare one-line character flavour at the table (see docs/cast.md). */
+  tableTalk: boolean
+  /** One honest read on the hand you just played (see lib/coach). On by default. */
+  handCoaching: boolean
+  /**
+   * Your win % at the table (components/table/parts HeroPanel). On by default;
+   * off is for practising without the number.
+   */
+  showOdds: boolean
+  /** Short vibration on the physical moments (see lib/haptics). Off by default. */
+  haptics: boolean
+  /** The most recent Daily Deal played (only today's gates anything). */
+  daily: DailyRecord | null
+  /** Consecutive UTC days with a hand played at any table, and the longest run (lib/streak). */
+  streak: PlayStreak
+  /** Chip Shop purchases (item ids). Style, never edge — see docs/shop.md. */
+  owned: string[]
+  /** Equipped deck face: 'classic' or an owned face id (e.g. 'face-fourcolor'). */
+  deckFace: string
+  /** Equipped table finish (an owned finish id), or null for the plain table. */
+  tableFinish: string | null
+  /**
+   * Equipped avatar ring (see config/cosmetics), or null for a bare avatar.
+   *
+   * Null is the default and the commonest choice: a ring on every avatar from
+   * day one would be a change to how the app looks rather than something a
+   * player picked.
+   */
+  avatarRing: string | null
+  /** Equipped dealer button. Always set — the house's is free and is the default. */
+  dealerButton: string
+  /** Equipped sound pack. Always set — 'sound-house' is what Pip has always been. */
+  soundPack: string
+  /** Cast characters beaten in a challenge, earliest first: the scalp collection. */
+  challengeWins: string[]
+  /**
+   * Challenges completed, win or lose. Drives who is up next: rotating on
+   * *played* rather than *won* is what stops a character you can't beat
+   * becoming a wall (see lib/challenge).
+   */
+  challengesPlayed: number
+  /**
+   * Drill progress, keyed by drill kind id (see config/drills.ts). Absent until
+   * the first answer, so a player who has never opened a drill carries nothing.
+   */
+  drills: Record<string, DrillRecord>
+  /**
+   * Chips out of the Roll and sitting on a table, and which device has them.
+   *
+   * The table itself is not synced and will not be (`pip.table`, store/game).
+   * This is the one thing about it the account needs to know, because sitting
+   * down debits the Roll and the Roll is synced: without it a second device
+   * pulls a Roll short by a buy-in with nothing to show for the difference
+   * (technology#90). The rules are pure and live in lib/sync/escrow.
+   */
+  escrow: Escrow | null
+  /**
+   * Every priced decision you have ever been graded on, in big blinds.
+   *
+   * Counted at every reviewed table for everybody, member or not (see
+   * lib/review/stats). It is what lets the report name the street the money
+   * leaves by rather than only the rate you fold at, and counting it for
+   * everybody is what stops the report being empty on the day somebody joins.
+   */
+  reviewStats: ReviewStats
+  /**
+   * The last table this player built, or null.
+   *
+   * One slot rather than a library: the value is in building the thing, and a
+   * saved-tables list is a management screen nobody asked for. It persists so
+   * that "play it again" costs no clicks and, more importantly, so a refresh
+   * mid-tournament can resolve `/play/custom` back into the table that is
+   * actually on the screen.
+   *
+   * Persisted, therefore client-written, therefore **not trusted for anything
+   * that matters**: `refuseCustomTable` re-checks every field on the way in, so
+   * a hand-edited blob is a refusal rather than a 40-seat table.
+   */
+  customTable: CustomTableSpec | null
+
+  /**
+   * An open blackjack session: the chips in front of you and the table you sat
+   * at, or `null` when you are not sitting at one.
+   *
+   * **Persisted because the stack is real money to a player.** A blackjack
+   * buy-in leaves the Roll at sit-down and comes back at cash-out, so a hard
+   * refresh in between with nothing stored would simply delete it — the same
+   * failure the poker table's snapshot exists to prevent, one game over. The
+   * chips live here rather than in a transient store for exactly that reason.
+   *
+   * Client-written like everything else on the profile, so it is re-checked on
+   * the way in (`resumeBlackjack`): an unknown table id or a stack that is not
+   * a finite number is a trip back to the shelf, not a free bankroll.
+   */
+  blackjack: BlackjackSession | null
+  /**
+   * The day's free member game, once spent: which UTC day, and on what.
+   *
+   * **Not an entitlement, and it does not need to be one.** It is
+   * client-written, so a player who edits it gets their free game back, which
+   * is a free game they could have had tomorrow. What it can never do is make
+   * somebody a member: it is only ever read through `lib/membership/taste`, and the
+   * membership itself still comes only from `useEntitlement()`.
+   */
+  taste: TasteRecord | null
+
+  createProfile: (name: string, avatar: AvatarSpec) => void
+  setName: (name: string) => void
+  setAvatar: (avatar: AvatarSpec) => void
+  setCardBack: (cardBack: string) => void
+  adjustRoll: (delta: number) => void
+  setRoll: (roll: number) => void
+  /** Record newly earned award chips (already-owned ids are left untouched). */
+  grantAwards: (ids: string[]) => void
+  setCameFromFreeroll: (value: boolean) => void
+  dismissGettingStarted: () => void
+  /** Remember the table they just built. */
+  setCustomTable: (spec: CustomTableSpec) => void
+  setBlackjack: (session: BlackjackSession | null) => void
+  /** Fold a hand's observed tendencies into each character's career record. */
+  mergeCastStats: (deltas: Record<string, Partial<SeatStats>>) => void
+  /** You took this character's last chip. */
+  recordCastKnockout: (characterId: string) => void
+  /** A challenge finished. Any outcome rotates the challenger; only a win records the scalp. */
+  recordChallenge: (characterId: string, won: boolean) => void
+  /**
+   * One drill answered. `run` is the length of the current unbroken run of
+   * correct answers *including* this one, which the screen already holds.
+   *
+   * The rating arithmetic lives in lib/drills/rating.ts and is called from
+   * here, so there is one place a spot can move the number and it is the same
+   * place that counts the spot. Returns nothing: what the screen shows is
+   * derived from the record, never from a second copy of the sum.
+   */
+  recordDrill: (
+    kindId: string,
+    correct: boolean,
+    difficulty: number,
+    run: number,
+    shape: string,
+  ) => void
+  setTableTalk: (value: boolean) => void
+  setHandCoaching: (value: boolean) => void
+  setShowOdds: (value: boolean) => void
+  setHaptics: (value: boolean) => void
+  /** Buy a Chip Shop item: deducts the price, records ownership. No-op if owned or short. */
+  buyItem: (id: string, price: number) => void
+  setDeckFace: (id: string) => void
+  setTableFinish: (id: string | null) => void
+  setAvatarRing: (id: string | null) => void
+  setDealerButton: (id: string) => void
+  setSoundPack: (id: string) => void
+  /** Sitting down at today's Daily — marks it played immediately. */
+  recordDailyStart: (date: string, dayNo: number, tier?: string) => void
+  /** Final placing for the daily started on `date` (ignored if dates mismatch). */
+  recordDailyResult: (date: string, place: number, hands: number) => void
+  mergeStats: (partial: Partial<LifetimeStats>) => void
+  /** Add a hand's worth of hero tendencies onto the lifetime totals. */
+  mergeTendencies: (delta: Partial<SeatStats>) => void
+  /** Sample the current Roll onto the history graph. */
+  recordRollPoint: () => void
+  recordVenueEntry: (venueId: string) => void
+  recordVenueResult: (venueId: string, finish: number, hands: number) => void
+  /**
+   * Say that this device is holding chips on a table. Idempotent, so the
+   * resume path can call it on every restore without writing a change.
+   */
+  holdEscrow: (escrow: Escrow) => void
+  /** The table is over. Clears the record only if it is this device's. */
+  releaseEscrow: (deviceId: string) => void
+  /**
+   * Take another device's escrowed chips back into the Roll, and return how
+   * many. Zero, and no write, when there is nothing to take.
+   */
+  reclaimEscrow: (deviceId: string) => number
+  /**
+   * Spend today's free member game on this table or lesson. Returns whether it
+   * opened: true if it was unspent (or already spent on this lesson today).
+   */
+  spendTaste: (today: string, target: TasteTarget) => boolean
+  /** Fold one reviewed hand into the career table of priced decisions. */
+  recordReviewHand: (hand: ReviewHand) => void
+  reset: () => void
+}
+
+/** The dealer button everybody starts with — free, and the one already on the table. */
+const DEFAULT_DEALER_BUTTON = DEALER_BUTTONS[0].id
+
+export const PERSIST_VERSION = 26
+const PERSIST_KEY = 'pip.profile'
+
+/** A kind you have never answered a spot from. */
+export const emptyDrillRecord = (): DrillRecord => ({
+  answered: 0,
+  correct: 0,
+  rating: STARTING_RATING,
+  bestRun: 0,
+  shapes: {},
+  history: seedRatingHistory(0, STARTING_RATING),
+})
+
+export const useProfile = create<ProfileState>()(
+  persist(
+    (set, get) => ({
+      created: false,
+      name: '',
+      avatar: null,
+      roll: STARTING_ROLL,
+      peakRoll: STARTING_ROLL,
+      stats: emptyStats(),
+      rollHistory: [],
+      venueRecords: {},
+      tendencies: emptySeatStats(),
+      cardBack: DEFAULT_CARD_BACK.id,
+      awards: {},
+      cameFromFreeroll: false,
+      gettingStartedDismissed: false,
+      castRecords: {},
+      tableTalk: true,
+      handCoaching: true,
+      showOdds: true,
+      haptics: false,
+      daily: null,
+      streak: emptyStreak(),
+      owned: [],
+      deckFace: 'classic',
+      tableFinish: null,
+      avatarRing: null,
+      dealerButton: DEFAULT_DEALER_BUTTON,
+      soundPack: DEFAULT_SOUND_PACK.id,
+      challengeWins: [],
+      challengesPlayed: 0,
+      drills: {},
+      escrow: null,
+      customTable: null,
+      reviewStats: emptyReviewStats(),
+      blackjack: null,
+      taste: null,
+
+      createProfile: (name, avatar) => {
+        // Activation — the one moment a visitor becomes a player. Anonymous.
+        track('profile-created')
+        set((s) => ({
+          created: true,
+          name: name.trim() || DEFAULT_PLAYER_NAME,
+          avatar,
+          rollHistory: [{ t: Date.now(), roll: s.roll }],
+        }))
+      },
+      setName: (name) => set({ name: name.trim() || DEFAULT_PLAYER_NAME }),
+      setAvatar: (avatar) => set({ avatar }),
+      setCardBack: (cardBack) => set({ cardBack }),
+      adjustRoll: (delta) =>
+        set((s) => {
+          const roll = Math.max(0, s.roll + delta)
+          return { roll, peakRoll: Math.max(s.peakRoll, roll) }
+        }),
+      setRoll: (roll) =>
+        set((s) => {
+          const next = Math.max(0, Math.round(roll))
+          return { roll: next, peakRoll: Math.max(s.peakRoll, next) }
+        }),
+      grantAwards: (ids) =>
+        set((s) => {
+          const fresh = ids.filter((id) => s.awards[id] === undefined)
+          if (fresh.length === 0) return s
+          const now = Date.now()
+          const awards = { ...s.awards }
+          for (const id of fresh) awards[id] = now
+          return { awards }
+        }),
+      setCameFromFreeroll: (value) => set({ cameFromFreeroll: value }),
+      dismissGettingStarted: () => set({ gettingStartedDismissed: true }),
+      setCustomTable: (spec) => set({ customTable: spec }),
+      setBlackjack: (session) => set({ blackjack: session }),
+      mergeCastStats: (deltas) =>
+        set((s) => {
+          const ids = Object.keys(deltas)
+          if (ids.length === 0) return s
+          const castRecords = { ...s.castRecords }
+          for (const id of ids) {
+            const rec = castRecords[id] ?? emptyCastRecord()
+            castRecords[id] = { ...rec, stats: addTendencies(rec.stats, deltas[id]) }
+          }
+          return { castRecords }
+        }),
+      recordCastKnockout: (characterId) =>
+        set((s) => {
+          const rec = s.castRecords[characterId] ?? emptyCastRecord()
+          return { castRecords: { ...s.castRecords, [characterId]: { ...rec, kos: rec.kos + 1 } } }
+        }),
+      recordChallenge: (characterId, won) =>
+        set((s) => ({
+          challengesPlayed: s.challengesPlayed + 1,
+          challengeWins:
+            won && !s.challengeWins.includes(characterId)
+              ? [...s.challengeWins, characterId]
+              : s.challengeWins,
+        })),
+      recordDrill: (kindId, correct, difficulty, run, shape) =>
+        set((s) => {
+          const rec = s.drills[kindId] ?? emptyDrillRecord()
+          const was = rec.shapes?.[shape] ?? { answered: 0, correct: 0 }
+          // `rec.answered` is the count before this spot, which is what the
+          // K-factor is asking about.
+          const rating = nextRating(rec.rating, difficulty, correct, rec.answered)
+          return {
+            drills: {
+              ...s.drills,
+              [kindId]: {
+                answered: rec.answered + 1,
+                correct: rec.correct + (correct ? 1 : 0),
+                rating,
+                bestRun: Math.max(rec.bestRun, run),
+                // The same answer counted a second time, by shape. Counted here
+                // rather than derived anywhere, for the reason the rating is:
+                // one place moves the numbers, and it is the place that sees
+                // the answer.
+                shapes: {
+                  ...rec.shapes,
+                  [shape]: {
+                    answered: was.answered + 1,
+                    correct: was.correct + (correct ? 1 : 0),
+                  },
+                },
+                // And once more as a point on the graph, at the count after
+                // this spot. Same rule: the place that moves the rating is the
+                // place that records where it moved to.
+                history: appendRatingPoint(
+                  rec.history ?? seedRatingHistory(rec.answered, rec.rating),
+                  rec.answered + 1,
+                  rating,
+                ),
+              },
+            },
+          }
+        }),
+      setTableTalk: (value) => set({ tableTalk: value }),
+      setHandCoaching: (value) => set({ handCoaching: value }),
+      setShowOdds: (value) => set({ showOdds: value }),
+      setHaptics: (value) => set({ haptics: value }),
+      buyItem: (id, price) =>
+        set((s) => {
+          // Spending never moves peakRoll — rank is about winnings, not thrift.
+          if (s.owned.includes(id) || s.roll < price) return s
+          return { owned: [...s.owned, id], roll: s.roll - price }
+        }),
+      setDeckFace: (id) => set({ deckFace: id }),
+      setTableFinish: (id) => set({ tableFinish: id }),
+      setAvatarRing: (id) => set({ avatarRing: id }),
+      setDealerButton: (id) => set({ dealerButton: id }),
+      // The pack is applied to the engine by whoever sets it (the Style picker)
+      // and at boot (AppBoot). Not here: the store is persisted state and
+      // lib/sound is a live AudioContext, and a store that reached into one
+      // would make every test that touches a profile need a Web Audio stub.
+      setSoundPack: (id) => set({ soundPack: id }),
+      recordDailyStart: (date, dayNo, tier) =>
+        set((s) => ({
+          daily: { date, dayNo, place: null, hands: 0, ...(tier ? { tier } : {}) },
+          streak: recordPlay(s.streak ?? emptyStreak(), date),
+        })),
+      recordDailyResult: (date, place, hands) =>
+        set((s) => (s.daily?.date === date ? { daily: { ...s.daily, place, hands } } : s)),
+      // A finished hand at any table is a day played, for the streak.
+      mergeStats: (partial) =>
+        set((s) => ({
+          stats: { ...s.stats, ...mergeStatValues(s.stats, partial) },
+          ...(partial.handsPlayed
+            ? { streak: recordPlay(s.streak ?? emptyStreak(), dailyDateKey()) }
+            : {}),
+        })),
+      mergeTendencies: (delta) => set((s) => ({ tendencies: addTendencies(s.tendencies, delta) })),
+      recordRollPoint: () =>
+        set((s) => ({
+          rollHistory: [...s.rollHistory, { t: Date.now(), roll: s.roll }].slice(-ROLL_HISTORY_CAP),
+        })),
+      recordVenueEntry: (venueId) =>
+        set((s) => {
+          const rec = s.venueRecords[venueId] ?? emptyVenueRecord()
+          return {
+            venueRecords: { ...s.venueRecords, [venueId]: { ...rec, entered: rec.entered + 1 } },
+          }
+        }),
+      recordVenueResult: (venueId, finish, hands) =>
+        set((s) => {
+          const rec = s.venueRecords[venueId] ?? emptyVenueRecord()
+          const won = finish === 1
+          return {
+            venueRecords: {
+              ...s.venueRecords,
+              [venueId]: {
+                ...rec,
+                won: rec.won + (won ? 1 : 0),
+                bestFinish: rec.bestFinish === null ? finish : Math.min(rec.bestFinish, finish),
+                fastestWinHands: won
+                  ? rec.fastestWinHands === null
+                    ? hands
+                    : Math.min(rec.fastestWinHands, hands)
+                  : rec.fastestWinHands,
+              },
+            },
+          }
+        }),
+      holdEscrow: (escrow) =>
+        set((s) => {
+          const next = claimEscrow(s.escrow, escrow)
+          return next === null ? s : { escrow: next }
+        }),
+      releaseEscrow: (deviceId) =>
+        set((s) => (s.escrow?.deviceId === deviceId ? { escrow: null } : s)),
+      reclaimEscrow: (deviceId) => {
+        // Not `adjustRoll`, because that is a delta and this is a delta plus
+        // the clear that stops it being taken twice. One `set` or a second tab
+        // could read the escrow between them.
+        const escrow = get().escrow
+        if (!escrow || escrow.deviceId === deviceId) return 0
+        set((s) => {
+          const roll = Math.max(0, s.roll + escrow.chips)
+          return { roll, peakRoll: Math.max(s.peakRoll, roll), escrow: null }
+        })
+        return escrow.chips
+      },
+      spendTaste: (today, target) => {
+        const next = spendTaste(get().taste, today, target)
+        if (!next) return false
+        if (next !== get().taste) set({ taste: next })
+        return true
+      },
+      recordReviewHand: (hand) => set((s) => ({ reviewStats: foldHand(s.reviewStats, hand) })),
+      reset: () =>
+        set({
+          created: false,
+          name: '',
+          avatar: null,
+          roll: STARTING_ROLL,
+          peakRoll: STARTING_ROLL,
+          stats: emptyStats(),
+          rollHistory: [],
+          venueRecords: {},
+          tendencies: emptySeatStats(),
+          cardBack: DEFAULT_CARD_BACK.id,
+          awards: {},
+          cameFromFreeroll: false,
+          gettingStartedDismissed: false,
+          castRecords: {},
+          tableTalk: true,
+          handCoaching: true,
+          showOdds: true,
+          haptics: false,
+          daily: null,
+          streak: emptyStreak(),
+          owned: [],
+          deckFace: 'classic',
+          tableFinish: null,
+          avatarRing: null,
+          dealerButton: DEFAULT_DEALER_BUTTON,
+          soundPack: DEFAULT_SOUND_PACK.id,
+          challengeWins: [],
+          challengesPlayed: 0,
+          drills: {},
+          escrow: null,
+          customTable: null,
+          reviewStats: emptyReviewStats(),
+          blackjack: null,
+          taste: null,
+        }),
+    }),
+    {
+      name: PERSIST_KEY,
+      version: PERSIST_VERSION,
+      migrate: (persisted, fromVersion) => migrateProfile(persisted, fromVersion),
+    },
+  ),
+)
+
+/**
+ * Bring a persisted profile up to PERSIST_VERSION.
+ *
+ * Exported because localStorage is no longer the only source of a stored
+ * profile: a synced row can have been written by an older client on another
+ * device, and it has to go through the same chain before anything merges it
+ * (see lib/sync). Mutates and returns the object it is given.
+ */
+export function migrateProfile(persisted: unknown, fromVersion: number): ProfileState {
+  const s = persisted as ProfileState
+  // v1 → v2: card-back customization added.
+  if (fromVersion < 2 && !s.cardBack) s.cardBack = DEFAULT_CARD_BACK.id
+  // v2 → v3: cash-game economy — rank (peakRoll).
+  if (fromVersion < 3) {
+    s.peakRoll = Math.max(s.roll ?? STARTING_ROLL, STARTING_ROLL)
+  }
+  // v3 → v4: selectable currency added (payday removed).
+  // v4 → v5: currency removed again — balances are always chips.
+  if (fromVersion < 5) {
+    delete (s as ProfileState & { currency?: string }).currency
+  }
+  // v5 → v6: award chips + the freeroll comeback flag.
+  if (fromVersion < 6) {
+    s.awards = {}
+    s.cameFromFreeroll = false
+  }
+  // v6 → v7: stats history (roll graph, venue records, richer counters).
+  if (fromVersion < 7) {
+    s.rollHistory = []
+    s.venueRecords = {}
+    s.stats = { ...emptyStats(), ...s.stats }
+  }
+  // v7 → v8: curated card backs — map the old free-form colour choice
+  // onto the nearest design in the new set.
+  if (fromVersion < 8) {
+    const legacy = s.cardBack as unknown as { color?: string } | string
+    s.cardBack = typeof legacy === 'string' ? legacy : nearestCardBack(legacy?.color).id
+  }
+  // v8 → v9: lifetime hero tendencies (play-style chart).
+  if (fromVersion < 9) s.tendencies = emptySeatStats()
+  // v9 → v10: the charm release — cast career records, table talk, the
+  // Daily Deal, and the Chip Shop (all shipped together, one bump).
+  if (fromVersion < 10) {
+    s.castRecords = {}
+    s.tableTalk = true
+    s.daily = null
+    s.owned = []
+    s.deckFace = 'classic'
+    s.tableFinish = null
+  }
+  // v10 → v11: three muted card backs (ocean, slate, midnight) moved from
+  // the free set into the Chip Shop. Grandfather existing players — they
+  // had these free, so they keep them — while new profiles must buy them.
+  if (fromVersion < 11) {
+    const freed = ['ocean', 'slate', 'midnight']
+    s.owned = Array.from(new Set([...(s.owned ?? []), ...freed]))
+  }
+  // v11 -> v12: challengers. Both fields start empty. An existing player has
+  // beaten nobody yet, and starting `challengesPlayed` at 0 puts everyone on
+  // the same first challenger rather than a position derived from old play.
+  if (fromVersion < 12) {
+    s.challengeWins = []
+    s.challengesPlayed = 0
+  }
+  // v12 -> v13: per-hand coaching. On for everyone, new and existing: it is
+  // quiet by design (most hands have no read in them) and a player who does
+  // not want it will find the toggle faster than they would find the setting
+  // that was silently off.
+  if (fromVersion < 13) s.handCoaching = true
+  // v13 -> v14: haptics. Off, for everyone. Sound and table talk both default
+  // on because neither can startle you; a vibration can, and one that nobody
+  // asked for reads as a casino tell in an app whose whole pitch is calm.
+  if (fromVersion < 14) s.haptics = false
+  // v14 -> v15: drill progress. Empty for everyone, including a player who has
+  // already answered spots on a build that kept nothing: there is no record of
+  // those to honour, and seeding a rating from the tables would be a claim
+  // about how somebody reads a showdown made out of how they play a hand.
+  if (fromVersion < 15) s.drills = {}
+  // v15 -> v16: the per-shape split of the drill counters. Empty on every
+  // existing record, and it cannot be anything else: the totals do not say
+  // which shapes they were, and there is no honest way to guess. So a player
+  // who has answered two hundred spots starts this breakdown at zero and fills
+  // it again from here. That is the cost of not having counted it the first
+  // time, and inventing a split out of the shape frequencies would put numbers
+  // on the screen that describe the generator rather than the player.
+  if (fromVersion < 16) {
+    for (const rec of Object.values(s.drills ?? {})) rec.shapes = {}
+  }
+  // v16 -> v17: the table escrow (technology#90). Null for everyone, including
+  // a player who is sat at a table as this lands: there is no way to know from
+  // here that they are, because the table is a separate localStorage key this
+  // function is not allowed to read (it also runs against a row written by
+  // another device). Null reads as "unclaimed" rather than "not yours", so
+  // their tournament survives and the resume path claims it on the way in.
+  if (fromVersion < 17) s.escrow = null
+  // v17 -> v18: build-your-own-table. Null for everybody, including members:
+  // there is nothing to infer from an older profile, and a null slot is the
+  // same state as a member who has never opened the builder.
+  if (fromVersion < 18) s.customTable = null
+  // v18 → v19: blackjack, whose stack has to survive a refresh (see the field).
+  if (fromVersion < 19) s.blackjack = null
+  // v19 → v20: the career table of priced decisions (lib/review/stats). Empty
+  // for everybody, including a player with a thousand hands behind them: the
+  // hands are gone, nothing was kept that could be re-scored, and seeding it
+  // from the tendency counters would be a claim about *where* the money went
+  // made out of numbers that only say how often you called. So the table
+  // starts at zero here and fills from the next hand on, which is the same
+  // answer v15 gave the drills for the same reason.
+  if (fromVersion < 20) s.reviewStats = emptyReviewStats()
+  // v20 → v21: three new cosmetic categories — avatar rings, dealer buttons and
+  // sound packs (config/cosmetics.ts).
+  //
+  // **Everybody lands on the free default, and nobody is handed anything.**
+  // The v10 → v11 branch above grandfathered three card backs because they had
+  // genuinely been free and were moving behind a price; nothing of the kind is
+  // happening here. These are new, so an existing profile starts where a new
+  // one does: no ring, the house's button, the sound Pip has always made.
+  //
+  // Written unconditionally rather than `??`-guarded because a v20 profile
+  // cannot have these fields, and a guard would quietly paper over the one bug
+  // worth catching — a later version reaching back through this branch and
+  // resetting somebody's choice on every load.
+  if (fromVersion < 21) {
+    s.avatarRing = null
+    s.dealerButton = DEFAULT_DEALER_BUTTON
+    s.soundPack = DEFAULT_SOUND_PACK.id
+  }
+  // v21 → v22: the drill rating's history, the line on the graph.
+  //
+  // **Seeded, not left empty**, and this is the opposite call from v15 and v16
+  // for a reason those two did not have: here there are two points that are
+  // simply true. Every record started at the starting rating with nothing
+  // answered, and it is at `rating` after `answered` now. The middle was never
+  // kept and is not invented; the graph draws the one straight line between two
+  // facts. A player with two hundred answers opens `/stats` to a line rather
+  // than to "nothing yet", and the next answer carries on from the end of it.
+  //
+  // Unconditional for the reason v21 gives: a v21 record cannot have a history.
+  if (fromVersion < 22) {
+    for (const rec of Object.values(s.drills ?? {})) {
+      rec.history = seedRatingHistory(rec.answered ?? 0, rec.rating ?? STARTING_RATING)
+    }
+  }
+  // v22 → v23: the streak. Seeded from the one Daily record the old
+  // profile kept, so yesterday's player carries on to two today (see
+  // `streakFromDaily`). Unconditional for the reason v21 gives.
+  if (fromVersion < 23) s.streak = streakFromDaily(s.daily)
+  // v23 → v24: the daily free member game (lib/membership/taste). Null for
+  // everybody: nobody has spent one yet, so everybody has today's.
+  if (fromVersion < 24) s.taste = null
+  // v24 → v25: the "Getting started" checklist is for players who came in
+  // through the welcome flow. Anybody already playing has it put away.
+  if (fromVersion < 25) s.gettingStartedDismissed = true
+  // v25 → v26: the win % became something you can switch off. Everybody keeps
+  // seeing it until they do.
+  if (fromVersion < 26) s.showOdds = true
+  return s
+}
+
+function mergeStatValues(
+  current: LifetimeStats,
+  partial: Partial<LifetimeStats>,
+): Partial<LifetimeStats> {
+  const next: Partial<LifetimeStats> = {}
+  if (partial.handsPlayed) next.handsPlayed = current.handsPlayed + partial.handsPlayed
+  if (partial.handsWon) next.handsWon = current.handsWon + partial.handsWon
+  if (partial.showdownsWon) next.showdownsWon = current.showdownsWon + partial.showdownsWon
+  if (partial.tournamentsEntered)
+    next.tournamentsEntered = current.tournamentsEntered + partial.tournamentsEntered
+  if (partial.tournamentsWon) next.tournamentsWon = current.tournamentsWon + partial.tournamentsWon
+  if (partial.biggestPot !== undefined)
+    next.biggestPot = Math.max(current.biggestPot, partial.biggestPot)
+  return next
+}
+
+function addTendencies(current: SeatStats, delta: Partial<SeatStats>): SeatStats {
+  return {
+    handsDealt: current.handsDealt + (delta.handsDealt ?? 0),
+    vpipHands: current.vpipHands + (delta.vpipHands ?? 0),
+    raises: current.raises + (delta.raises ?? 0),
+    calls: current.calls + (delta.calls ?? 0),
+    betsFaced: current.betsFaced + (delta.betsFaced ?? 0),
+    foldsToBet: current.foldsToBet + (delta.foldsToBet ?? 0),
+    showdowns: current.showdowns + (delta.showdowns ?? 0),
+  }
+}

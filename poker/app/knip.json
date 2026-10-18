@@ -1,0 +1,15 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": ["functions/**/*.ts", "rooms/src/index.ts"],
+  "ignore": [
+    "public/**",
+    "supabase/functions/**",
+    "src/components/ui/**",
+    "src/components/marketing/Landing.tsx",
+    "src/types/supabase-types.ts",
+    "mobile/**"
+  ],
+  "ignoreExportsUsedInFile": true,
+  "ignoreBinaries": ["supabase"],
+  "ignoreDependencies": ["cloudflare"]
+}

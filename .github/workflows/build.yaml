@@ -1,14 +1,9 @@
-name: GitHub Profile Auto-Update
+name: Profile and Poker Table Deploy
 
 on:
   push:
     branches: [main]
-  schedule:
-    # Daily at 04:20 UTC — refresh the animated poker table
-    - cron: "20 4 * * *"
-    # Weekly on Monday 06:00 UTC — refresh the table animation
-    - cron: "0 6 * * 1"
-  workflow_dispatch:   # allow manual trigger from Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
@@ -22,32 +17,33 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Setup Node.js for poker animation
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.0.9
+
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "24"
+          cache: pnpm
+          cache-dependency-path: poker/app/pnpm-lock.yaml
 
-      - name: Install poker engine and build the browser table
+      - name: Install, test, build, and package the full poker app
         run: |
-          npm ci --prefix poker
-          npm run --prefix poker build
-          npm run --prefix poker generate
-          npm run --prefix poker package
-
-      - name: Commit & push updated animation
-        run: |
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Actions"
-          git add assets/the-long-game.svg poker/app.bundle.js
-          git diff --cached --quiet || git commit -m "🤖 auto-update: poker animation [skip ci]"
-          git pull --rebase origin main
-          git push
+          cd poker/app
+          pnpm install --frozen-lockfile
+          pnpm test:all
+          pnpm build
+          cd ../..
+          node poker/package-site.mjs
 
       - name: Publish profile site and live table to GitHub Pages
         run: |
           git fetch origin gh-pages
           POKER_SITE_DIR="$(mktemp -d /tmp/poker-pages.XXXXXX)"
           git worktree add --detach "$POKER_SITE_DIR" origin/gh-pages
+          find "$POKER_SITE_DIR" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
           cp -R poker/site-dist/. "$POKER_SITE_DIR/"
           git -C "$POKER_SITE_DIR" config user.email "action@github.com"
           git -C "$POKER_SITE_DIR" config user.name "GitHub Actions"

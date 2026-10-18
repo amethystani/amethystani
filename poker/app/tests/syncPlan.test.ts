@@ -1,0 +1,395 @@
+// The sync decision. Every branch here can cost a player chips, and until
+// technology#89 not one of them had a test: `store/sync.ts` needs a browser, so
+// the merge policy was covered and the orchestration around it was not. The
+// decision now lives in a pure function for the same reason the merge does.
+//
+// The bug these tests exist to hold shut: a push that dies in flight (what
+// backgrounding a PWA does to it) left the winnings local, and the next open
+// could not tell that from being in sync — so it either skipped the push and
+// reported "synced", or adopted the server's Roll with no prompt.
+
+import test from 'ava'
+import { fingerprint, isUnpushed, planSync, type Bookmark } from '@/lib/sync/plan'
+import type { ProfileData } from '@/lib/sync/merge'
+import { emptySeatStats } from '@/lib/reads'
+import { STARTING_ROLL } from '@/config/venues'
+import { DEFAULT_PLAYER_NAME } from '@/lib/newPlayer'
+
+/** What `randomAvatar` makes, without the clock and the RNG. */
+const randomFace = () => ({ seed: 'pip-test-1', backgroundColor: 'd1f4d0' })
+
+const VERSION = 99
+
+function profile(over: Partial<ProfileData> = {}): ProfileData {
+  return {
+    created: true,
+    name: 'Player',
+    avatar: null,
+    roll: 4_000,
+    peakRoll: 6_000,
+    stats: {
+      handsPlayed: 300,
+      handsWon: 90,
+      biggestPot: 2_400,
+      showdownsWon: 40,
+      tournamentsEntered: 12,
+      tournamentsWon: 3,
+    },
+    rollHistory: [{ t: 10, roll: 4_000 }],
+    venueRecords: {},
+    tendencies: emptySeatStats(),
+    cardBack: 'classic',
+    awards: {},
+    cameFromFreeroll: false,
+    castRecords: {},
+    tableTalk: true,
+    handCoaching: true,
+    haptics: false,
+    daily: null,
+    owned: [],
+    deckFace: 'classic',
+    tableFinish: null,
+    challengeWins: [],
+    challengesPlayed: 0,
+    drills: {},
+    ...over,
+  } as ProfileData
+}
+
+/** What onboarding leaves behind, and what a cleared profile looks like. */
+function pristine(): ProfileData {
+  return profile({
+    roll: STARTING_ROLL,
+    peakRoll: STARTING_ROLL,
+    rollHistory: [{ t: 9_999, roll: STARTING_ROLL }],
+    stats: { ...profile().stats, handsPlayed: 0, tournamentsEntered: 0 },
+  })
+}
+
+const OURS = 'device-a'
+const THEIRS = 'device-b'
+
+function row(profileData: ProfileData, over: { updatedAt?: string; deviceId?: string } = {}) {
+  return {
+    profile: profileData,
+    updatedAt: over.updatedAt ?? 't1',
+    deviceId: over.deviceId ?? OURS,
+    version: VERSION,
+  }
+}
+
+function plan(over: {
+  local: ProfileData
+  row?: ReturnType<typeof row> | null
+  bookmark?: Bookmark
+  changedHere?: boolean
+}) {
+  return planSync({
+    local: over.local,
+    row: over.row === undefined ? row(over.local) : over.row,
+    bookmark: over.bookmark ?? { seen: 't1', pushed: null },
+    deviceId: OURS,
+    changedHere: over.changedHere ?? false,
+    persistVersion: VERSION,
+  })
+}
+
+// --- the bug -----------------------------------------------------------------
+
+test('a push that never landed is still pending after a reload', (t) => {
+  const before = profile({ roll: 4_000 })
+  const after = profile({ roll: 9_000 }) // the session the push was meant to carry
+
+  const p = plan({
+    local: after,
+    row: row(before),
+    bookmark: { seen: 't1', pushed: fingerprint(before) },
+    changedHere: false, // the flag died with the page
+  })
+
+  t.is(p.action, 'push')
+})
+
+test('the same state with no fingerprint reads as in sync', (t) => {
+  // What shipped, and what an upgrading player's bookmark still looks like on
+  // its first run: no `pushed`, so the in-memory flag is all there is. The
+  // fallback is deliberate — it is the old behaviour, not a new prompt.
+  const p = plan({
+    local: profile({ roll: 9_000 }),
+    row: row(profile({ roll: 4_000 })),
+    bookmark: { seen: 't1', pushed: null },
+  })
+
+  t.is(p.action, 'idle')
+})
+
+test('a row that moved elsewhere never swallows unpushed chips', (t) => {
+  const local = profile({ roll: 9_000 })
+  const remote = profile({ roll: 1_200 })
+
+  const p = plan({
+    local,
+    row: row(remote, { updatedAt: 't2', deviceId: THEIRS }),
+    bookmark: { seen: 't1', pushed: fingerprint(profile({ roll: 4_000 })) },
+    changedHere: false,
+  })
+
+  t.is(p.action, 'conflict')
+})
+
+test('a row that moved elsewhere is adopted when this device is level', (t) => {
+  const local = profile({ roll: 4_000 })
+  const remote = profile({ roll: 1_200 })
+
+  const p = plan({
+    local,
+    row: row(remote, { updatedAt: 't2', deviceId: THEIRS }),
+    bookmark: { seen: 't1', pushed: fingerprint(local) },
+  })
+
+  t.is(p.action, 'adopt')
+  t.is(p.action === 'adopt' ? p.profile.roll : null, 1_200)
+})
+
+// --- the branches around it --------------------------------------------------
+
+test('no row yet is a straight upload', (t) => {
+  t.is(plan({ local: profile(), row: null }).action, 'upload')
+})
+
+test('a row from a newer client is refused', (t) => {
+  const p = planSync({
+    local: profile(),
+    row: { ...row(profile()), version: VERSION + 1 },
+    bookmark: { seen: null, pushed: null },
+    deviceId: OURS,
+    changedHere: false,
+    persistVersion: VERSION,
+  })
+  t.is(p.action, 'too-new')
+})
+
+test('signing in on a fresh device restores the account outright', (t) => {
+  const remote = profile({ roll: 12_000 })
+  const p = plan({
+    local: pristine(),
+    row: row(remote, { updatedAt: 't2', deviceId: THEIRS }),
+    bookmark: { seen: null, pushed: null },
+  })
+
+  t.is(p.action, 'restore')
+  t.deepEqual(p.action === 'restore' ? p.profile : null, remote)
+})
+
+test('signing in over the player a first visit made restores the account', (t) => {
+  // Play deals a new visitor in under a placeholder name and a random face
+  // (onboarding/firstSeat). Someone who already has an account and presses
+  // "Sign in" on the landing page gets that placeholder first, and it must be
+  // replaced, not merged with or argued over.
+  const placeholder = { ...pristine(), name: DEFAULT_PLAYER_NAME, avatar: randomFace() }
+  const remote = profile({ roll: 12_000, name: 'Will' })
+  const p = plan({
+    local: placeholder,
+    row: row(remote, { updatedAt: 't2', deviceId: THEIRS }),
+    bookmark: { seen: null, pushed: null },
+  })
+
+  t.is(p.action, 'restore')
+  t.is(p.action === 'restore' ? p.profile.name : null, 'Will')
+})
+
+test('a guest session is not swallowed by the account it signs into', (t) => {
+  // Play a couple of hands on a fresh browser, then sign in. The hands were
+  // played signed out, so the store's dirty flag never ran, and nothing has
+  // ever been pushed from here, so there is no fingerprint either: both of the
+  // signals that normally mean "this device is holding something" are silent,
+  // and the account used to be adopted straight over the top with no prompt.
+  const guest = profile({
+    roll: 150,
+    peakRoll: STARTING_ROLL,
+    stats: { ...profile().stats, handsPlayed: 2, tournamentsEntered: 0 },
+    rollHistory: [
+      { t: 9_998, roll: STARTING_ROLL },
+      { t: 9_999, roll: 150 },
+    ],
+  })
+
+  const p = plan({
+    local: guest,
+    row: row(profile({ roll: 12_000 }), { updatedAt: 't2', deviceId: THEIRS }),
+    bookmark: { seen: null, pushed: null },
+    changedHere: false,
+  })
+
+  t.is(p.action, 'conflict')
+})
+
+test('a cleared profile is restored, not pushed over the account', (t) => {
+  // Drop `pip.profile`, keep `pip.sync`: the bookmark still matches the row and
+  // the fingerprint no longer matches anything. Reading that as work to upload
+  // would write the empty profile over a real account, so the fingerprint gets
+  // no vote in this branch.
+  const remote = profile({ roll: 12_000 })
+  const p = plan({
+    local: pristine(),
+    row: row(remote),
+    bookmark: { seen: 't1', pushed: fingerprint(remote) },
+  })
+
+  t.is(p.action, 'restore')
+})
+
+test('a deliberate reset goes up rather than being restored', (t) => {
+  // Same pristine profile, but produced on purpose in this session. `dirty` is
+  // the only thing that tells the two apart, which is why it survives.
+  const p = plan({
+    local: pristine(),
+    row: row(profile({ roll: 12_000 })),
+    bookmark: { seen: 't1', pushed: fingerprint(profile({ roll: 12_000 })) },
+    changedHere: true,
+  })
+
+  t.is(p.action, 'push')
+})
+
+/** A profile reset while signed out, then dealt in again and drilled a little. */
+function resetThenDrilled(): ProfileData {
+  return profile({
+    ...pristine(),
+    drills: {
+      'pot-odds': {
+        answered: 4,
+        correct: 1,
+        rating: 1007,
+        bestRun: 1,
+        shapes: {},
+        history: [[0, 1000]],
+      },
+    },
+  } as Partial<ProfileData>)
+}
+
+test('signing back in after a signed-out reset keeps the account’s Roll', (t) => {
+  // The account row was last written by another device, the two Rolls differ,
+  // and drills make the reset device not pristine. This used to be a conflict
+  // whose first button wrote 200 chips and no hands over the account.
+  const remote = profile({ roll: 120_000, peakRoll: 206_000, awards: { grinder: 30 } })
+  const p = plan({
+    local: resetThenDrilled(),
+    row: row(remote, { updatedAt: 't2', deviceId: THEIRS }),
+    bookmark: { seen: null, pushed: null },
+  })
+
+  t.is(p.action, 'merge')
+  if (p.action !== 'merge') return
+  t.is(p.profile.roll, 120_000)
+  t.deepEqual(p.profile.stats, remote.stats)
+  t.deepEqual(p.profile.rollHistory, remote.rollHistory)
+  t.deepEqual(p.profile.awards, { grinder: 30 })
+  t.is(p.profile.drills['pot-odds']?.answered, 4)
+})
+
+test('a signed-out reset on the device that last wrote the row is not pushed over it', (t) => {
+  // Our own id on the row reads as "not moved", which sent this straight to
+  // `push` and replaced the whole account with the reset profile.
+  const remote = profile({ roll: 120_000 })
+  const p = plan({
+    local: resetThenDrilled(),
+    row: row(remote, { updatedAt: 't2', deviceId: OURS }),
+    bookmark: { seen: null, pushed: null },
+  })
+
+  t.is(p.action, 'merge')
+  if (p.action !== 'merge') return
+  t.is(p.profile.roll, 120_000)
+})
+
+test('a reset made while signed in still goes up', (t) => {
+  // The bookmark survives a signed-in reset, so it is not `neverSynced` and the
+  // account's Roll does not come back.
+  const remote = profile({ roll: 120_000 })
+  const p = plan({
+    local: resetThenDrilled(),
+    row: row(remote),
+    bookmark: { seen: 't1', pushed: fingerprint(remote) },
+    changedHere: true,
+  })
+
+  t.is(p.action, 'push')
+})
+
+test('our own last write coming back is not a foreign row', (t) => {
+  const local = profile()
+  const p = plan({
+    local,
+    row: row(local, { updatedAt: 't9', deviceId: OURS }),
+    bookmark: { seen: 't1', pushed: fingerprint(local) },
+  })
+
+  t.is(p.action, 'idle')
+})
+
+test('both moved but agree: merge in the player’s favour and push', (t) => {
+  const local = profile({ awards: { rounder: 20 }, peakRoll: 8_000 })
+  const remote = profile({ awards: { grinder: 30 }, peakRoll: 6_000 })
+
+  const p = plan({
+    local,
+    row: row(remote, { updatedAt: 't2', deviceId: THEIRS }),
+    bookmark: { seen: 't1', pushed: fingerprint(profile()) },
+  })
+
+  t.is(p.action, 'merge')
+  if (p.action !== 'merge') return
+  t.deepEqual(p.profile.awards, { rounder: 20, grinder: 30 })
+  t.is(p.profile.peakRoll, 8_000)
+})
+
+test('a state the server has accepted is idle', (t) => {
+  const local = profile()
+  const p = plan({ local, bookmark: { seen: 't1', pushed: fingerprint(local) } })
+  t.is(p.action, 'idle')
+})
+
+// --- the bookmark it hands back ---------------------------------------------
+
+test('a pull forgets the fingerprint; staying put keeps it', (t) => {
+  const local = profile({ roll: 4_000 })
+  const pushed = fingerprint(profile({ roll: 1_000 }))
+
+  const stay = plan({ local, bookmark: { seen: 't1', pushed } })
+  t.is(stay.action === 'push' ? stay.bookmark.pushed : null, pushed)
+
+  const pull = plan({
+    local,
+    row: row(profile({ roll: 4_000, name: 'Elsewhere' }), { updatedAt: 't2', deviceId: THEIRS }),
+    bookmark: { seen: 't1', pushed: fingerprint(local) },
+  })
+  // The local profile is about to become something the server never took from
+  // this device, so the fingerprint stops meaning anything.
+  t.is(pull.action, 'adopt')
+  t.is(pull.action === 'adopt' ? pull.bookmark.pushed : 'kept', null)
+  t.is(pull.action === 'adopt' ? pull.bookmark.seen : null, 't2')
+})
+
+// --- the fingerprint ---------------------------------------------------------
+
+test('the fingerprint survives a reload and notices a chip', (t) => {
+  const a = profile()
+  // A rehydrated store rebuilds the object in the initial state's key order,
+  // not the stored one, so key order cannot count.
+  const shuffled = Object.fromEntries(
+    Object.entries(a as unknown as Record<string, unknown>).reverse(),
+  ) as unknown as ProfileData
+
+  t.is(fingerprint(a), fingerprint(shuffled))
+  t.not(fingerprint(a), fingerprint(profile({ roll: a.roll + 1 })))
+  t.not(fingerprint(a), fingerprint(profile({ awards: { rounder: 1 } })))
+})
+
+test('an unknown fingerprint is not evidence of anything', (t) => {
+  const local = profile()
+  t.false(isUnpushed(local, { seen: 't1', pushed: null }))
+  t.false(isUnpushed(local, { seen: 't1', pushed: fingerprint(local) }))
+  t.true(isUnpushed(local, { seen: 't1', pushed: fingerprint(profile({ roll: 1 })) }))
+})
