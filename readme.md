@@ -11,15 +11,9 @@
 
 <p align="center"><sub>ML / NLP RESEARCHER &nbsp;·&nbsp; NEW DELHI, INDIA &nbsp;·&nbsp; OPEN TO RESEARCH ROLES</sub></p>
 
-<br />
-
-<p align="center"><b>THE LONG GAME</b> &nbsp; / &nbsp; <sub>FULL TEXAS HOLD’EM · AI TABLE · PLAY CHIPS ONLY</sub></p>
-
 <a href="https://amethystani.github.io/amethystani/"><img src="assets/poker-table.png" width="100%" alt="The Long Game: a full Texas Hold’em table against AI opponents. Click to play." /></a>
 
-<p align="center"><a href="https://amethystani.github.io/amethystani/"><b>SIT DOWN AND PLAY ↗</b></a> &nbsp;·&nbsp; No account. Real Hold’em rules. Your game saves in this browser.</p>
-
-<p align="center"><sub>Built from <a href="https://github.com/playpip/pip-web">Pip</a> · MIT licensed · Re-themed for Animesh's profile</sub></p>
+<p align="center"><a href="https://amethystani.github.io/amethystani/"><b>PLAY THE TABLE ↗</b></a></p>
 
 <br />
 
